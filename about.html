@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .doc-hero { background: var(--navy); padding: 120px 48px 72px; text-align: center; }
+    .doc-hero-inner { max-width: 640px; margin: 0 auto; }
+    .hero-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; display: block; }
+    .doc-hero h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 800; letter-spacing: -0.04em; color: var(--white); margin-bottom: 16px; }
+    .doc-hero p { font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.75; }
+    .doc-body { max-width: 760px; margin: 0 auto; padding: 72px 48px 96px; }
+    .doc-section { margin-bottom: 48px; }
+    .doc-section h2 { font-size: 1.3rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--teal-light); }
+    .doc-section p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.85; margin-bottom: 14px; }
+    .doc-updated { font-size: 0.8rem; color: var(--text-light); margin-bottom: 48px; }
+    .value-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
+    .value-card { background: var(--off-white); border-radius: 16px; padding: 24px; }
+    .value-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .value-card p { font-size: 0.875rem; color: var(--text-mid); line-height: 1.7; margin: 0; }
+    @media (max-width: 600px) { .doc-hero { padding: 100px 24px 56px; } .doc-body { padding: 48px 24px 72px; } .value-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="page-body">
+  <nav>
+    <a href="index.html" class="logo-mark">
+      <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+      <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="index.html#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log in</a>
+      <a href="signup.html" class="btn btn-teal" style="padding:10px 20px; font-size:0.85rem;">Get started</a>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav" style="display:none;">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="index.html#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <a href="login.html" class="btn btn-outline-white btn-block">Log in</a>
+      <a href="signup.html" class="btn btn-teal btn-block">Get started</a>
+    </div>
+  </div>
+  <script src="nav.js"></script>
+
+  <div class="doc-hero">
+    <div class="doc-hero-inner">
+      <span class="hero-label">About us</span>
+      <h1>Why we built DigiFriend</h1>
+      <p>Loneliness is one of the biggest health challenges of our time. We built DigiFriend to do something real about it.</p>
+    </div>
+  </div>
+
+  <div class="doc-body">
+    <div class="doc-section">
+      <h2>Our story</h2>
+      <p>DigiFriend started with a simple observation: millions of people around the world feel lonely, yet millions of others — in different countries, different time zones, different cultures — are warm, curious, and eager to connect.</p>
+      <p>We built a platform to bring these two groups together. Not through an algorithm trying to sell you something, but through real, recurring weekly conversations between two people who genuinely want to talk.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2>What we do</h2>
+      <p>DigiFriend matches paying members with verified international conversation partners — people we call DigiFriends — for weekly video calls. Every DigiFriend is manually reviewed and approved before joining the platform.</p>
+      <p>The result is a simple, human experience: same person, same time, every week. Like having a friend in another country who actually shows up.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2>Our values</h2>
+      <div class="value-grid">
+        <div class="value-card">
+          <h3>Real connection</h3>
+          <p>We're not a networking app or a language exchange. We're here for genuine human warmth — the kind that comes from talking to the same person week after week.</p>
+        </div>
+        <div class="value-card">
+          <h3>Safety first</h3>
+          <p>Every DigiFriend is verified before joining. We have clear guidelines and take violations seriously. Your comfort and safety come before everything else.</p>
+        </div>
+        <div class="value-card">
+          <h3>Global curiosity</h3>
+          <p>We believe the world is a richer place when people from different backgrounds actually talk to each other — not just scroll past each other.</p>
+        </div>
+        <div class="value-card">
+          <h3>Simplicity</h3>
+          <p>One call a week. One person. No complicated features. We keep it simple so the relationship can be the focus.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-section">
+      <h2>Get in touch</h2>
+      <p>Questions, feedback, or just want to say hello? <a href="mailto:hello@digifriend.com" style="color:var(--teal-dark); font-weight:600;">hello@digifriend.com</a> — we read every message.</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo"><img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;"><img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;"></div>
+          <p class="footer-tagline">Real friendship, across borders.</p>
+        </div>
+        <div class="footer-col"><h5>Platform</h5><ul><li><a href="index.html">Home</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+        <div class="footer-col"><h5>Join</h5><ul><li><a href="become.html">Become a DigiFriend</a></li><li><a href="signup.html">Sign up as a member</a></li></ul></div>
+        <div class="footer-col"><h5>Legal</h5><ul><li><a href="community-guidelines.html">Community Guidelines</a></li><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy policy</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">DigiFriend is a conversation and cultural exchange platform for adults 18+. Not a therapy service, dating app, or emergency support line.</p>
+        <p class="footer-copy">© 2026 DigiFriend. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

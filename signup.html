@@ -1,0 +1,635 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign up — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+  <style>
+    body { background: var(--off-white); }
+
+    .signup-layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 480px;
+    }
+
+    /* Left panel */
+    .signup-left {
+      background: var(--navy);
+      padding: 100px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signup-left::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,201,167,0.12) 0%, transparent 70%);
+    }
+
+    .signup-left-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 56px;
+      position: relative;
+    }
+
+    .signup-left h2 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .signup-left h2 span { color: var(--teal); }
+
+    .signup-left p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.75;
+      max-width: 360px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .signup-perks {
+      list-style: none;
+      position: relative;
+    }
+
+    .signup-perks li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 14px;
+    }
+
+    .perk-icon {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(0,201,167,0.12);
+      border: 1px solid rgba(0,201,167,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* Right panel */
+    .signup-right {
+      background: var(--white);
+      padding: 68px 48px 48px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    /* Progress */
+    .progress-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .progress-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .progress-dot.done { background: var(--teal); color: var(--navy); }
+    .progress-dot.active { background: var(--navy); color: var(--white); }
+    .progress-dot.todo { background: var(--gray-100); color: var(--text-light); }
+
+    .progress-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .progress-label.active { color: var(--text); }
+    .progress-label.todo { color: var(--text-light); }
+
+    .progress-line {
+      flex: 1;
+      height: 2px;
+      background: var(--gray-100);
+      border-radius: 2px;
+    }
+
+    .progress-line.done { background: var(--teal); }
+
+    /* Form panels */
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+
+    .form-panel h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .form-panel .panel-sub {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .form-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .login-prompt {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .login-prompt a { color: var(--navy); font-weight: 600; }
+
+    /* interest pills */
+    .interest-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .interest-pill {
+      padding: 9px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .interest-pill:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .interest-pill.selected { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+
+    /* divider */
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+
+    .or-divider::before, .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    .password-hint {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-top: 6px;
+    }
+
+    @media (max-width: 900px) {
+      .signup-layout { grid-template-columns: 1fr; }
+      .signup-left { display: none; }
+      .signup-right { padding: 88px 24px 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-layout">
+
+    <!-- LEFT PANEL -->
+    <div class="signup-left">
+      <a href="index.html" class="signup-left-logo" style="text-decoration:none;">
+        <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+        <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+      </a>
+
+      <h2>Meet a real <span>friend</span> from another part of the world</h2>
+      <p>Join DigiFriend and get matched with a kind, verified international conversation partner for a weekly video call.</p>
+
+      <ul class="signup-perks">
+        <li>
+          <div class="perk-icon">🌍</div>
+          One fixed DigiFriend — same person every week
+        </li>
+        <li>
+          <div class="perk-icon">📅</div>
+          60-minute video call, once a week
+        </li>
+        <li>
+          <div class="perk-icon">💬</div>
+          Messaging between calls
+        </li>
+        <li>
+          <div class="perk-icon">🛡️</div>
+          Safe, moderated and 18+ only
+        </li>
+        <li>
+          <div class="perk-icon">✕</div>
+          Cancel anytime — no contracts
+        </li>
+      </ul>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="signup-right">
+
+      <!-- EMAIL CONFIRMATION PANEL (shown after successful signup) -->
+      <div id="step-confirm" style="display:none; text-align:center; padding: 40px 0;">
+        <div style="width:64px; height:64px; background:var(--teal-light); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin:0 auto 28px;">📬</div>
+        <h3 style="font-size:1.6rem; font-weight:800; letter-spacing:-0.03em; margin-bottom:12px;">Check your inbox</h3>
+        <p style="color:var(--text-mid); line-height:1.7; margin-bottom:8px;">We've sent a confirmation link to <strong id="confirm-email-display"></strong>.</p>
+        <p style="color:var(--text-light); font-size:0.85rem; line-height:1.7; margin-bottom:36px;">Click the link in the email to activate your account and you'll be taken straight to your dashboard.</p>
+        <div style="background:var(--gray-100); border-radius:14px; padding:18px 20px; font-size:0.82rem; color:var(--text-mid); line-height:1.6; text-align:left;">
+          <strong>Didn't get it?</strong> Check your spam folder. If it's still not there after a couple of minutes, <a href="signup.html" style="color:var(--navy); font-weight:600;">try signing up again</a>.
+        </div>
+      </div>
+
+      <!-- PROGRESS -->
+      <div class="progress-bar" id="progress-bar">
+        <div class="progress-step">
+          <div class="progress-dot active" id="dot-1">1</div>
+          <span class="progress-label active">Account</span>
+        </div>
+        <div class="progress-line" id="line-1"></div>
+        <div class="progress-step">
+          <div class="progress-dot todo" id="dot-2">2</div>
+          <span class="progress-label todo" id="label-2">About you</span>
+        </div>
+        <div class="progress-line" id="line-2"></div>
+        <div class="progress-step">
+          <div class="progress-dot todo" id="dot-3">3</div>
+          <span class="progress-label todo" id="label-3">Interests</span>
+        </div>
+        <div class="progress-line" id="line-3"></div>
+        <div class="progress-step">
+          <div class="progress-dot todo" id="dot-4">4</div>
+          <span class="progress-label todo" id="label-4">Match</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: Account -->
+      <div class="form-panel active" id="step-1">
+        <h3>Create your account</h3>
+        <p class="panel-sub">Takes two minutes. We'll keep your details private.</p>
+
+        <div id="signup-error" style="display:none; background:#fff1f0; border:1px solid #fca5a5; border-radius:10px; padding:12px 16px; font-size:0.85rem; color:#b91c1c; margin-bottom:16px;"></div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>First name</label>
+            <input type="text" id="su-first" placeholder="Emma">
+          </div>
+          <div class="form-group">
+            <label>Last name</label>
+            <input type="text" id="su-last" placeholder="Johnson">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" id="su-email" placeholder="emma@example.com">
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="su-password" placeholder="Min. 8 characters">
+          <p class="password-hint">At least 8 characters. We'll never share this.</p>
+        </div>
+
+        <div class="form-nav">
+          <span></span>
+          <button class="btn btn-teal btn-lg" onclick="validateStep1()">Continue →</button>
+        </div>
+
+        <div class="login-prompt">Already have an account? <a href="login.html">Log in</a></div>
+      </div>
+
+      <!-- STEP 2: About you -->
+      <div class="form-panel" id="step-2">
+        <h3>A little about you</h3>
+        <p class="panel-sub">This helps us find the right DigiFriend for you.</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Country <span id="country-detecting" style="font-size:0.72rem; color:var(--teal-dark); font-weight:400;">· Detecting…</span></label>
+            <select id="su-country">
+              <option value="">Select country</option>
+              <option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Andorra</option><option>Angola</option><option>Antigua and Barbuda</option><option>Argentina</option><option>Armenia</option><option>Australia</option><option>Austria</option><option>Azerbaijan</option><option>Bahamas</option><option>Bahrain</option><option>Bangladesh</option><option>Barbados</option><option>Belarus</option><option>Belgium</option><option>Belize</option><option>Benin</option><option>Bhutan</option><option>Bolivia</option><option>Bosnia and Herzegovina</option><option>Botswana</option><option>Brazil</option><option>Brunei</option><option>Bulgaria</option><option>Burkina Faso</option><option>Burundi</option><option>Cabo Verde</option><option>Cambodia</option><option>Cameroon</option><option>Canada</option><option>Central African Republic</option><option>Chad</option><option>Chile</option><option>China</option><option>Colombia</option><option>Comoros</option><option>Congo (Brazzaville)</option><option>Congo (Kinshasa)</option><option>Costa Rica</option><option>Croatia</option><option>Cuba</option><option>Cyprus</option><option>Czech Republic</option><option>Denmark</option><option>Djibouti</option><option>Dominica</option><option>Dominican Republic</option><option>Ecuador</option><option>Egypt</option><option>El Salvador</option><option>Equatorial Guinea</option><option>Eritrea</option><option>Estonia</option><option>Eswatini</option><option>Ethiopia</option><option>Fiji</option><option>Finland</option><option>France</option><option>Gabon</option><option>Gambia</option><option>Georgia</option><option>Germany</option><option>Ghana</option><option>Greece</option><option>Grenada</option><option>Guatemala</option><option>Guinea</option><option>Guinea-Bissau</option><option>Guyana</option><option>Haiti</option><option>Honduras</option><option>Hungary</option><option>Iceland</option><option>India</option><option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option><option>Israel</option><option>Italy</option><option>Ivory Coast</option><option>Jamaica</option><option>Japan</option><option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option><option>Kosovo</option><option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option><option>Lebanon</option><option>Lesotho</option><option>Liberia</option><option>Libya</option><option>Liechtenstein</option><option>Lithuania</option><option>Luxembourg</option><option>Madagascar</option><option>Malawi</option><option>Malaysia</option><option>Maldives</option><option>Mali</option><option>Malta</option><option>Marshall Islands</option><option>Mauritania</option><option>Mauritius</option><option>Mexico</option><option>Micronesia</option><option>Moldova</option><option>Monaco</option><option>Mongolia</option><option>Montenegro</option><option>Morocco</option><option>Mozambique</option><option>Myanmar</option><option>Namibia</option><option>Nauru</option><option>Nepal</option><option>Netherlands</option><option>New Zealand</option><option>Nicaragua</option><option>Niger</option><option>Nigeria</option><option>North Korea</option><option>North Macedonia</option><option>Norway</option><option>Oman</option><option>Pakistan</option><option>Palau</option><option>Palestine</option><option>Panama</option><option>Papua New Guinea</option><option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option><option>Portugal</option><option>Qatar</option><option>Romania</option><option>Russia</option><option>Rwanda</option><option>Saint Kitts and Nevis</option><option>Saint Lucia</option><option>Saint Vincent and the Grenadines</option><option>Samoa</option><option>San Marino</option><option>Sao Tome and Principe</option><option>Saudi Arabia</option><option>Senegal</option><option>Serbia</option><option>Seychelles</option><option>Sierra Leone</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option><option>Solomon Islands</option><option>Somalia</option><option>South Africa</option><option>South Korea</option><option>South Sudan</option><option>Spain</option><option>Sri Lanka</option><option>Sudan</option><option>Suriname</option><option>Sweden</option><option>Switzerland</option><option>Syria</option><option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option><option>Thailand</option><option>Timor-Leste</option><option>Togo</option><option>Tonga</option><option>Trinidad and Tobago</option><option>Tunisia</option><option>Turkey</option><option>Turkmenistan</option><option>Tuvalu</option><option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>Uruguay</option><option>Uzbekistan</option><option>Vanuatu</option><option>Vatican City</option><option>Venezuela</option><option>Vietnam</option><option>Yemen</option><option>Zambia</option><option>Zimbabwe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Your timezone <span id="tz-auto-badge" style="font-size:0.72rem; color:var(--teal-dark); font-weight:400; display:none;">· Auto-detected ✓</span></label>
+            <input type="text" id="su-timezone" placeholder="Detecting…" readonly style="background:var(--gray-100); cursor:default; color:var(--text-mid);">
+            <p class="form-hint">Detected from your browser — edit if needed.</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Date of birth</label>
+          <input type="date">
+          <p class="form-hint">DigiFriend is 18+ only.</p>
+        </div>
+
+        <div class="form-group">
+          <label>What are you hoping to get from DigiFriend?</label>
+          <select>
+            <option value="">Select your main goal</option>
+            <option>Weekly friendly conversation</option>
+            <option>Cultural exchange & learning</option>
+            <option>English language practice</option>
+            <option>Breaking isolation / remote work</option>
+            <option>Meeting people from different backgrounds</option>
+          </select>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn btn-outline" onclick="goToStep(1)">← Back</button>
+          <button class="btn btn-teal btn-lg" onclick="goToStep(3)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Interests -->
+      <div class="form-panel" id="step-3">
+        <h3>What do you enjoy talking about?</h3>
+        <p class="panel-sub">Choose as many as you like. We'll use this to match you better.</p>
+
+        <div class="interest-picker" id="interest-picker">
+          <span class="interest-pill" onclick="togglePill(this)">📚 Books</span>
+          <span class="interest-pill" onclick="togglePill(this)">🎵 Music</span>
+          <span class="interest-pill" onclick="togglePill(this)">🍳 Cooking & food</span>
+          <span class="interest-pill" onclick="togglePill(this)">✈️ Travel</span>
+          <span class="interest-pill" onclick="togglePill(this)">💻 Technology</span>
+          <span class="interest-pill" onclick="togglePill(this)">⚽ Sports</span>
+          <span class="interest-pill" onclick="togglePill(this)">🎬 Movies & series</span>
+          <span class="interest-pill" onclick="togglePill(this)">🌍 Culture & history</span>
+          <span class="interest-pill" onclick="togglePill(this)">🤔 Philosophy</span>
+          <span class="interest-pill" onclick="togglePill(this)">🎨 Art & design</span>
+          <span class="interest-pill" onclick="togglePill(this)">🌿 Nature & outdoors</span>
+          <span class="interest-pill" onclick="togglePill(this)">💼 Work & careers</span>
+          <span class="interest-pill" onclick="togglePill(this)">🧘 Wellness</span>
+          <span class="interest-pill" onclick="togglePill(this)">👨‍👩‍👧 Family & daily life</span>
+          <span class="interest-pill" onclick="togglePill(this)">😂 Humor</span>
+        </div>
+
+        <div class="form-group" style="margin-top:28px;">
+          <label>Preferred conversation style</label>
+          <select>
+            <option value="">Any style</option>
+            <option>Calm & thoughtful</option>
+            <option>Fun & light-hearted</option>
+            <option>Deep & philosophical</option>
+            <option>Practical & goal-focused</option>
+          </select>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn btn-outline" onclick="goToStep(2)">← Back</button>
+          <button class="btn btn-teal btn-lg" onclick="goToStep(4)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Match -->
+      <div class="form-panel" id="step-4">
+        <h3>How would you like to be matched?</h3>
+        <p class="panel-sub">You can always change your mind after signing up.</p>
+
+        <div class="form-group">
+          <div class="radio-group" style="flex-direction: column; gap: 12px;">
+
+            <label class="check-pill" style="width:100%; border-radius:16px; padding:18px 20px; cursor:pointer; display:flex; align-items:flex-start; gap:14px;">
+              <input type="radio" name="match-type" value="auto" checked>
+              <div>
+                <div style="font-weight:700; color:var(--text); margin-bottom:4px;">Match me automatically ✨</div>
+                <div style="font-size:0.82rem; color:var(--text-light); line-height:1.5;">We'll pick the best DigiFriend for you based on your interests and timezone. Fastest way to get started.</div>
+              </div>
+            </label>
+
+            <label class="check-pill" style="width:100%; border-radius:16px; padding:18px 20px; cursor:pointer; display:flex; align-items:flex-start; gap:14px;">
+              <input type="radio" name="match-type" value="browse">
+              <div>
+                <div style="font-weight:700; color:var(--text); margin-bottom:4px;">I'd like to choose myself</div>
+                <div style="font-size:0.82rem; color:var(--text-light); line-height:1.5;">Browse all available DigiFriends and request the one that feels right for you.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top:8px;">
+          <label>Any preference on DigiFriend gender?</label>
+          <select>
+            <option>No preference</option>
+            <option>Female</option>
+            <option>Male</option>
+          </select>
+        </div>
+
+        <div style="background:var(--teal-light); border:1px solid var(--teal-mid); border-radius:14px; padding:18px 20px; margin-top: 8px;">
+          <p style="font-size:0.82rem; color:var(--teal-dark); line-height:1.6;">
+            <strong>What happens next:</strong> After signing up you get 100 free credits for 14 days. A valid payment method is required — you won't be charged during the trial period.
+          </p>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn btn-outline" onclick="goToStep(3)">← Back</button>
+          <button id="create-btn" class="btn btn-teal btn-lg" onclick="handleSignUp()">Create account →</button>
+        </div>
+
+        <p style="text-align:center; font-size:0.75rem; color:var(--text-light); margin-top:20px;">
+          By continuing you agree to our <a href="#" style="color:var(--navy);">Terms of Service</a> and <a href="#" style="color:var(--navy);">Privacy Policy</a>. DigiFriend is for adults 18+ only.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 1;
+
+    // Redirect to dashboard if already logged in
+    redirectIfLoggedIn()
+
+    // ── Auto-detect timezone from browser (no API needed)
+    ;(function detectTimezone() {
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+        const offset = -new Date().getTimezoneOffset()
+        const sign   = offset >= 0 ? '+' : '−'
+        const h      = String(Math.floor(Math.abs(offset) / 60)).padStart(2, '0')
+        const m      = String(Math.abs(offset) % 60).padStart(2, '0')
+        const label  = `${tz} (UTC${sign}${h}:${m})`
+        const input  = document.getElementById('su-timezone')
+        input.value  = label
+        input.style.background = 'var(--white)'
+        input.removeAttribute('readonly')
+        document.getElementById('tz-auto-badge').style.display = 'inline'
+      } catch(e) {}
+    })()
+
+    // ── Auto-detect country via IP (ipapi.co — free, no key needed)
+    ;(function detectCountry() {
+      fetch('https://ipapi.co/json/')
+        .then(r => r.json())
+        .then(data => {
+          const countryName = data.country_name
+          if (!countryName) return
+          const sel = document.getElementById('su-country')
+          const opts = Array.from(sel.options)
+          const match = opts.find(o => o.text.toLowerCase() === countryName.toLowerCase())
+          if (match) {
+            sel.value = match.value || match.text
+            match.selected = true
+          }
+          document.getElementById('country-detecting').textContent = '· ' + countryName + ' ✓'
+          document.getElementById('country-detecting').style.color = 'var(--teal-dark)'
+        })
+        .catch(() => {
+          document.getElementById('country-detecting').textContent = ''
+        })
+    })()
+
+    function goToStep(n) {
+      document.getElementById('step-' + currentStep).classList.remove('active');
+      currentStep = n;
+      document.getElementById('step-' + currentStep).classList.add('active');
+      updateProgress();
+      window.scrollTo(0, 0);
+    }
+
+    function updateProgress() {
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById('dot-' + i);
+        const label = document.getElementById('label-' + i);
+        if (i < currentStep) {
+          dot.className = 'progress-dot done';
+          dot.textContent = '✓';
+        } else if (i === currentStep) {
+          dot.className = 'progress-dot active';
+          dot.textContent = i;
+          if (label) label.className = 'progress-label active';
+        } else {
+          dot.className = 'progress-dot todo';
+          dot.textContent = i;
+          if (label) label.className = 'progress-label todo';
+        }
+        const line = document.getElementById('line-' + i);
+        if (line) line.className = i < currentStep ? 'progress-line done' : 'progress-line';
+      }
+    }
+
+    function togglePill(el) {
+      el.classList.toggle('selected');
+    }
+
+    function validateStep1() {
+      const first = document.getElementById('su-first').value.trim()
+      const last  = document.getElementById('su-last').value.trim()
+      const email = document.getElementById('su-email').value.trim()
+      const pass  = document.getElementById('su-password').value
+      const errEl = document.getElementById('signup-error')
+
+      errEl.style.display = 'none'
+      if (!first || !last)       { showSignupError('Please enter your full name.'); return }
+      if (!email)                { showSignupError('Please enter your email address.'); return }
+      if (pass.length < 8)       { showSignupError('Password must be at least 8 characters.'); return }
+
+      goToStep(2)
+    }
+
+    function showSignupError(msg) {
+      const el = document.getElementById('signup-error')
+      el.textContent = msg
+      el.style.display = 'block'
+    }
+
+    async function handleSignUp() {
+      const email = document.getElementById('su-email').value.trim()
+      const pass  = document.getElementById('su-password').value
+      const first = document.getElementById('su-first').value.trim()
+      const last  = document.getElementById('su-last').value.trim()
+      const btn   = document.getElementById('create-btn')
+
+      btn.textContent = 'Creating account…'
+      btn.disabled = true
+
+      const { error } = await signUp(email, pass, {
+        first_name: first,
+        last_name: last,
+        full_name: first + ' ' + last
+      })
+
+      if (error) {
+        goToStep(1)
+        showSignupError(error.message)
+        btn.textContent = 'Create account →'
+        btn.disabled = false
+      } else {
+        // Check if Supabase logged the user in immediately (email confirmation disabled)
+        const user = await getUser()
+        if (user) {
+          // DigiFriends (email matches a digifriends row) go straight to their portal
+          try {
+            const res = await fetch(
+              `${SUPABASE_URL}/rest/v1/digifriends?email=eq.${encodeURIComponent(email)}&select=id&limit=1`,
+              { headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` } }
+            )
+            const rows = res.ok ? await res.json() : []
+            window.location.href = rows.length > 0 ? 'digifriend-portal.html' : 'dashboard.html'
+          } catch {
+            window.location.href = 'dashboard.html'
+          }
+        } else {
+          // Email confirmation required — show "check inbox" panel
+          document.getElementById('progress-bar').style.display = 'none'
+          for (let i = 1; i <= 4; i++) {
+            const s = document.getElementById('step-' + i)
+            if (s) s.style.display = 'none'
+          }
+          document.getElementById('confirm-email-display').textContent = email
+          document.getElementById('step-confirm').style.display = 'block'
+        }
+      }
+    }
+  </script>
+</body>
+</html>

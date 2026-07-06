@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+  <style>
+    body { background: var(--off-white); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+
+    .login-wrap {
+      display: grid;
+      grid-template-columns: 420px 380px;
+      gap: 0;
+      background: var(--white);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(26,39,68,0.12);
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .login-left {
+      background: var(--navy);
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-left::before {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: -80px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,201,167,0.15) 0%, transparent 70%);
+    }
+
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 48px;
+    }
+
+    .login-left h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .login-left h2 span { color: var(--teal); }
+
+    .login-left p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+      position: relative;
+    }
+
+    .login-testimonial {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .testimonial-text {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.65;
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .testimonial-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--teal-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .testimonial-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .login-right {
+      padding: 56px 44px;
+    }
+
+    .login-right h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .login-right .sub {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin-bottom: 32px;
+    }
+
+    .forgot-link {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      float: right;
+      margin-top: -4px;
+    }
+
+    .forgot-link:hover { color: var(--navy); }
+
+    .login-submit { margin-top: 24px; }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    .social-btn {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 12px;
+      background: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: border-color 0.15s;
+      margin-bottom: 10px;
+    }
+
+    .social-btn:hover { border-color: var(--navy); }
+
+    .signup-prompt {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .signup-prompt a { color: var(--navy); font-weight: 600; }
+
+    @media (max-width: 720px) {
+      body { padding: 16px; align-items: flex-start; padding-top: 24px; }
+      .login-wrap { grid-template-columns: 1fr; }
+      .login-left { display: none; }
+      .login-right { padding: 36px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-wrap">
+    <div class="login-left">
+      <div>
+        <a href="index.html" class="login-logo" style="text-decoration:none;">
+          <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+          <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+        </a>
+        <h2>Good to have you <span>back.</span></h2>
+        <p>Your weekly conversation is waiting. Log in to see your upcoming call and message your DigiFriend.</p>
+      </div>
+
+      <div class="login-testimonial">
+        <p class="testimonial-text">"Tuesday afternoons are my favourite part of the week now. I've been talking to James for three months and it genuinely changed how I feel about remote work."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">😊</div>
+          <div class="testimonial-name">Sarah M. — London, UK</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-right">
+      <h3>Log in</h3>
+      <p class="sub">Welcome back to DigiFriend.</p>
+
+      <div id="auth-error" style="display:none; background:#fff1f0; border:1px solid #fca5a5; border-radius:10px; padding:12px 16px; font-size:0.85rem; color:#b91c1c; margin-bottom:16px;"></div>
+
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" id="login-email" placeholder="your@email.com" autofocus>
+      </div>
+
+      <div class="form-group">
+        <label>
+          Password
+          <a href="reset.html" class="forgot-link">Forgot password?</a>
+        </label>
+        <input type="password" id="login-password" placeholder="Your password">
+      </div>
+
+      <div class="login-submit">
+        <button id="login-btn" class="btn btn-teal btn-lg btn-block" onclick="handleLogin()">Log in</button>
+      </div>
+
+      <!-- Google-login skjult indtil provideren er aktiveret i Supabase
+           (Authentication → Providers → Google). Se handleGoogleLogin() nedenfor. -->
+
+      <div class="signup-prompt">
+        Don't have an account? <a href="signup.html">Sign up</a>
+      </div>
+      <div style="text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid var(--gray-100);">
+        <span style="font-size:0.8rem; color:var(--text-light);">Are you a DigiFriend? Just log in above — you'll be taken straight to your portal.</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Redirect to dashboard if already logged in
+  redirectIfLoggedIn()
+
+  async function handleLogin() {
+    const email = document.getElementById('login-email').value.trim()
+    const password = document.getElementById('login-password').value
+    const btn = document.getElementById('login-btn')
+    const errEl = document.getElementById('auth-error')
+
+    errEl.style.display = 'none'
+    if (!email || !password) { showError('Please enter your email and password.'); return }
+
+    btn.textContent = 'Logging in…'
+    btn.disabled = true
+
+    const { error, data } = await signIn(email, password)
+    if (error) {
+      showError(error.message === 'Invalid login credentials'
+        ? 'Wrong email or password. Try again.'
+        : error.message)
+      btn.textContent = 'Log in'
+      btn.disabled = false
+    } else {
+      // Check if this user is a DigiFriend — if so, send to portal
+      try {
+        const res = await fetch(
+          `https://ciomvjbqilosttyotmcg.supabase.co/rest/v1/digifriends?email=eq.${encodeURIComponent(email)}&limit=1`,
+          { headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpb212amJxaWxvc3R0eW90bWNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzM1ODAsImV4cCI6MjA5NzU0OTU4MH0.qoksq8dDRKqGgEZiPHbeM-S-cynlOoo1gnq7B6i1bfI', 'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpb212amJxaWxvc3R0eW90bWNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzM1ODAsImV4cCI6MjA5NzU0OTU4MH0.qoksq8dDRKqGgEZiPHbeM-S-cynlOoo1gnq7B6i1bfI` } }
+        )
+        const rows = res.ok ? await res.json() : []
+        window.location.href = rows.length > 0 ? 'digifriend-portal.html' : 'dashboard.html'
+      } catch {
+        window.location.href = 'dashboard.html'
+      }
+    }
+  }
+
+  async function handleGoogleLogin() {
+    if (!SUPABASE_CONFIGURED) { showError('Google login requires Supabase to be configured.'); return }
+    const { error } = await sb.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + '/dashboard.html' }
+    })
+    if (error) showError('Google login is not available yet: ' + error.message)
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('auth-error')
+    el.textContent = msg
+    el.style.display = 'block'
+  }
+
+  // Allow Enter key to submit
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin()
+  })
+</script>
+</body>
+</html>

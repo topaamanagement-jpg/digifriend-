@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Calls — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+  <style>
+    body { background: var(--off-white); }
+
+    /* ─── APP NAV ─── */
+    .app-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px; background: var(--white); border-bottom: 1px solid var(--gray-200);
+      display: flex; align-items: center; padding: 0 32px;
+    }
+    .app-nav-logo { display:flex; align-items:center; gap:8px; margin-right:40px; }
+    .app-nav-logo span { font-size:1.2rem; font-weight:700; letter-spacing:-0.02em; }
+    .app-nav-logo .digi { color:var(--navy); }
+    .app-nav-logo .friend { color:var(--teal); }
+    .app-nav-links { display:flex; align-items:center; gap:4px; list-style:none; flex:1; }
+    .app-nav-links a { display:flex; align-items:center; gap:7px; padding:8px 14px; border-radius:10px; font-size:0.875rem; font-weight:500; color:var(--text-mid); transition:all 0.15s; }
+    .app-nav-links a:hover { background:var(--off-white); color:var(--text); }
+    .app-nav-links a.active { background:var(--teal-light); color:var(--teal-dark); font-weight:600; }
+    .app-nav-right { display:flex; align-items:center; gap:16px; }
+    .avatar-btn { width:36px; height:36px; border-radius:50%; background:var(--navy); display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; color:var(--white); cursor:pointer; border:none; }
+
+    .app-body { padding-top: 64px; min-height: 100vh; }
+    .app-inner { max-width: 1100px; margin: 0 auto; padding: 36px 32px; }
+
+    /* ─── PAGE HEADER ─── */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;
+    }
+    .page-header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
+
+    /* ─── LAYOUT ─── */
+    .booking-grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+
+    /* ─── CARD ─── */
+    .card {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: 20px; padding: 24px; margin-bottom: 20px;
+    }
+    .card-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+    .card-sub { font-size: 0.8rem; color: var(--text-light); margin-top: -10px; margin-bottom: 16px; }
+
+    /* ─── DF PROFILE CARD ─── */
+    .df-profile-card {
+      background: var(--navy); border-radius: 20px; padding: 22px;
+      margin-bottom: 24px; display: flex; align-items: center; gap: 16px;
+    }
+    .df-profile-avatar {
+      width: 56px; height: 56px; border-radius: 14px; overflow: hidden;
+      background: linear-gradient(135deg, #2e3f6e, #00a88c);
+      display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0;
+    }
+    .df-profile-avatar img { width:100%; height:100%; object-fit:cover; }
+    .df-profile-name { font-size: 1.05rem; font-weight: 800; color: var(--white); }
+    .df-profile-meta { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 3px; }
+    .df-tz-badge { font-size: 0.72rem; color: var(--teal); font-weight: 600; margin-top: 5px; }
+
+    /* ─── AVAILABILITY SLOTS ─── */
+    .avail-section { margin-bottom: 28px; }
+    .avail-day-label {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-light); margin-bottom: 10px; margin-top: 20px;
+    }
+    .avail-day-label:first-child { margin-top: 0; }
+    .slots-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .avail-slot {
+      padding: 10px 14px; border: 1.5px solid var(--gray-200); border-radius: 12px;
+      font-size: 0.82rem; font-weight: 600; color: var(--text-mid); cursor: pointer;
+      transition: all 0.15s; text-align: center;
+    }
+    .avail-slot:hover { border-color: var(--teal); color: var(--teal-dark); background: var(--teal-light); }
+    .avail-slot.selected { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); }
+    .avail-slot .your-time { display: block; font-size: 0.88rem; font-weight: 700; }
+    .avail-slot .their-time { display: block; font-size: 0.65rem; font-weight: 500; color: var(--text-light); margin-top: 2px; }
+
+    /* ─── BOOKING OPTION ─── */
+    .booking-option-row { display: flex; gap: 12px; margin-top: 20px; }
+    .booking-option {
+      flex: 1; padding: 14px; border: 1.5px solid var(--gray-200); border-radius: 14px;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .booking-option:hover { border-color: var(--teal); background: var(--teal-light); }
+    .booking-option.selected { border-color: var(--teal); background: var(--teal-light); }
+    .booking-option-icon { font-size: 1.3rem; margin-bottom: 6px; }
+    .booking-option-title { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+    .booking-option-desc { font-size: 0.72rem; color: var(--text-mid); margin-top: 3px; line-height: 1.5; }
+
+    /* ─── CALLS LIST ─── */
+    .call-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 0; border-bottom: 1px solid var(--gray-100);
+    }
+    .call-item:last-child { border-bottom: none; }
+    .call-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+    .call-dot.past { background: var(--gray-200); }
+    .call-dot.pending { background: #f0a500; }
+    .call-info { flex: 1; min-width: 0; }
+    .call-date { font-size: 0.875rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .call-time { font-size: 0.78rem; color: var(--text-light); }
+    .call-badge { font-size: 0.68rem; font-weight: 700; padding: 3px 9px; border-radius: 50px; white-space: nowrap; flex-shrink: 0; }
+    .badge-confirmed { background: var(--teal-light); color: var(--teal-dark); }
+    .badge-pending { background: #fff3cd; color: #856404; }
+    .badge-cancelled { background: var(--gray-100); color: var(--text-light); }
+    .badge-recurring { background: var(--navy); color: var(--white); }
+
+    .cancel-btn {
+      font-size: 0.68rem; font-weight: 600; padding: 3px 9px; border-radius: 6px;
+      border: 1px solid #fad7d3; color: #c0392b; background: none; cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; white-space: nowrap;
+    }
+    .cancel-btn:hover { background: #fdecea; }
+    .cancel-btn:disabled { opacity: 0.4; cursor: default; }
+
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(10,20,50,0.45); z-index: 200; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 24px; padding: 36px;
+      max-width: 440px; width: 90%; box-shadow: 0 40px 100px rgba(10,20,50,0.2);
+    }
+    .modal h3 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .modal-detail { font-size: 0.875rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 24px; }
+    .modal-detail strong { color: var(--text); }
+    .modal-actions { display: flex; gap: 12px; }
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state { text-align: center; padding: 32px 16px; color: var(--text-light); }
+    .empty-icon { font-size: 2rem; margin-bottom: 10px; }
+    .empty-text { font-size: 0.85rem; line-height: 1.6; }
+
+    /* ─── NO MATCH STATE ─── */
+    .no-match-banner {
+      background: var(--navy); border-radius: 20px; padding: 32px;
+      text-align: center; margin-bottom: 24px;
+    }
+
+    @media (max-width: 960px) {
+      .booking-grid { grid-template-columns: 1fr; }
+      .app-inner { padding: 24px 16px; }
+      .booking-option-row { flex-direction: column; }
+    }
+    @media (max-width: 600px) {
+      .app-nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="app-nav">
+    <a href="index.html" class="app-nav-logo">
+      <img src="logo-icon-navy.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+      <img src="wordmark-navy.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+    </a>
+    <ul class="app-nav-links">
+      <li><a href="dashboard.html">🏠 Home</a></li>
+      <li><a href="booking.html" class="active">📅 My calls</a></li>
+      <li><a href="chat.html">💬 Messages</a></li>
+      <li><a href="browse.html">🌍 Browse</a></li>
+    </ul>
+    <div class="app-nav-right">
+      <button class="avatar-btn" id="avatar-btn" onclick="toggleMenu()">EM</button>
+      <div id="user-menu" style="display:none; position:absolute; top:60px; right:32px; background:var(--white); border:1px solid var(--gray-200); border-radius:14px; padding:8px; min-width:160px; box-shadow:0 8px 32px rgba(26,39,68,0.12); z-index:200;">
+        <button onclick="signOut()" style="display:block; width:100%; text-align:left; padding:9px 14px; font-size:0.85rem; color:#dc2626; border:none; background:none; border-radius:8px; font-weight:500; cursor:pointer; font-family:inherit;">Log out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="app-body">
+    <div class="app-inner">
+
+      <div class="page-header">
+        <h1>My calls</h1>
+      </div>
+
+      <!-- Loading -->
+      <div id="state-loading" style="text-align:center; padding:80px; color:var(--text-light); font-size:0.9rem;">Loading…</div>
+
+      <!-- No match yet -->
+      <div id="state-no-match" style="display:none;">
+        <div class="no-match-banner">
+          <div style="font-size:2rem; margin-bottom:14px;">🌍</div>
+          <div style="font-size:1.2rem; font-weight:800; color:var(--white); margin-bottom:8px;">You're not matched yet</div>
+          <p style="font-size:0.875rem; color:rgba(255,255,255,0.55); line-height:1.65; margin-bottom:24px;">Browse DigiFriends and send a match request. Once confirmed, you can book calls here.</p>
+          <a href="browse.html" class="btn btn-teal">Browse DigiFriends →</a>
+        </div>
+      </div>
+
+      <!-- Main booking UI -->
+      <div id="state-main" style="display:none;">
+        <div class="booking-grid">
+
+          <!-- LEFT: Book a call -->
+          <div>
+            <!-- DF profile -->
+            <div class="df-profile-card" id="df-profile-card">
+              <div class="df-profile-avatar" id="df-avatar-el">🙂</div>
+              <div>
+                <div class="df-profile-name" id="df-profile-name">Your DigiFriend</div>
+                <div class="df-profile-meta" id="df-profile-meta"></div>
+                <div class="df-tz-badge" id="df-tz-badge"></div>
+              </div>
+            </div>
+
+            <!-- Availability -->
+            <div class="card">
+              <div class="card-title">Book a call</div>
+              <div class="card-sub" id="avail-sub">Loading available times…</div>
+              <div class="avail-section" id="avail-section">
+                <!-- rendered by JS -->
+              </div>
+
+              <!-- Recurring / one-time choice (hidden until slot selected) -->
+              <div id="booking-type-section" style="display:none;">
+                <div style="font-size:0.85rem; font-weight:700; color:var(--text); margin-bottom:10px;">How often?</div>
+                <div class="booking-option-row">
+                  <div class="booking-option selected" id="opt-onetime" onclick="selectType('onetime')">
+                    <div class="booking-option-icon">📅</div>
+                    <div class="booking-option-title">One time</div>
+                    <div class="booking-option-desc">Just this one call, no commitment.</div>
+                  </div>
+                  <div class="booking-option" id="opt-recurring" onclick="selectType('recurring')">
+                    <div class="booking-option-icon">🔁</div>
+                    <div class="booking-option-title">Weekly recurring</div>
+                    <div class="booking-option-desc">Same time every week, until you or your DigiFriend cancels.</div>
+                  </div>
+                </div>
+                <div style="margin-top:20px;">
+                  <button class="btn btn-teal btn-block" onclick="openConfirmModal()" id="request-btn">Request this call</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Upcoming + past -->
+          <div>
+            <div class="card">
+              <div class="card-title">Upcoming calls</div>
+              <div id="upcoming-list"><p style="font-size:0.82rem;color:var(--text-light);">Loading…</p></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Past calls</div>
+              <div id="past-list"><p style="font-size:0.82rem;color:var(--text-light);">Loading…</p></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONFIRM MODAL -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <h3 id="modal-title">Confirm booking request</h3>
+      <div class="modal-detail" id="modal-body">—</div>
+      <div class="modal-actions">
+        <button class="btn btn-teal" id="modal-confirm-btn" onclick="submitRequest()">Send request</button>
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANCEL MODAL -->
+  <div class="modal-overlay" id="cancel-modal-overlay">
+    <div class="modal">
+      <h3>Cancel this call?</h3>
+      <div class="modal-detail" id="cancel-modal-body">—</div>
+      <div class="modal-actions">
+        <button class="btn" style="background:#dc2626;color:#fff;border-radius:50px;padding:12px 24px;" id="cancel-confirm-btn" onclick="confirmCancel()">Yes, cancel</button>
+        <button class="btn btn-outline" onclick="closeCancelModal()">Keep it</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // SUPABASE_ANON kommer fra auth.js
+  const API = 'https://ciomvjbqilosttyotmcg.supabase.co/rest/v1'
+
+  const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const DAYS   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+
+  let authUser = null
+  let accessToken = null
+  let dfRecord = null
+  let selectedSlot = null     // { day_of_week, hour }
+  let selectedType = 'onetime'
+  let cancelCallId = null
+
+  function apiFetch(path, opts = {}) {
+    const headers = {
+      'apikey': SUPABASE_ANON,
+      'Authorization': `Bearer ${accessToken || SUPABASE_ANON}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation',
+      ...(opts.headers || {})
+    }
+    return fetch(API + path, { ...opts, headers })
+  }
+
+  function fmtTime(h, tz) {
+    const d = new Date()
+    d.setHours(h, 0, 0, 0)
+    return d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: tz })
+  }
+
+  // Given a day_of_week (0=Mon) + hour in DF's TZ, return the next occurrence date
+  function nextOccurrence(dayOfWeek, dfHour, dfTZ) {
+    const now = new Date()
+    // Find next date with that day-of-week
+    const todayDow = (now.getDay() + 6) % 7  // convert Sun=0 to Mon=0
+    let daysAhead = dayOfWeek - todayDow
+    if (daysAhead < 0) daysAhead += 7
+    if (daysAhead === 0) daysAhead = 7  // always at least 1 day ahead
+
+    const candidate = new Date(now)
+    candidate.setDate(now.getDate() + daysAhead)
+    candidate.setHours(0, 0, 0, 0)
+
+    // Build ISO string for midnight in DF's TZ at that date, then set hour
+    // Use Intl to figure out what local midnight is in DF TZ
+    const fmt = new Intl.DateTimeFormat('en-CA', {
+      timeZone: dfTZ,
+      year:'numeric', month:'2-digit', day:'2-digit'
+    })
+    const [y, m, d] = fmt.format(candidate).split('-')
+    // Build a date string at the required hour in dfTZ
+    const isoStr = `${y}-${m}-${d}T${String(dfHour).padStart(2,'0')}:00:00`
+    // Parse it as local, then adjust — we need to treat isoStr as dfTZ time
+    // Use a trick: format a known UTC time and find offset
+    const tempDate = new Date(`${isoStr}Z`)  // treat as UTC first
+    const dfOffset = getTimezoneOffset(dfTZ, tempDate)
+    const utcDate = new Date(tempDate.getTime() - dfOffset * 60000)
+    return utcDate
+  }
+
+  function getTimezoneOffset(tz, date) {
+    // Returns offset in minutes (positive = ahead of UTC)
+    const utcStr = date.toLocaleString('en-GB', { timeZone: 'UTC', hour:'2-digit', minute:'2-digit', hour12: false })
+    const tzStr  = date.toLocaleString('en-GB', { timeZone: tz,    hour:'2-digit', minute:'2-digit', hour12: false })
+    const [uh, um] = utcStr.split(':').map(Number)
+    const [th, tm] = tzStr.split(':').map(Number)
+    return (th * 60 + tm) - (uh * 60 + um)
+  }
+
+  // ── INIT ─────────────────────────────────────────────────────────────
+  requireAuth().then(async user => {
+    if (!user) return
+    authUser = user
+    const { data: { session } } = await sb.auth.getSession()
+    accessToken = session?.access_token
+
+    const meta = user.user_metadata || {}
+    const initials = ((meta.first_name?.[0]||'') + (meta.last_name?.[0]||'')).toUpperCase() || user.email[0].toUpperCase()
+    document.getElementById('avatar-btn').textContent = initials
+
+    // Look up match from matches table by member email
+    const matchRes = await apiFetch(`/matches?member_email=eq.${encodeURIComponent(user.email)}&limit=1`)
+    const matchRows = matchRes.ok ? await matchRes.json() : []
+    const dfId = matchRows[0]?.digifriend_id
+    if (!dfId) {
+      document.getElementById('state-loading').style.display = 'none'
+      document.getElementById('state-no-match').style.display = 'block'
+      return
+    }
+
+    // Load DF profile
+    const dfRes = await apiFetch(`/digifriends?id=eq.${dfId}&limit=1`)
+    const dfRows = dfRes.ok ? await dfRes.json() : []
+    if (!dfRows || dfRows.length === 0) {
+      document.getElementById('state-loading').style.display = 'none'
+      document.getElementById('state-no-match').style.display = 'block'
+      return
+    }
+
+    dfRecord = dfRows[0]
+
+    document.getElementById('state-loading').style.display = 'none'
+    document.getElementById('state-main').style.display = 'block'
+
+    renderDfProfile()
+    await Promise.all([loadAvailability(), loadCalls(user)])
+  })
+
+  function renderDfProfile() {
+    const df = dfRecord
+    const name = [df.first_name || df.name, df.age ? `, ${df.age}` : ''].join('')
+    document.getElementById('df-profile-name').textContent = name
+    document.getElementById('df-profile-meta').textContent = [df.country, df.languages].filter(Boolean).join(' · ')
+    document.getElementById('df-tz-badge').textContent = df.timezone ? `🌍 ${df.timezone}` : ''
+
+    const av = document.getElementById('df-avatar-el')
+    if (df.photo_url) av.innerHTML = `<img src="${df.photo_url}" alt="">`
+    else av.textContent = '🙂'
+  }
+
+  // ── AVAILABILITY ─────────────────────────────────────────────────────
+  // A slot is taken when another booking occupies it: an active weekly series
+  // (latest call in the series still has is_recurring=true and wasn't declined),
+  // or an upcoming one-time call that is pending/confirmed.
+  async function loadOccupiedSlots() {
+    const res = await apiFetch(`/calls?digifriend_id=eq.${dfRecord.id}&select=member_id,day_of_week,hour_local,is_recurring,status,scheduled_at&order=scheduled_at.desc`)
+    const calls = res.ok ? await res.json() : []
+    const now = new Date()
+    const seen = new Set()
+    const occupied = new Set()
+    for (const c of calls) {
+      if (c.day_of_week === null || c.hour_local === null) continue
+      const series = `${c.member_id}|${c.day_of_week}|${c.hour_local}`
+      if (seen.has(series)) continue  // only the latest call per series counts
+      seen.add(series)
+      const active = (c.is_recurring && c.status !== 'declined')
+        || (!c.is_recurring && new Date(c.scheduled_at) > now && (c.status === 'pending' || c.status === 'confirmed'))
+      if (active) occupied.add(`${c.day_of_week}|${c.hour_local}`)
+    }
+    return occupied
+  }
+
+  async function loadAvailability() {
+    const [res, occupied] = await Promise.all([
+      apiFetch(`/availability?digifriend_id=eq.${dfRecord.id}&is_active=eq.true&order=day_of_week.asc,hour.asc`),
+      loadOccupiedSlots()
+    ])
+    const slots = res.ok ? await res.json() : []
+
+    const section = document.getElementById('avail-section')
+    const sub = document.getElementById('avail-sub')
+    const dfTZ = dfRecord.timezone || 'UTC'
+
+    if (slots.length === 0) {
+      sub.textContent = 'Your DigiFriend hasn\'t set their availability yet. Check back soon!'
+      section.innerHTML = ''
+      return
+    }
+
+    sub.innerHTML = `Times shown in your timezone (<strong>${userTZ}</strong>)`
+
+    // Group by day
+    const byDay = {}
+    slots.forEach(s => {
+      if (!byDay[s.day_of_week]) byDay[s.day_of_week] = []
+      byDay[s.day_of_week].push(s.hour)
+    })
+
+    let html = ''
+    Object.keys(byDay).sort((a,b) => a-b).forEach(day => {
+      html += `<div class="avail-day-label">${DAYS[day]}</div><div class="slots-row">`
+      byDay[day].forEach(h => {
+        // Convert DF hour to user's local time for display
+        const fakeDate = new Date()
+        fakeDate.setHours(h, 0, 0, 0)
+        const userTime = fmtTime(h, dfTZ)  // show in DF tz, we'll re-label
+        // Better: create a date at next occurrence and format in both TZs
+        const nextDate = nextOccurrence(Number(day), h, dfTZ)
+        const yourStr = nextDate.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: userTZ })
+        const theirStr = nextDate.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: dfTZ })
+
+        const isTaken = occupied.has(`${day}|${h}`)
+        html += isTaken ? `
+          <div class="avail-slot" style="opacity:0.45;cursor:not-allowed;background:var(--gray-100);" title="This time is already booked">
+            <span class="your-time" style="text-decoration:line-through;">${yourStr}</span>
+            <span class="their-time">Taken</span>
+          </div>` : `
+          <div class="avail-slot" data-day="${day}" data-hour="${h}" onclick="selectSlot(this, ${day}, ${h})">
+            <span class="your-time">${yourStr}</span>
+            <span class="their-time">${theirStr} their time</span>
+          </div>`
+      })
+      html += '</div>'
+    })
+
+    section.innerHTML = html
+  }
+
+  function selectSlot(el, day, hour) {
+    document.querySelectorAll('.avail-slot').forEach(s => s.classList.remove('selected'))
+    el.classList.add('selected')
+    selectedSlot = { day_of_week: day, hour: hour }
+    document.getElementById('booking-type-section').style.display = 'block'
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }
+
+  function selectType(type) {
+    selectedType = type
+    document.getElementById('opt-onetime').classList.toggle('selected', type === 'onetime')
+    document.getElementById('opt-recurring').classList.toggle('selected', type === 'recurring')
+  }
+
+  // ── MODAL ─────────────────────────────────────────────────────────────
+  function openConfirmModal() {
+    if (!selectedSlot) return
+    const dfTZ = dfRecord.timezone || 'UTC'
+    const nextDate = nextOccurrence(selectedSlot.day_of_week, selectedSlot.hour, dfTZ)
+
+    const dayName = DAYS[selectedSlot.day_of_week]
+    const yourTime = nextDate.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: userTZ })
+    const theirTime = nextDate.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: dfTZ })
+    const dfName = dfRecord.first_name || dfRecord.name || 'your DigiFriend'
+
+    const recTxt = selectedType === 'recurring'
+      ? `<br><br>🔁 <strong>This will recur every ${dayName}</strong> at the same time until either of you cancels.`
+      : `<br><br>📅 <strong>One-time call</strong> — no automatic repeat.`
+
+    document.getElementById('modal-body').innerHTML = `
+      You're requesting a call with <strong>${dfName}</strong>.<br><br>
+      📅 <strong>${dayName}</strong><br>
+      🕐 Your time: <strong>${yourTime} (${userTZ})</strong><br>
+      🌍 Their time: <strong>${theirTime} (${dfTZ})</strong>
+      ${recTxt}<br><br>
+      <span style="font-size:0.8rem; color:var(--text-light);">${dfName} will confirm the booking before it's finalised.</span>
+    `
+    document.getElementById('modal-overlay').classList.add('open')
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open')
+  }
+
+  async function submitRequest() {
+    if (!selectedSlot) return
+    const btn = document.getElementById('modal-confirm-btn')
+    btn.textContent = 'Sending…'
+    btn.disabled = true
+
+    const dfTZ = dfRecord.timezone || 'UTC'
+    const nextDate = nextOccurrence(selectedSlot.day_of_week, selectedSlot.hour, dfTZ)
+    const scheduledAt = nextDate.toISOString()
+    const meta = authUser.user_metadata || {}
+    const memberName = [meta.first_name, meta.last_name].filter(Boolean).join(' ') || authUser.email
+
+    const payload = {
+      member_id: authUser.id,
+      digifriend_id: dfRecord.id,
+      scheduled_at: scheduledAt,
+      duration_minutes: 60,
+      status: 'pending',
+      is_recurring: selectedType === 'recurring',
+      day_of_week: selectedSlot.day_of_week,
+      hour_local: selectedSlot.hour,
+      member_timezone: userTZ,
+      member_name: memberName,
+      member_email: authUser.email,
+      friend_name: dfRecord.first_name || dfRecord.name || '',
+      jitsi_room: 'df-' + Math.random().toString(36).slice(2, 10)
+    }
+
+    const res = await apiFetch('/calls', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    })
+
+    btn.textContent = 'Send request'
+    btn.disabled = false
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}))
+      alert(err.message || 'Something went wrong. Please try again.')
+      return
+    }
+
+    // Capture slot before nulling
+    const bookedSlot = { ...selectedSlot }
+    const bookedType = selectedType
+    const dfTZ2 = dfRecord.timezone || 'UTC'
+    const emailDate = nextOccurrence(bookedSlot.day_of_week, bookedSlot.hour, dfTZ2)
+
+    closeModal()
+    selectedSlot = null
+    document.querySelectorAll('.avail-slot').forEach(s => s.classList.remove('selected'))
+    document.getElementById('booking-type-section').style.display = 'none'
+
+    const dfName = dfRecord.first_name || dfRecord.name || 'your DigiFriend'
+    document.getElementById('avail-sub').innerHTML = `✅ Request sent! <strong>${dfName}</strong> will confirm shortly.`
+
+    // Notify DigiFriend by email
+    if (dfRecord.email) {
+      sendEmail(dfRecord.email, 'booking_requested', {
+        member_name: [authUser.user_metadata?.first_name, authUser.user_metadata?.last_name].filter(Boolean).join(' ') || authUser.email,
+        df_name: dfName,
+        date_str: emailDate.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' }),
+        time_str: emailDate.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: dfTZ2 }),
+        is_recurring: bookedType === 'recurring'
+      })
+    }
+
+    await loadCalls(authUser)
+  }
+
+  // ── CALLS LIST ────────────────────────────────────────────────────────
+  async function loadCalls(user) {
+    const u = user || authUser
+    const res = await apiFetch(`/calls?member_id=eq.${u.id}&order=scheduled_at.asc`)
+    const calls = res.ok ? await res.json() : []
+
+    const now = new Date()
+    const upcoming = calls.filter(c => c.status !== 'cancelled' && new Date(c.scheduled_at) >= now)
+    const past     = calls.filter(c => c.status !== 'cancelled' && new Date(c.scheduled_at) < now).reverse()
+
+    renderCallList('upcoming-list', upcoming, true)
+    renderCallList('past-list', past, false)
+  }
+
+  function renderCallList(elId, calls, showCancel) {
+    const el = document.getElementById(elId)
+    if (calls.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">${showCancel ? '📭' : '📋'}</div><div class="empty-text">${showCancel ? 'No upcoming calls yet.' : 'No past calls yet.'}</div></div>`
+      return
+    }
+
+    el.innerHTML = calls.slice(0, 6).map(c => {
+      const d = new Date(c.scheduled_at)
+      const end = new Date(d.getTime() + (c.duration_minutes||60)*60000)
+      const dayFull = d.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'short' })
+      const t1 = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: userTZ })
+      const t2 = end.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: userTZ })
+
+      let badgeHtml = ''
+      if (c.status === 'pending')    badgeHtml = '<span class="call-badge badge-pending">Awaiting approval</span>'
+      else if (c.status === 'confirmed' && c.is_recurring) badgeHtml = '<span class="call-badge badge-recurring">🔁 Weekly</span>'
+      else if (c.status === 'confirmed') badgeHtml = '<span class="call-badge badge-confirmed">Confirmed</span>'
+      else if (c.status === 'declined') badgeHtml = '<span class="call-badge badge-cancelled">Declined</span>'
+
+      const now = new Date()
+      const hoursUntil = (d - now) / 3600000
+      const canCancel = showCancel && c.status !== 'cancelled' && hoursUntil > 24
+      const tooSoon   = showCancel && c.status !== 'cancelled' && hoursUntil > 0 && hoursUntil <= 24
+
+      let cancelHtml = ''
+      if (canCancel) {
+        cancelHtml = `<button class="cancel-btn" onclick="openCancelModal('${c.id}', '${dayFull}', ${c.is_recurring === true})">Cancel</button>`
+      } else if (tooSoon) {
+        cancelHtml = `<button class="cancel-btn" disabled title="Cannot cancel within 24 hours of the call">< 24h</button>`
+      }
+
+      const jitsi = c.jitsi_room ? `https://meet.jit.si/${c.jitsi_room}` : null
+      const joinBtn = (c.status === 'confirmed' && showCancel && hoursUntil <= 0.5 && jitsi)
+        ? `<a href="${jitsi}" target="_blank" class="call-badge badge-confirmed" style="text-decoration:none; background:var(--teal); color:var(--navy);">Join 🎥</a>`
+        : ''
+
+      return `
+        <div class="call-item">
+          <div class="call-dot ${c.status === 'pending' ? 'pending' : (showCancel ? '' : 'past')}"></div>
+          <div class="call-info">
+            <div class="call-date">${dayFull}</div>
+            <div class="call-time">${t1}–${t2} · your time${c.is_recurring ? ' · every week' : ''}</div>
+          </div>
+          ${badgeHtml}
+          ${joinBtn}
+          ${cancelHtml}
+        </div>`
+    }).join('')
+  }
+
+  // ── CANCEL FLOW ───────────────────────────────────────────────────────
+  function openCancelModal(callId, dayStr, isRecurring) {
+    cancelCallId = callId
+    const confirmBtn = document.getElementById('cancel-confirm-btn')
+    if (isRecurring) {
+      document.getElementById('cancel-modal-body').innerHTML = `
+        This is a <strong>weekly recurring</strong> call. Cancel just the call on <strong>${dayStr}</strong>, or stop all future weekly calls?<br><br>
+        <button class="btn" style="background:#fff3cd;color:#856404;border:1.5px solid #f0d060;border-radius:50px;padding:11px 20px;width:100%;margin-bottom:10px;font-weight:700;" onclick="confirmCancel(false)">Cancel this week only</button>
+        <button class="btn" style="background:#dc2626;color:#fff;border-radius:50px;padding:11px 20px;width:100%;font-weight:700;" onclick="confirmCancel(true)">Stop all weekly calls</button>
+      `
+      confirmBtn.style.display = 'none'
+    } else {
+      document.getElementById('cancel-modal-body').innerHTML = `
+        Are you sure you want to cancel the call on <strong>${dayStr}</strong>?<br><br>
+        <span style="font-size:0.8rem; color:var(--text-light);">Your DigiFriend will be notified. You can book a new time afterwards.</span>
+      `
+      confirmBtn.style.display = ''
+    }
+    document.getElementById('cancel-modal-overlay').classList.add('open')
+  }
+
+  function closeCancelModal() {
+    document.getElementById('cancel-modal-overlay').classList.remove('open')
+    cancelCallId = null
+  }
+
+  async function confirmCancel(stopAll) {
+    if (!cancelCallId) return
+    const btn = document.getElementById('cancel-confirm-btn')
+    btn.textContent = 'Cancelling…'
+    btn.disabled = true
+
+    // stopAll: is_recurring=false stops the weekly series — no future calls are auto-created
+    const patch = { status: 'cancelled', cancelled_at: new Date().toISOString(), cancelled_by: 'member' }
+    if (stopAll) patch.is_recurring = false
+
+    const res = await apiFetch(`/calls?id=eq.${cancelCallId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(patch)
+    })
+
+    btn.textContent = 'Yes, cancel'
+    btn.disabled = false
+    closeCancelModal()
+
+    if (res.ok) {
+      // Notify both parties
+      const cancelled = await apiFetch(`/calls?id=eq.${cancelCallId}`).then(r => r.json()).catch(() => [])
+      const call = cancelled[0]
+      if (call) {
+        const d = new Date(call.scheduled_at)
+        const emailData = {
+          date_str: d.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' }),
+          time_str: d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: userTZ }),
+          cancelled_by: 'member'
+        }
+        // Notify DF
+        if (dfRecord?.email) sendEmail(dfRecord.email, 'booking_cancelled', emailData)
+        // Notify member (self)
+        sendEmail(authUser.email, 'booking_cancelled', emailData)
+      }
+      await loadCalls(authUser)
+    } else {
+      alert('Could not cancel. Please try again.')
+    }
+  }
+
+  // ── EMAIL HELPER ──────────────────────────────────────────────────────
+  function sendEmail(to, type, data) {
+    fetch('https://ciomvjbqilosttyotmcg.supabase.co/functions/v1/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken || SUPABASE_ANON}` },
+      body: JSON.stringify({ to, type, data })
+    }).catch(() => {}) // fire-and-forget, non-blocking
+  }
+
+  // ── MENU ─────────────────────────────────────────────────────────────
+  function toggleMenu() {
+    const m = document.getElementById('user-menu')
+    m.style.display = m.style.display === 'none' ? 'block' : 'none'
+  }
+  document.addEventListener('click', e => {
+    const m = document.getElementById('user-menu')
+    const b = document.getElementById('avatar-btn')
+    if (m && !m.contains(e.target) && e.target !== b) m.style.display = 'none'
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,1312 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DigiFriend — Real friendship, across borders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #1a2744;
+      --navy-mid:  #243258;
+      --teal:      #00c9a7;
+      --teal-dark: #00a88c;
+      --teal-light:#e6faf7;
+      --white:     #ffffff;
+      --cream:     #f8f6f1;
+      --off-white: #f4f6fb;
+      --gray-100:  #eef0f5;
+      --gray-200:  #dde2ee;
+      --text:      #1a2744;
+      --text-mid:  #4a5a7a;
+      --text-light:#8a98b8;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; }
+
+    /* ──────────────────────────────────────
+       HERO
+    ────────────────────────────────────── */
+    .hero {
+      background: var(--navy);
+      padding: 100px 48px 88px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
+      align-items: end;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 22px;
+    }
+
+    .hero-h1 {
+      font-size: clamp(3.2rem, 5.5vw, 5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      margin-bottom: 26px;
+    }
+
+    .hero-p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,201,167,0.25); }
+
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 50px;
+      border: 1.5px solid rgba(255,255,255,0.18);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      display: inline-flex; align-items: center;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+    .btn-dark {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-dark:hover { background: var(--navy-mid); transform: translateY(-1px); }
+
+    /* Hero right — live proof strip */
+    .hero-proof {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .proof-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .proof-card-accent {
+      background: rgba(0,201,167,0.06);
+      border-color: rgba(0,201,167,0.15);
+    }
+
+    .proof-flag {
+      width: 32px;
+      height: 24px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .proof-flag-placeholder {
+      width: 32px; height: 24px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; font-weight: 800; color: var(--white);
+    }
+
+    .proof-info { flex: 1; }
+    .proof-name { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+    .proof-detail { font-size: 0.75rem; color: rgba(255,255,255,0.38); }
+
+    .proof-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 4px;
+    }
+
+    .badge-teal { background: rgba(0,201,167,0.15); color: var(--teal); }
+    .badge-dim { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.35); }
+
+    /* Hero bottom strip */
+    .hero-strip {
+      max-width: 1100px;
+      margin: 60px auto 0;
+      padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .strip-stat {
+      flex: 1;
+      padding: 0 32px;
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .strip-stat:first-child { padding-left: 0; }
+    .strip-stat:last-child { border-right: none; }
+
+    .strip-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+    .strip-num em { color: var(--teal); font-style: normal; }
+
+    .strip-label { font-size: 0.75rem; color: rgba(255,255,255,0.32); font-weight: 500; }
+
+    /* ──────────────────────────────────────
+       SENIORS
+    ────────────────────────────────────── */
+    .seniors-section {
+      background: var(--cream);
+      padding: 100px 48px;
+    }
+
+    .seniors-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .label-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 18px;
+    }
+
+    .seniors-h2 {
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    .seniors-p {
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .seniors-right {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-top: 8px;
+    }
+
+    .example-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: box-shadow 0.15s;
+    }
+    .example-card:hover { box-shadow: 0 8px 32px rgba(26,39,68,0.07); }
+
+    .example-flag {
+      width: 36px; height: 27px;
+      border-radius: 5px;
+      object-fit: cover;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* CSS flag fallback */
+    .flag-fr { background: linear-gradient(to right, #002395 33.3%, #fff 33.3%, #fff 66.6%, #ED2939 66.6%); }
+    .flag-se { background: #006AA7; position: relative; }
+    .flag-pt { background: linear-gradient(to right, #006600 40%, #FF0000 40%); }
+    .flag-ke { background: #006600; }
+    .flag-ph { background: #0038A8; }
+    .flag-co { background: linear-gradient(to bottom, #FCD116 33.3%, #003087 33.3%, #003087 66.6%, #CE1126 66.6%); }
+
+    .example-text h4 { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 5px; letter-spacing: -0.01em; }
+    .example-text p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.6; }
+
+    .retirement-box {
+      background: var(--navy);
+      border-radius: 16px;
+      padding: 22px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .retirement-box-icon {
+      width: 36px; height: 36px;
+      background: rgba(0,201,167,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .retirement-box h4 { font-size: 0.875rem; font-weight: 700; color: var(--white); margin-bottom: 5px; }
+    .retirement-box p { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+    /* ──────────────────────────────────────
+       STATEMENT BANNER
+    ────────────────────────────────────── */
+    .statement-section {
+      background: var(--white);
+      padding: 80px 48px;
+      border-top: 1px solid var(--gray-100);
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .statement-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .statement-inner p {
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 600;
+      line-height: 1.55;
+      letter-spacing: -0.02em;
+      color: var(--text-light);
+    }
+
+    .statement-inner p strong { color: var(--text); font-weight: 800; }
+
+    /* ──────────────────────────────────────
+       HOW IT WORKS
+    ────────────────────────────────────── */
+    .how-section { background: var(--off-white); padding: 100px 48px; }
+
+    .how-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .how-sticky { position: sticky; top: 88px; }
+
+    .section-h2 {
+      font-size: clamp(1.9rem, 3vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    .section-h2-light { color: var(--white); }
+
+    .section-p { font-size: 0.975rem; color: var(--text-mid); line-height: 1.8; }
+    .section-p-light { color: rgba(255,255,255,0.5); }
+
+    .steps { display: flex; flex-direction: column; }
+
+    .step {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .step:last-child { border-bottom: none; }
+
+    .step-n { font-size: 0.68rem; font-weight: 800; color: var(--teal-dark); letter-spacing: 0.1em; padding-top: 3px; }
+
+    .step h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 7px; letter-spacing: -0.01em; }
+    .step p { font-size: 0.85rem; color: var(--text-mid); line-height: 1.65; }
+
+    /* ──────────────────────────────────────
+       SEGMENTS
+    ────────────────────────────────────── */
+    .segments-section { background: var(--navy); padding: 100px 48px; }
+
+    .segments-inner { max-width: 1100px; margin: 0 auto; }
+
+    .segments-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      margin-bottom: 52px;
+    }
+
+    .label-tag-light {
+      display: inline-block;
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(0,201,167,0.7);
+      margin-bottom: 18px;
+    }
+
+    .segments-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .seg {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 24px 20px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .seg:hover { border-color: rgba(0,201,167,0.2); background: rgba(0,201,167,0.04); }
+
+    .seg-icon { font-size: 1.4rem; margin-bottom: 14px; display: block; line-height: 1; }
+    .seg h3 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 8px; letter-spacing: -0.01em; }
+    .seg p { font-size: 0.78rem; color: rgba(255,255,255,0.38); line-height: 1.65; }
+
+    /* ──────────────────────────────────────
+       TESTIMONIALS
+    ────────────────────────────────────── */
+    .testimonials-section { background: var(--white); padding: 100px 48px; }
+
+    .testi-inner { max-width: 1100px; margin: 0 auto; }
+
+    .testi-head {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      margin-bottom: 52px;
+    }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .testi-card {
+      background: var(--off-white);
+      border-radius: 20px;
+      padding: 32px;
+    }
+
+    .testi-card.hero-testi {
+      background: var(--navy);
+      grid-row: span 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .testi-card.hero-testi .testi-text { flex: 1; }
+
+    .testi-qmark {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 3.5rem;
+      line-height: 0.7;
+      color: var(--teal);
+      margin-bottom: 22px;
+      display: block;
+      opacity: 0.7;
+    }
+
+    .testi-text { font-size: 0.975rem; line-height: 1.75; color: var(--text); margin-bottom: 24px; }
+    .testi-card.hero-testi .testi-text { color: rgba(255,255,255,0.8); font-size: 1.05rem; }
+
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+
+    .testi-av {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 800; color: var(--white);
+      flex-shrink: 0;
+    }
+
+    .av-red { background: #c0392b; }
+    .av-blue { background: #2471a3; }
+    .av-purple { background: #7d3c98; }
+
+    .testi-name { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+    .testi-card.hero-testi .testi-name { color: var(--white); }
+    .testi-since { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; }
+    .testi-card.hero-testi .testi-since { color: rgba(255,255,255,0.35); }
+
+    /* ──────────────────────────────────────
+       DIGIFRIENDS
+    ────────────────────────────────────── */
+    .friends-section { background: var(--cream); padding: 100px 48px; }
+
+    .friends-inner { max-width: 1100px; margin: 0 auto; }
+
+    .friends-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 44px;
+    }
+
+    .friends-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    .fc {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .fc:hover { box-shadow: 0 16px 48px rgba(26,39,68,0.1); transform: translateY(-3px); }
+
+    .fc-photo {
+      height: 156px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .fc-photo-1 { background: linear-gradient(150deg, #0d2244 0%, #0a5e4e 100%); }
+    .fc-photo-2 { background: linear-gradient(150deg, #0d1f3c 0%, #0d3535 100%); }
+    .fc-photo-3 { background: linear-gradient(150deg, #1e0a30 0%, #3a0a4e 100%); }
+
+    .fc-initial {
+      font-size: 3.8rem; font-weight: 800;
+      color: rgba(255,255,255,0.12);
+      letter-spacing: -0.05em;
+      user-select: none;
+    }
+
+    .fc-country {
+      position: absolute; bottom: 10px; right: 10px;
+      background: rgba(255,255,255,0.94);
+      border-radius: 50px;
+      padding: 4px 10px;
+      display: flex; align-items: center; gap: 7px;
+      font-size: 0.7rem; font-weight: 700; color: var(--navy);
+    }
+
+    .fc-country-flag {
+      width: 20px; height: 15px;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+
+    .fc-country-flag-css {
+      width: 20px; height: 15px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .fc-verified {
+      position: absolute; bottom: 10px; left: 10px;
+      background: var(--teal);
+      color: var(--navy);
+      font-size: 0.58rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .fc-body { padding: 18px 20px 20px; }
+
+    .fc-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    .fc-name { font-size: 1.05rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+    .fc-rating { font-size: 0.75rem; color: var(--text-light); display: flex; align-items: center; gap: 3px; }
+    .fc-star { color: #e8a010; }
+
+    .fc-loc { font-size: 0.75rem; color: var(--text-light); margin-bottom: 12px; }
+    .fc-quote { font-size: 0.82rem; color: var(--text-mid); line-height: 1.65; margin-bottom: 14px; font-style: italic; }
+    .fc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .fc-tag {
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 50px;
+    }
+
+    /* ──────────────────────────────────────
+       SAFETY
+    ────────────────────────────────────── */
+    .safety-section { background: var(--navy); padding: 100px 48px; }
+
+    .safety-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .safety-statement {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+    }
+    .safety-statement strong { color: var(--white); }
+
+    .safety-list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+
+    .safety-item { display: flex; align-items: flex-start; gap: 14px; }
+
+    .safety-check {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(0,201,167,0.1);
+      border: 1px solid rgba(0,201,167,0.2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+      color: var(--teal); font-size: 0.6rem; font-weight: 900;
+    }
+
+    .safety-text { font-size: 0.875rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+    .safety-text strong { color: rgba(255,255,255,0.88); font-weight: 600; }
+
+    /* ──────────────────────────────────────
+       BECOME
+    ────────────────────────────────────── */
+    .become-section { background: var(--white); padding: 100px 48px; }
+
+    .become-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .become-right {
+      background: var(--navy);
+      border-radius: 22px;
+      padding: 44px;
+    }
+
+    .become-steps { display: flex; flex-direction: column; gap: 22px; margin-top: 28px; }
+
+    .become-step { display: flex; gap: 14px; }
+    .become-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 7px; }
+    .become-step-copy { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
+    .become-step-copy strong { color: var(--white); font-weight: 600; display: block; margin-bottom: 2px; }
+
+    /* ──────────────────────────────────────
+       BOTTOM CTA
+    ────────────────────────────────────── */
+    .cta-section { background: var(--teal); padding: 96px 48px; text-align: center; }
+
+    .cta-section h2 {
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      margin-bottom: 18px;
+    }
+
+    .cta-section p {
+      font-size: 1.05rem;
+      color: rgba(26,39,68,0.55);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 420px;
+      margin-left: auto; margin-right: auto;
+    }
+
+    /* ──────────────────────────────────────
+       FOOTER
+    ────────────────────────────────────── */
+    footer { background: #10192e; padding: 60px 48px 32px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 28px;
+    }
+
+    .footer-logo { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .footer-logo .d { color: var(--white); }
+    .footer-logo .f { color: var(--teal); }
+
+    .footer-tag { font-size: 0.78rem; color: rgba(255,255,255,0.22); line-height: 1.7; max-width: 190px; }
+
+    .footer-col-h { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 16px; }
+
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 0.85rem; color: rgba(255,255,255,0.3); transition: color 0.15s; }
+    .footer-col a:hover { color: rgba(255,255,255,0.7); }
+
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-legal { font-size: 0.7rem; color: rgba(255,255,255,0.15); max-width: 580px; line-height: 1.6; }
+    .footer-copy { font-size: 0.7rem; color: rgba(255,255,255,0.15); }
+
+    /* ──────────────────────────────────────
+       RESPONSIVE
+    ────────────────────────────────────── */
+    @media (max-width: 960px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 118px 24px 72px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-proof { display: none; }
+      .hero-strip { flex-wrap: wrap; gap: 24px; }
+      .strip-stat { border-right: none; padding: 0; flex: none; min-width: 130px; }
+      .seniors-section, .how-section, .segments-section, .testimonials-section, .friends-section, .safety-section, .become-section, .cta-section { padding: 72px 24px; }
+      .statement-section { padding: 60px 24px; }
+      .seniors-inner { grid-template-columns: 1fr; gap: 44px; }
+      .how-inner { grid-template-columns: 1fr; gap: 44px; }
+      .how-sticky { position: static; }
+      .segments-top { grid-template-columns: 1fr; gap: 20px; }
+      .segments-grid { grid-template-columns: 1fr 1fr; }
+      .testi-head { grid-template-columns: 1fr; gap: 20px; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .testi-card.hero-testi { grid-row: span 1; }
+      .friends-top { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .friends-grid { grid-template-columns: 1fr 1fr; }
+      .safety-inner { grid-template-columns: 1fr; gap: 44px; }
+      .become-inner { grid-template-columns: 1fr; gap: 44px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 90px 20px 56px; }
+      .hero-h1 { font-size: 2.4rem; letter-spacing: -0.03em; }
+      .hero-p { font-size: 1rem; margin-bottom: 32px; }
+      .hero-btns { flex-direction: column; gap: 10px; }
+      .hero-btns a, .hero-btns button { width: 100%; justify-content: center; }
+      /* Højere primær CTA på mobil (~+8%) — mere prominent, bedre klikflade */
+      .hero-btns .btn-primary { padding-top: 16px; padding-bottom: 16px; }
+      .hero-strip { gap: 16px; }
+      .strip-stat { min-width: 100px; }
+      .strip-num { font-size: 1.6rem; }
+      .segments-grid { grid-template-columns: 1fr; }
+      .friends-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .statement-inner p { font-size: 1.2rem; }
+      .seniors-section, .how-section, .segments-section, .testimonials-section, .friends-section, .safety-section, .become-section, .cta-section { padding: 56px 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="logo-mark">
+    <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+    <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+  </a>
+      <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="nav-login">Log in</a>
+    <a href="signup.html" class="btn btn-teal" style="padding:10px 20px; font-size:0.85rem;">Get started</a>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-nav" id="mobile-nav" style="display:none;">
+      <ul class="mobile-nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+  <div class="mobile-nav-cta">
+    <a href="login.html" class="btn btn-outline-white btn-block">Log in</a>
+    <a href="signup.html" class="btn btn-teal btn-block">Get started free</a>
+  </div>
+</div>
+<script src="nav.js"></script>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-label">Human connection — delivered weekly</div>
+      <h1 class="hero-h1">One real conversation.<br>Every single week.</h1>
+      <p class="hero-p">We match you with a verified person from another part of the world for a private 60-minute video call — same friend, every week. Not therapy. Not dating. Just genuine human connection.</p>
+      <div class="hero-btns">
+        <a href="signup.html" class="btn-primary">Find my DigiFriend</a>
+        <a href="login.html" class="btn-ghost">Log in</a>
+      </div>
+    </div>
+
+    <div class="hero-proof">
+      <div class="proof-card proof-card-accent">
+        <img src="https://flagcdn.com/w40/ke.png" alt="Kenya" class="proof-flag" onerror="this.style.display='none'">
+        <div class="proof-info">
+          <div class="proof-name">James, 32 · Nairobi</div>
+          <div class="proof-detail">English, Swahili · Deep talks</div>
+        </div>
+        <span class="proof-badge badge-teal">Available</span>
+      </div>
+      <div class="proof-card">
+        <img src="https://flagcdn.com/w40/ph.png" alt="Philippines" class="proof-flag" onerror="this.style.display='none'">
+        <div class="proof-info">
+          <div class="proof-name">Maria, 28 · Cebu City</div>
+          <div class="proof-detail">English · Culture & cooking</div>
+        </div>
+        <span class="proof-badge badge-teal">Available</span>
+      </div>
+      <div class="proof-card">
+        <img src="https://flagcdn.com/w40/co.png" alt="Colombia" class="proof-flag" onerror="this.style.display='none'">
+        <div class="proof-info">
+          <div class="proof-name">Valentina, 25 · Medellín</div>
+          <div class="proof-detail">English, Spanish · Humor</div>
+        </div>
+        <span class="proof-badge badge-teal">Available</span>
+      </div>
+      <div class="proof-card">
+        <img src="https://flagcdn.com/w40/ma.png" alt="Morocco" class="proof-flag" onerror="this.style.display='none'">
+        <div class="proof-info">
+          <div class="proof-name">Yasmine, 29 · Casablanca</div>
+          <div class="proof-detail">French, Arabic, English</div>
+        </div>
+        <span class="proof-badge badge-dim">1 spot left</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-strip">
+    <div class="strip-stat">
+      <div class="strip-num"><span class="countup" data-target="3200" data-suffix="+">3,200+</span></div>
+      <div class="strip-label">Calls this month</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num"><span class="countup" data-target="58">58</span></div>
+      <div class="strip-label">Countries represented</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num"><span class="countup" data-target="4.9" data-decimals="1" data-suffix="/5">4.9/5</span></div>
+      <div class="strip-label">Average member rating</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num">Free</div>
+      <div class="strip-label">14-day trial, then from $100/mo</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="how-section" id="how-it-works">
+  <div class="how-inner">
+    <div class="how-sticky">
+      <div class="label-tag">How it works</div>
+      <h2 class="section-h2">Simple by design.</h2>
+      <p class="section-p">From signing up to your first conversation in under 48 hours. No complicated algorithm you never see. No endless swiping.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div>
+          <h3>Tell us about yourself</h3>
+          <p>Five minutes. Your interests, your timezone, what kind of conversations you're looking for. That's it.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div>
+          <h3>Browse or be matched</h3>
+          <p>We suggest someone right for you, or you pick one yourself from our verified list. Every person is manually approved before they appear.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div>
+          <h3>Book a weekly time</h3>
+          <p>Pick a slot that works for both of you. You'll get a reminder and a private video link before each call.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div>
+          <h3>Show up and talk</h3>
+          <p>Same person. Same time. Every week. That consistency is what turns a conversation into something that actually matters.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATEMENT BANNER ── -->
+<section class="statement-section">
+  <div class="statement-inner">
+    <p>You're not paying for a video call.<br><strong>You're paying for a person who shows up.</strong></p>
+  </div>
+</section>
+
+<!-- ── SENIORS ── -->
+<section class="seniors-section" id="seniors">
+  <div class="seniors-inner">
+    <div>
+      <div class="label-tag">⭐ Where we start</div>
+      <h2 class="seniors-h2">For anyone who misses having someone to talk to.</h2>
+      <p class="seniors-p">Loneliness isn't a minor inconvenience. For older adults living alone, it can feel like a permanent condition — one that a phone call from a busy child doesn't fix.</p>
+      <p class="seniors-p">DigiFriend gives you a warm, verified person who shows up every week at the same time. Who asks how you're doing and actually listens. Who remembers your stories. A real weekly conversation with someone who's genuinely glad to hear from you.</p>
+      <a href="signup.html" class="btn-primary" style="margin-top: 12px;">Find a companion</a>
+    </div>
+
+    <div class="seniors-right">
+      <div class="example-card">
+        <img src="https://flagcdn.com/w40/fr.png" alt="France" class="example-flag" onerror="this.style.cssText+='display:none'">
+        <div class="example-text">
+          <h4>A gentleman from Paris talks about his city</h4>
+          <p>The cafés, the seasons, the little corner of the 7th he has lived in for forty years. An hour that feels like an afternoon.</p>
+        </div>
+      </div>
+      <div class="example-card">
+        <img src="https://flagcdn.com/w40/se.png" alt="Sweden" class="example-flag" onerror="this.style.cssText+='display:none'">
+        <div class="example-text">
+          <h4>A woman from Stockholm who laughs easily</h4>
+          <p>She asks about your grandchildren, remembers the answers, and tells you something interesting every single week.</p>
+        </div>
+      </div>
+      <div class="example-card">
+        <img src="https://flagcdn.com/w40/pt.png" alt="Portugal" class="example-flag" onerror="this.style.cssText+='display:none'">
+        <div class="example-text">
+          <h4>A retiree from Lisbon who loves a good story</h4>
+          <p>Warm, unhurried, curious. The kind of conversation that makes you feel less alone in the world.</p>
+        </div>
+      </div>
+      <div class="retirement-box">
+        <div class="retirement-box-icon">🏠</div>
+        <div>
+          <h4>Partnering with retirement communities</h4>
+          <p>We offer introductory group sessions for senior living facilities — free calls with international guests. Contact us to arrange one for your residents.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SEGMENTS ── -->
+<section class="segments-section">
+  <div class="segments-inner">
+    <div class="segments-top">
+      <div>
+        <div class="label-tag-light">Every reason to connect</div>
+        <h2 class="section-h2 section-h2-light" style="margin-bottom:0;">Whatever brings you here,<br>there's someone for it.</h2>
+      </div>
+      <p class="section-p section-p-light">People come to DigiFriend for different reasons. We have built for all of them.</p>
+    </div>
+    <div class="segments-grid">
+      <div class="seg">
+        <span class="seg-icon">🧓</span>
+        <h3>Companionship for seniors</h3>
+        <p>A reliable, warm presence every week. Someone who remembers your stories and looks forward to talking with you.</p>
+      </div>
+      <div class="seg">
+        <span class="seg-icon">🌍</span>
+        <h3>Culture & travel</h3>
+        <p>Talk to a local before you visit. Or just because you're curious. Real insight that no travel blog can give you.</p>
+      </div>
+      <div class="seg">
+        <span class="seg-icon">🗣️</span>
+        <h3>Language practice</h3>
+        <p>Practice English, Spanish, French or Arabic in a relaxed, natural setting with a native speaker.</p>
+      </div>
+      <div class="seg">
+        <span class="seg-icon">💼</span>
+        <h3>Mentorship & careers</h3>
+        <p>Access experienced professionals you'd never normally get a meeting with. Ask the questions that matter.</p>
+      </div>
+      <div class="seg">
+        <span class="seg-icon">🎮</span>
+        <h3>Shared interests</h3>
+        <p>Connect with someone who loves what you love — Pokémon, football, film, fitness. Shared interest makes conversation easy.</p>
+      </div>
+      <div class="seg">
+        <span class="seg-icon">✈️</span>
+        <h3>Expats & remote workers</h3>
+        <p>Living abroad or working from home can be isolating. A weekly call with someone genuinely interested in your world changes that.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials-section">
+  <div class="testi-inner">
+    <div class="testi-head">
+      <div>
+        <div class="label-tag">What members say</div>
+        <h2 class="section-h2">They didn't expect<br>it to matter this much.</h2>
+      </div>
+      <p class="section-p">We won't tell you it changes everything. We'll let the people who've tried it do that.</p>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi-card hero-testi">
+        <span class="testi-qmark">"</span>
+        <p class="testi-text">My husband passed away three years ago and the house got very quiet. My daughter set this up for me. Every Thursday at 2 o'clock I talk to a lovely woman from Nairobi called Grace. She tells me about her children and her garden and she always asks about mine. I look forward to it all week. It sounds small but it's not small at all.</p>
+        <div class="testi-author">
+          <div class="testi-av av-red">DH</div>
+          <div>
+            <div class="testi-name">Dorothy H., 74</div>
+            <div class="testi-since">Edinburgh, Scotland · member since Nov 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div class="testi-card">
+          <span class="testi-qmark" style="font-size:2.5rem;margin-bottom:14px;">"</span>
+          <p class="testi-text">I work from home in Oslo and my week felt like one long blur. Tuesday afternoons with James changed that. He remembered my sister was getting married and asked about it the next call. That kind of thing means a lot.</p>
+          <div class="testi-author">
+            <div class="testi-av av-blue">IG</div>
+            <div>
+              <div class="testi-name">Ingrid G., 34</div>
+              <div class="testi-since">Oslo, Norway · member since Jan 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <span class="testi-qmark" style="font-size:2.5rem;margin-bottom:14px;">"</span>
+          <p class="testi-text">I was skeptical about paying for a friendship. Three months later I'd say it's the best £99 I spend all month. It's the only thing in my calendar that never moves.</p>
+          <div class="testi-author">
+            <div class="testi-av av-purple">CL</div>
+            <div>
+              <div class="testi-name">Claire L., 41</div>
+              <div class="testi-since">London, UK · member since March 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MEET DIGIFRIENDS ── -->
+<section class="friends-section">
+  <div class="friends-inner">
+    <div class="friends-top">
+      <div>
+        <div class="label-tag">Meet some DigiFriends</div>
+        <h2 class="section-h2" style="margin-bottom:0;">Verified. Real. Ready.</h2>
+      </div>
+      <a href="signup.html" class="btn-dark">Get started</a>
+    </div>
+
+    <div class="friends-grid">
+      <div class="fc">
+        <div class="fc-photo fc-photo-1">
+          <div class="fc-initial">M</div>
+          <div class="fc-verified">Verified</div>
+          <div class="fc-country">
+            <img src="https://flagcdn.com/w40/ph.png" alt="Philippines" class="fc-country-flag" onerror="this.style.display='none'">
+            Philippines
+          </div>
+        </div>
+        <div class="fc-body">
+          <div class="fc-meta">
+            <div class="fc-name">Maria, 28</div>
+            <div class="fc-rating"><span class="fc-star">★</span> 4.9 · 38 calls</div>
+          </div>
+          <div class="fc-loc">Cebu City · English, Filipino</div>
+          <p class="fc-quote">"I love sharing what daily life is actually like here — the food, the chaos, the warmth. I'm a good listener and I ask too many questions."</p>
+          <div class="fc-tags">
+            <span class="fc-tag">Culture</span>
+            <span class="fc-tag">Cooking</span>
+            <span class="fc-tag">Calm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fc">
+        <div class="fc-photo fc-photo-2">
+          <div class="fc-initial">J</div>
+          <div class="fc-verified">Verified</div>
+          <div class="fc-country">
+            <img src="https://flagcdn.com/w40/ke.png" alt="Kenya" class="fc-country-flag" onerror="this.style.display='none'">
+            Kenya
+          </div>
+        </div>
+        <div class="fc-body">
+          <div class="fc-meta">
+            <div class="fc-name">James, 32</div>
+            <div class="fc-rating"><span class="fc-star">★</span> 4.8 · 52 calls</div>
+          </div>
+          <div class="fc-loc">Nairobi · English, Swahili</div>
+          <p class="fc-quote">"I'm curious about everything — technology, philosophy, what people are actually thinking. I like conversations that go somewhere unexpected."</p>
+          <div class="fc-tags">
+            <span class="fc-tag">Deep talks</span>
+            <span class="fc-tag">Books</span>
+            <span class="fc-tag">Witty</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fc">
+        <div class="fc-photo fc-photo-3">
+          <div class="fc-initial">V</div>
+          <div class="fc-verified">Verified</div>
+          <div class="fc-country">
+            <img src="https://flagcdn.com/w40/co.png" alt="Colombia" class="fc-country-flag" onerror="this.style.display='none'">
+            Colombia
+          </div>
+        </div>
+        <div class="fc-body">
+          <div class="fc-meta">
+            <div class="fc-name">Valentina, 25</div>
+            <div class="fc-rating"><span class="fc-star">★</span> 4.9 · 29 calls</div>
+          </div>
+          <div class="fc-loc">Medellín · English, Spanish</div>
+          <p class="fc-quote">"People say I make them laugh. I want to hear about your week, your work, your weird Tuesday. Everything is interesting if you ask the right questions."</p>
+          <div class="fc-tags">
+            <span class="fc-tag">Music</span>
+            <span class="fc-tag">Humor</span>
+            <span class="fc-tag">Energetic</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SAFETY ── -->
+<section class="safety-section">
+  <div class="safety-inner">
+    <div>
+      <div class="label-tag-light">Safety & trust</div>
+      <p class="safety-statement">
+        <strong>DigiFriend is for conversation and cultural exchange.</strong>
+        Not therapy. Not dating. Not a marketplace. Our rules are short, clear and strictly enforced.
+      </p>
+    </div>
+    <ul class="safety-list">
+      <li class="safety-item">
+        <div class="safety-check">✓</div>
+        <div class="safety-text"><strong>Every DigiFriend is manually approved</strong> — no one appears until our team has reviewed them.</div>
+      </li>
+      <li class="safety-item">
+        <div class="safety-check">✓</div>
+        <div class="safety-text"><strong>Private, time-limited video rooms</strong> — each call has a unique link that expires after the session.</div>
+      </li>
+      <li class="safety-item">
+        <div class="safety-check">✓</div>
+        <div class="safety-text"><strong>Zero tolerance for romantic content</strong> — violations result in immediate removal from the platform.</div>
+      </li>
+      <li class="safety-item">
+        <div class="safety-check">✓</div>
+        <div class="safety-text"><strong>Human moderation, not bots</strong> — every report is reviewed by a real person within 24 hours.</div>
+      </li>
+      <li class="safety-item">
+        <div class="safety-check">✓</div>
+        <div class="safety-text"><strong>18+ only</strong> — age is verified during signup and monitored by our team.</div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── BECOME ── -->
+<section class="become-section">
+  <div class="become-inner">
+    <div>
+      <div class="label-tag">For DigiFriends</div>
+      <h2 class="section-h2">Friendly, curious<br>and reliable?</h2>
+      <p class="section-p">If you love talking to people from different parts of the world and you can show up consistently every week — we'd like to meet you.</p>
+      <a href="become.html" class="btn-dark" style="margin-top:28px;">Apply as a DigiFriend →</a>
+    </div>
+    <div class="become-right">
+      <div class="label-tag-light">What happens after you apply</div>
+      <div class="become-steps">
+        <div class="become-step">
+          <div class="become-dot"></div>
+          <div class="become-step-copy">
+            <strong>Fill in the application</strong>
+            Your languages, interests, weekly availability. Takes about 10 minutes.
+          </div>
+        </div>
+        <div class="become-step">
+          <div class="become-dot"></div>
+          <div class="become-step-copy">
+            <strong>We review your profile</strong>
+            Every application is read by a real person. You'll hear back within a few days.
+          </div>
+        </div>
+        <div class="become-step">
+          <div class="become-dot"></div>
+          <div class="become-step-copy">
+            <strong>Your profile goes live</strong>
+            Once approved, members can find you, browse your profile and request you.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <h2>Your next good conversation<br>is one click away.</h2>
+  <p>Thousands of people across 58 countries are already having their weekly call. Yours is waiting.</p>
+  <a href="signup.html" class="btn-dark" style="font-size:1rem; padding:16px 40px;">Get started →</a>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo"><span class="d">Digi</span><span class="f">Friend</span></div>
+        <p class="footer-tag">Weekly human connection from another part of the world.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-h">Platform</div>
+        <ul>
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="signup.html">Sign up</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-h">DigiFriends</div>
+        <ul>
+          <li><a href="become.html">Apply now</a></li>
+          <li><a href="community-guidelines.html">Guidelines</a></li>
+          <li><a href="pricing.html#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-h">Company</div>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="safety.html">Safety</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="terms.html">Terms of service</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-legal">DigiFriend is a conversation and cultural exchange platform for adults 18+. It is not a therapy service, dating app, or emergency support line. All DigiFriends are independent conversation partners.</p>
+      <div class="footer-copy">© 2026 DigiFriend</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  function animateCount(el) {
+    const target  = parseFloat(el.dataset.target)
+    const decimals = parseInt(el.dataset.decimals || '0')
+    const suffix  = el.dataset.suffix || ''
+    const duration = 1400
+    const start = performance.now()
+
+    function format(val) {
+      if (decimals > 0) return val.toFixed(decimals) + suffix
+      return Math.round(val).toLocaleString() + suffix
+    }
+
+    function step(now) {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      const ease = 1 - Math.pow(1 - progress, 3)
+      el.textContent = format(target * ease)
+      if (progress < 1) requestAnimationFrame(step)
+      else el.textContent = format(target)
+    }
+
+    requestAnimationFrame(step)
+  }
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        animateCount(entry.target)
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.5 })
+
+  document.querySelectorAll('.countup').forEach(function(el) {
+    observer.observe(el)
+  })
+})()
+</script>
+
+</body>
+</html>

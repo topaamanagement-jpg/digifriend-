@@ -1,0 +1,806 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Become a DigiFriend — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .become-hero {
+      background: var(--navy);
+      padding: 110px 48px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .become-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,201,167,0.1) 0%, transparent 70%);
+    }
+
+    .become-hero-inner { position: relative; max-width: 680px; margin: 0 auto; }
+
+    .become-hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .become-hero h1 span { color: var(--teal); }
+
+    .become-hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.75;
+      margin-bottom: 40px;
+    }
+
+    .become-hero-steps {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-top: 48px;
+    }
+
+    .hero-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 180px;
+      position: relative;
+    }
+
+    .hero-step::after {
+      content: '→';
+      position: absolute;
+      right: -8px;
+      top: 16px;
+      color: rgba(255,255,255,0.2);
+      font-size: 1rem;
+    }
+
+    .hero-step:last-child::after { display: none; }
+
+    .hero-step-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(0,201,167,0.12);
+      border: 1px solid rgba(0,201,167,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .hero-step-label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* Requirements */
+    .requirements-section {
+      background: var(--off-white);
+      padding: 64px 48px;
+    }
+
+    .req-grid {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .req-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    .req-list {
+      list-style: none;
+    }
+
+    .req-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .req-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .req-x {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #e74c3c;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    /* APPLICATION FORM */
+    .form-section {
+      background: var(--white);
+      padding: 72px 48px;
+    }
+
+    .form-container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .form-container h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .form-container > p {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .form-block {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .form-block:last-of-type { border-bottom: none; }
+
+    .form-block-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 20px;
+    }
+
+    .lang-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .add-lang-btn {
+      background: none;
+      border: 1.5px dashed var(--gray-200);
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      width: 100%;
+      transition: all 0.15s;
+      margin-top: 4px;
+    }
+
+    .add-lang-btn:hover { border-color: var(--teal); color: var(--teal-dark); }
+
+    .avail-day-pill {
+      display: inline-block;
+      padding: 10px 20px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 50px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .avail-day-pill:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .avail-day-pill.selected { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+
+    .avail-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .avail-col { text-align: center; }
+
+    .avail-day-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .avail-checkbox {
+      display: block;
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-light);
+      transition: all 0.15s;
+      margin: 0 auto 6px;
+      user-select: none;
+    }
+
+    .avail-checkbox:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .avail-checkbox.checked { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+
+    .rules-box {
+      background: var(--off-white);
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .rules-box h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .rules-box ul {
+      list-style: none;
+    }
+
+    .rules-box ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .rules-box ul li::before {
+      content: '→';
+      color: var(--text-light);
+      flex-shrink: 0;
+    }
+
+    .agree-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .agree-label input[type="checkbox"] {
+      width: 20px; height: 20px;
+      border-radius: 6px;
+      border: 1.5px solid var(--gray-200);
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: var(--teal);
+    }
+
+    .agree-label span {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    .agree-label a { color: var(--navy); font-weight: 600; }
+
+    .submit-area { margin-top: 36px; text-align: center; }
+
+    .submit-note {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 960px) {
+      .become-hero { padding: 88px 24px 48px; }
+      .requirements-section { padding: 48px 24px; }
+      .req-grid { grid-template-columns: 1fr; }
+      .form-section { padding: 48px 24px; }
+      .avail-grid { grid-template-columns: repeat(4, 1fr); }
+      .become-hero-steps { gap: 8px; }
+    }
+
+    @media (max-width: 600px) {
+      .lang-row { grid-template-columns: 1fr; }
+      .avail-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body class="page-body">
+
+  <nav>
+    <a href="index.html" class="logo-mark">
+      <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+      <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+    </a>
+        <ul class="nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="index.html#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html" class="active">Become a DigiFriend</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log in</a>
+      <a href="signup.html" class="btn btn-teal">Sign up</a>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav" style="display:none;">
+        <ul class="mobile-nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="index.html#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html" class="active">Become a DigiFriend</a></li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <a href="login.html" class="btn btn-outline-white btn-block">Log in</a>
+      <a href="signup.html" class="btn btn-teal btn-block">Sign up</a>
+    </div>
+  </div>
+  <script src="nav.js"></script>
+
+  <!-- HERO -->
+  <div class="become-hero">
+    <div class="become-hero-inner">
+      <div class="section-tag" style="color:rgba(0,201,167,0.8); display:block; margin-bottom:14px;">For DigiFriends</div>
+      <h1>Want to be a <span>DigiFriend?</span></h1>
+      <p>If you're friendly, curious and reliable — and you love talking to people from around the world — we'd love to hear from you. Apply below and we'll review your application within a few days.</p>
+      <a href="#application" class="btn btn-teal btn-lg">Apply now</a>
+
+      <div class="become-hero-steps">
+        <div class="hero-step">
+          <div class="hero-step-num">01</div>
+          <div class="hero-step-label">Fill in your application</div>
+        </div>
+        <div class="hero-step">
+          <div class="hero-step-num">02</div>
+          <div class="hero-step-label">We review your profile</div>
+        </div>
+        <div class="hero-step">
+          <div class="hero-step-num">03</div>
+          <div class="hero-step-label">Get approved</div>
+        </div>
+        <div class="hero-step">
+          <div class="hero-step-num">04</div>
+          <div class="hero-step-label">Start talking to members</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REQUIREMENTS -->
+  <div class="requirements-section">
+    <div class="req-grid">
+      <div>
+        <div class="req-title">What we look for</div>
+        <ul class="req-list">
+          <li><div class="req-dot"></div>You must be 18 or older</li>
+          <li><div class="req-dot"></div>Good spoken English (other languages a bonus)</li>
+          <li><div class="req-dot"></div>Stable internet and a working camera</li>
+          <li><div class="req-dot"></div>Reliable — you show up for your calls</li>
+          <li><div class="req-dot"></div>Warm, curious, and easy to talk to</li>
+          <li><div class="req-dot"></div>Available at least 2 hours per week</li>
+        </ul>
+      </div>
+      <div>
+        <div class="req-title">What this is not</div>
+        <ul class="req-list">
+          <li><div class="req-x"></div>Not a dating platform</li>
+          <li><div class="req-x"></div>Not therapy or emotional support work</li>
+          <li><div class="req-x"></div>Not adult content of any kind</li>
+          <li><div class="req-x"></div>Not a freelance marketplace or gig job</li>
+          <li><div class="req-x"></div>Not a platform for soliciting money or gifts</li>
+        </ul>
+        <div style="background:var(--teal-light); border-radius:14px; padding:16px 18px; margin-top:8px;">
+          <p style="font-size:0.82rem; color:var(--teal-dark); line-height:1.6;">DigiFriend is for genuine, friendly conversation and cultural exchange. Applications that don't meet our standards will not be approved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION FORM -->
+  <div class="form-section" id="application">
+    <div class="form-container">
+      <h2>Your application</h2>
+      <p>Fill in all sections below. Our team reads every application personally before making a decision.</p>
+
+      <form id="apply-form" action="https://formspree.io/f/mdarnaqr" method="POST">
+
+      <!-- PERSONAL INFO -->
+      <div class="form-block">
+        <div class="form-block-title">Personal information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First name</label>
+            <input type="text" name="first_name" placeholder="Your first name" required>
+          </div>
+          <div class="form-group">
+            <label>Last name</label>
+            <input type="text" name="last_name" placeholder="Your last name" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" name="_replyto" placeholder="your@email.com" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date of birth</label>
+            <input type="date" name="date_of_birth">
+            <p class="form-hint">Must be 18 or older.</p>
+          </div>
+          <div class="form-group">
+            <label>Country <span id="df-country-status" style="font-size:0.78rem; color:var(--teal-dark); font-weight:500;"></span></label>
+            <select id="df-country" name="country">
+              <option value="">Select country</option>
+              <option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Andorra</option><option>Angola</option><option>Antigua and Barbuda</option><option>Argentina</option><option>Armenia</option><option>Australia</option><option>Austria</option><option>Azerbaijan</option><option>Bahamas</option><option>Bahrain</option><option>Bangladesh</option><option>Barbados</option><option>Belarus</option><option>Belgium</option><option>Belize</option><option>Benin</option><option>Bhutan</option><option>Bolivia</option><option>Bosnia and Herzegovina</option><option>Botswana</option><option>Brazil</option><option>Brunei</option><option>Bulgaria</option><option>Burkina Faso</option><option>Burundi</option><option>Cabo Verde</option><option>Cambodia</option><option>Cameroon</option><option>Canada</option><option>Central African Republic</option><option>Chad</option><option>Chile</option><option>China</option><option>Colombia</option><option>Comoros</option><option>Congo (Brazzaville)</option><option>Congo (Kinshasa)</option><option>Costa Rica</option><option>Croatia</option><option>Cuba</option><option>Cyprus</option><option>Czech Republic</option><option>Denmark</option><option>Djibouti</option><option>Dominica</option><option>Dominican Republic</option><option>Ecuador</option><option>Egypt</option><option>El Salvador</option><option>Equatorial Guinea</option><option>Eritrea</option><option>Estonia</option><option>Eswatini</option><option>Ethiopia</option><option>Fiji</option><option>Finland</option><option>France</option><option>Gabon</option><option>Gambia</option><option>Georgia</option><option>Germany</option><option>Ghana</option><option>Greece</option><option>Grenada</option><option>Guatemala</option><option>Guinea</option><option>Guinea-Bissau</option><option>Guyana</option><option>Haiti</option><option>Honduras</option><option>Hungary</option><option>Iceland</option><option>India</option><option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option><option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option><option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option><option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option><option>Lebanon</option><option>Lesotho</option><option>Liberia</option><option>Libya</option><option>Liechtenstein</option><option>Lithuania</option><option>Luxembourg</option><option>Madagascar</option><option>Malawi</option><option>Malaysia</option><option>Maldives</option><option>Mali</option><option>Malta</option><option>Marshall Islands</option><option>Mauritania</option><option>Mauritius</option><option>Mexico</option><option>Micronesia</option><option>Moldova</option><option>Monaco</option><option>Mongolia</option><option>Montenegro</option><option>Morocco</option><option>Mozambique</option><option>Myanmar</option><option>Namibia</option><option>Nauru</option><option>Nepal</option><option>Netherlands</option><option>New Zealand</option><option>Nicaragua</option><option>Niger</option><option>Nigeria</option><option>North Korea</option><option>North Macedonia</option><option>Norway</option><option>Oman</option><option>Pakistan</option><option>Palau</option><option>Panama</option><option>Papua New Guinea</option><option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option><option>Portugal</option><option>Qatar</option><option>Romania</option><option>Russia</option><option>Rwanda</option><option>Saint Kitts and Nevis</option><option>Saint Lucia</option><option>Saint Vincent and the Grenadines</option><option>Samoa</option><option>San Marino</option><option>Sao Tome and Principe</option><option>Saudi Arabia</option><option>Senegal</option><option>Serbia</option><option>Seychelles</option><option>Sierra Leone</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option><option>Solomon Islands</option><option>Somalia</option><option>South Africa</option><option>South Korea</option><option>South Sudan</option><option>Spain</option><option>Sri Lanka</option><option>Sudan</option><option>Suriname</option><option>Sweden</option><option>Switzerland</option><option>Syria</option><option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option><option>Thailand</option><option>Timor-Leste</option><option>Togo</option><option>Tonga</option><option>Trinidad and Tobago</option><option>Tunisia</option><option>Turkey</option><option>Turkmenistan</option><option>Tuvalu</option><option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>Uruguay</option><option>Uzbekistan</option><option>Vanuatu</option><option>Vatican City</option><option>Venezuela</option><option>Vietnam</option><option>Yemen</option><option>Zambia</option><option>Zimbabwe</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" name="city" placeholder="Your city">
+          </div>
+          <div class="form-group">
+            <label>Timezone</label>
+            <input type="text" id="df-timezone" name="timezone" placeholder="Detecting…" readonly style="background:var(--gray-100); color:var(--text-mid);">
+          </div>
+        </div>
+      </div>
+
+      <!-- LANGUAGES -->
+      <div class="form-block">
+        <div class="form-block-title">Languages</div>
+        <div id="lang-rows">
+          <div class="lang-row" style="flex-wrap:wrap;">
+            <div class="form-group" style="margin:0">
+              <label>Language</label>
+              <select class="lang-select" name="language_1" onchange="handleOtherLang(this)">
+                <option value="">Select language</option>
+                <option>Arabic</option><option>Bengali</option><option>Cebuano</option><option>Chinese (Mandarin)</option><option>English</option><option>French</option><option>German</option><option>Hindi</option><option>Indonesian</option><option>Italian</option><option>Japanese</option><option>Korean</option><option>Nepali</option><option>Persian</option><option>Polish</option><option>Portuguese</option><option>Russian</option><option>Spanish</option><option>Swahili</option><option>Tagalog</option><option>Thai</option><option>Turkish</option><option>Twi</option><option>Ukrainian</option><option>Urdu</option><option>Vietnamese</option><option>Other</option>
+              </select>
+              <input type="text" class="lang-other-input" placeholder="Which language?" style="display:none; margin-top:8px;">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>Level</label>
+              <select class="lang-level" name="language_1_level">
+                <option value="">Select level</option>
+                <option>Native</option><option>Fluent</option><option>Conversational</option><option>Basic</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="add-lang-btn" onclick="addLangRow()">+ Add another language</button>
+      </div>
+
+      <!-- ABOUT YOU -->
+      <div class="form-block">
+        <div class="form-block-title">About you</div>
+        <div class="form-group">
+          <label>Profile photo</label>
+          <input type="file" id="photo-file" accept="image/*" onchange="uploadPhoto(this)">
+          <div id="photo-status" style="display:none; margin-top:8px; font-size:0.83rem; color:var(--teal-dark); font-weight:600;"></div>
+          <input type="hidden" name="photo_url" id="photo-url">
+          <p class="form-hint">A clear photo of your face. JPG or PNG, max 10 MB.</p>
+        </div>
+        <div class="form-group">
+          <label>Short headline</label>
+          <input type="text" name="headline" placeholder="e.g. Curious storyteller from Nairobi who loves books and deep talks">
+          <p class="form-hint">Max 80 characters. This is the first thing members see.</p>
+        </div>
+        <div class="form-group">
+          <label>Tell us about yourself</label>
+          <textarea name="about" placeholder="Write a short introduction about who you are, what your life looks like, and what you enjoy talking about. Be genuine — members will read this before requesting you."></textarea>
+          <p class="form-hint">Min 100 words. Write in English.</p>
+        </div>
+        <div class="form-group">
+          <label>What topics do you enjoy talking about?</label>
+          <div class="interest-picker" id="become-interests">
+            <span class="interest-pill" onclick="togglePill(this)">📚 Books</span>
+            <span class="interest-pill" onclick="togglePill(this)">🎵 Music</span>
+            <span class="interest-pill" onclick="togglePill(this)">🍳 Food & cooking</span>
+            <span class="interest-pill" onclick="togglePill(this)">✈️ Travel</span>
+            <span class="interest-pill" onclick="togglePill(this)">💻 Technology</span>
+            <span class="interest-pill" onclick="togglePill(this)">⚽ Sports</span>
+            <span class="interest-pill" onclick="togglePill(this)">🎬 Movies & series</span>
+            <span class="interest-pill" onclick="togglePill(this)">🌍 Culture & history</span>
+            <span class="interest-pill" onclick="togglePill(this)">🤔 Philosophy</span>
+            <span class="interest-pill" onclick="togglePill(this)">😂 Humor</span>
+            <span class="interest-pill" onclick="togglePill(this)">👨‍👩‍👧 Family & daily life</span>
+            <span class="interest-pill" onclick="togglePill(this)">🌿 Nature</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Conversation style</label>
+          <select name="conversation_style">
+            <option value="">Select your natural style</option>
+            <option>Calm & thoughtful</option>
+            <option>Fun & light-hearted</option>
+            <option>Deep & philosophical</option>
+            <option>Warm & empathetic</option>
+            <option>Energetic & talkative</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- AVAILABILITY -->
+      <div class="form-block">
+        <div class="form-block-title">General availability</div>
+        <p style="font-size:0.85rem; color:var(--text-mid); margin-bottom:20px; line-height:1.6;">Which days are you generally available for calls? Your schedule can vary from week to week, and the specific time is always agreed when booking.</p>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <span class="avail-day-pill" onclick="togglePill(this)">Monday</span>
+          <span class="avail-day-pill" onclick="togglePill(this)">Tuesday</span>
+          <span class="avail-day-pill" onclick="togglePill(this)">Wednesday</span>
+          <span class="avail-day-pill" onclick="togglePill(this)">Thursday</span>
+          <span class="avail-day-pill" onclick="togglePill(this)">Friday</span>
+          <span class="avail-day-pill" onclick="togglePill(this)">Saturday</span>
+          <span class="avail-day-pill" onclick="togglePill(this)">Sunday</span>
+        </div>
+      </div>
+
+      <!-- RULES -->
+      <div class="form-block">
+        <div class="form-block-title">Community rules</div>
+        <div class="rules-box">
+          <h4>By applying you agree to follow these rules at all times:</h4>
+          <ul>
+            <li>Never use the platform for dating or romantic purposes</li>
+            <li>Never send sexual, explicit, or inappropriate messages</li>
+            <li>Never ask members for money, gifts, or personal favours</li>
+            <li>Never share your phone number, WhatsApp, or external contacts</li>
+            <li>Never offer therapy, medical, legal, or financial advice</li>
+            <li>Never record calls without explicit consent</li>
+            <li>Always show up for your scheduled calls, or give at least 24 hours' notice</li>
+            <li>Always treat members with kindness and respect</li>
+          </ul>
+        </div>
+
+        <label class="agree-label">
+          <input type="checkbox" id="agree-rules">
+          <span>I have read and agree to the DigiFriend <a href="community-guidelines.html" target="_blank">Community Guidelines</a> and <a href="terms.html" target="_blank">Terms of Service</a>. I understand that violations may result in immediate removal from the platform.</span>
+        </label>
+
+        <label class="agree-label" style="margin-top:14px;">
+          <input type="checkbox" id="agree-age">
+          <span>I confirm that I am 18 years of age or older.</span>
+        </label>
+      </div>
+
+      <!-- Hidden fields collected by JS before submit -->
+      <input type="hidden" name="interests" id="hidden-interests">
+      <input type="hidden" name="available_days" id="hidden-days">
+      <input type="hidden" name="languages" id="hidden-languages">
+      <input type="hidden" name="_subject" value="New DigiFriend application">
+
+      <!-- SUBMIT -->
+      <div class="submit-area" id="submit-area">
+        <button type="button" class="btn btn-teal btn-lg" style="padding: 16px 48px; font-size: 1rem;" onclick="submitApplication()">Submit application</button>
+        <p class="submit-note">Our team reviews every application manually. You'll hear back within 3–5 business days. We'll email you at the address you provided.</p>
+      </div>
+      <div id="submit-success" style="display:none; background:var(--teal-light); border:1.5px solid var(--teal); border-radius:18px; padding:32px; text-align:center;">
+        <div style="font-size:2.5rem; margin-bottom:12px;">✅</div>
+        <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">Application received!</h3>
+        <p style="color:var(--text-mid); font-size:0.9rem; line-height:1.65;">Thank you for applying to become a DigiFriend. We'll review your application and get back to you within 3–5 business days.</p>
+      </div>
+
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand-name"><img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;"></div>
+          <p class="footer-tagline-text">Weekly human connection from another part of the world.</p>
+        </div>
+        <div class="footer-col"><h5>Platform</h5><ul><li><a href="index.html">Home</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+        <div class="footer-col"><h5>DigiFriends</h5><ul><li><a href="become.html">Apply now</a></li><li><a href="#">Guidelines</a></li></ul></div>
+        <div class="footer-col"><h5>Company</h5><ul><li><a href="#">Safety</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">DigiFriend is a conversation and cultural exchange platform for adults 18+. Not a therapy service, dating app, or emergency support line.</p>
+        <div class="footer-copy">© 2026 DigiFriend</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const SUPABASE_URL  = 'https://ciomvjbqilosttyotmcg.supabase.co'
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpb212amJxaWxvc3R0eW90bWNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzM1ODAsImV4cCI6MjA5NzU0OTU4MH0.qoksq8dDRKqGgEZiPHbeM-S-cynlOoo1gnq7B6i1bfI'
+
+    async function uploadPhoto(input) {
+      const file = input.files[0]
+      if (!file) return
+      const status = document.getElementById('photo-status')
+      status.style.display = 'block'
+      status.style.color = 'var(--text-mid)'
+      status.textContent = 'Uploading photo…'
+      const ext  = file.name.split('.').pop()
+      const path = `digifriends/${Date.now()}.${ext}`
+      const res = await fetch(`${SUPABASE_URL}/storage/v1/object/df-photos/${path}`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`,
+          'Content-Type': file.type,
+          'x-upsert': 'true'
+        },
+        body: file
+      })
+      if (res.ok) {
+        const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/df-photos/${path}`
+        document.getElementById('photo-url').value = publicUrl
+        status.style.color = 'var(--teal-dark)'
+        status.textContent = '✓ Photo uploaded'
+      } else {
+        status.style.color = '#e74c3c'
+        status.textContent = 'Upload failed — please try a different photo.'
+      }
+    }
+
+    function togglePill(el) { el.classList.toggle('selected'); }
+    function toggleSlot(el) { el.classList.toggle('checked'); }
+
+    function handleOtherLang(sel) {
+      const input = sel.closest('.form-group').querySelector('.lang-other-input')
+      if (!input) return
+      input.style.display = sel.value === 'Other' ? 'block' : 'none'
+    }
+
+    function addLangRow() {
+      const container = document.getElementById('lang-rows')
+      const n = container.querySelectorAll('.lang-row').length + 1
+      const row = document.createElement('div')
+      row.className = 'lang-row'
+      row.style.marginTop = '12px'
+      row.innerHTML = `
+        <div class="form-group" style="margin:0">
+          <select class="lang-select" name="language_${n}" onchange="handleOtherLang(this)">
+            <option value="">Select language</option>
+            <option>Arabic</option><option>Bengali</option><option>Cebuano</option><option>Chinese (Mandarin)</option><option>English</option><option>French</option><option>German</option><option>Hindi</option><option>Indonesian</option><option>Italian</option><option>Japanese</option><option>Korean</option><option>Nepali</option><option>Persian</option><option>Polish</option><option>Portuguese</option><option>Russian</option><option>Spanish</option><option>Swahili</option><option>Tagalog</option><option>Thai</option><option>Turkish</option><option>Twi</option><option>Ukrainian</option><option>Urdu</option><option>Vietnamese</option><option>Other</option>
+          </select>
+          <input type="text" class="lang-other-input" placeholder="Which language?" style="display:none; margin-top:8px;">
+        </div>
+        <div class="form-group" style="margin:0">
+          <select class="lang-level" name="language_${n}_level">
+            <option value="">Select level</option>
+            <option>Native</option><option>Fluent</option><option>Conversational</option><option>Basic</option>
+          </select>
+        </div>
+        <button type="button" onclick="this.closest('.lang-row').remove()" style="background:none;border:none;cursor:pointer;color:var(--text-light);font-size:1.2rem;padding:0 4px;align-self:center;margin-top:20px;">✕</button>
+      `
+      container.appendChild(row)
+    }
+
+    function submitApplication() {
+      const rules = document.getElementById('agree-rules')
+      const age   = document.getElementById('agree-age')
+      if (!rules.checked || !age.checked) {
+        alert('Please agree to the Community Guidelines, Terms of Service, and confirm your age before submitting.')
+        return
+      }
+
+      // Replace "Other" select values with the typed language before building FormData
+      document.querySelectorAll('#lang-rows .lang-row').forEach(row => {
+        const sel = row.querySelector('.lang-select')
+        const otherInput = row.querySelector('.lang-other-input')
+        if (sel && sel.value === 'Other' && otherInput && otherInput.value.trim()) {
+          sel.value = otherInput.value.trim()
+        }
+      })
+
+      // Collect pill selections into hidden fields
+      const interests = [...document.querySelectorAll('#become-interests .interest-pill.selected')].map(p => p.textContent).join(', ')
+      const days      = [...document.querySelectorAll('.avail-day-pill.selected')].map(p => p.textContent).join(', ')
+      const langs     = [...document.querySelectorAll('#lang-rows .lang-row')].map(row => {
+        let lang  = row.querySelector('.lang-select')?.value
+        const level = row.querySelector('.lang-level')?.value
+        if (lang === 'Other') {
+          const other = row.querySelector('.lang-other-input')?.value.trim()
+          if (other) lang = other
+        }
+        return lang ? `${lang} (${level || '—'})` : null
+      }).filter(Boolean).join(', ')
+
+      document.getElementById('hidden-interests').value = interests || 'None selected'
+      document.getElementById('hidden-days').value      = days || 'None selected'
+      document.getElementById('hidden-languages').value = langs || 'None selected'
+
+      // Submit to Formspree
+      const form = document.getElementById('apply-form')
+      const data = new FormData(form)
+
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(res => {
+        if (res.ok) {
+          document.getElementById('submit-area').style.display = 'none'
+          document.getElementById('submit-success').style.display = 'block'
+          document.getElementById('submit-success').scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else {
+          alert('Something went wrong. Please try again or email us directly.')
+        }
+      }).catch(() => {
+        alert('Could not connect. Please check your internet and try again.')
+      })
+    }
+
+    // Auto-detect timezone
+    ;(function() {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+      const offset = -new Date().getTimezoneOffset()
+      const sign = offset >= 0 ? '+' : '-'
+      const h = String(Math.floor(Math.abs(offset) / 60)).padStart(2, '0')
+      const m = String(Math.abs(offset) % 60).padStart(2, '0')
+      const el = document.getElementById('df-timezone')
+      if (el) el.value = `${tz} (UTC${sign}${h}:${m})`
+    })()
+
+    // Auto-detect country via IP
+    fetch('https://ipapi.co/json/')
+      .then(r => r.json())
+      .then(data => {
+        const country = data.country_name
+        if (!country) return
+        const sel = document.getElementById('df-country')
+        const status = document.getElementById('df-country-status')
+        if (!sel) return
+        for (let i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].text === country) {
+            sel.selectedIndex = i
+            if (status) status.textContent = `· ${country} ✓`
+            break
+          }
+        }
+      })
+      .catch(() => {})
+  </script>
+</body>
+</html>

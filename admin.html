@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #1a2744; --teal: #00c9a7; --teal-dark: #00a88c;
+      --teal-light: #e6faf7; --white: #ffffff; --off-white: #f4f6fb;
+      --gray-100: #f0f2f7; --gray-200: #e2e7f0;
+      --text: #1a2744; --text-mid: #4a5a7a; --text-light: #8a98b8;
+    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--off-white); min-height: 100vh; padding: 32px 20px 60px; color: var(--text); }
+    .wrap { max-width: 600px; margin: 0 auto; }
+
+    /* Header */
+    .admin-header { background: var(--navy); margin: -32px -20px 28px; padding: 20px 20px 20px; display: flex; align-items: center; gap: 12px; }
+    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex: 1; }
+    .logo-text { font-size: 1.1rem; font-weight: 700; color: var(--white); font-family: 'Poppins', sans-serif; }
+    .logo-text span { color: var(--teal); }
+    .admin-badge { background: rgba(0,201,167,0.15); color: var(--teal); font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.08em; border: 1px solid rgba(0,201,167,0.3); }
+
+    /* Lock screen */
+    #lock-screen { background: var(--white); border-radius: 20px; padding: 36px 28px; box-shadow: 0 8px 40px rgba(26,39,68,0.08); max-width: 380px; margin: 40px auto 0; }
+    #lock-screen h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; }
+    #lock-screen p { font-size: 0.85rem; color: var(--text-mid); margin-bottom: 24px; line-height: 1.5; }
+
+    /* Cards */
+    .card { background: var(--white); border-radius: 16px; padding: 24px 20px; box-shadow: 0 2px 12px rgba(26,39,68,0.06); margin-bottom: 16px; }
+    .card h2 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+    .card .subtitle { font-size: 0.82rem; color: var(--text-mid); margin-bottom: 20px; line-height: 1.5; }
+
+    /* Forms */
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.72rem; font-weight: 700; color: var(--text-mid); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--gray-200); border-radius: 12px;
+      font-family: inherit; font-size: 16px; color: var(--text); background: var(--white);
+      outline: none; transition: border-color 0.15s; -webkit-appearance: none; appearance: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--teal); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-group input[type="file"] { padding: 10px 12px; font-size: 0.85rem; cursor: pointer; }
+
+    /* Button */
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 14px 24px; border-radius: 12px; font-family: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; }
+    .btn-teal { background: var(--teal); color: var(--navy); }
+    .btn-teal:hover { background: var(--teal-dark); }
+    .btn-block { width: 100%; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Result / error */
+    #result { display: none; background: var(--teal-light); border: 1.5px solid var(--teal); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+    #result h3 { font-size: 0.95rem; font-weight: 800; margin-bottom: 10px; color: var(--teal-dark); }
+    .result-row { display: flex; justify-content: space-between; align-items: flex-start; font-size: 0.83rem; padding: 7px 0; border-bottom: 1px solid rgba(0,201,167,0.2); gap: 8px; }
+    .result-row:last-child { border-bottom: none; }
+    .result-label { color: var(--text-mid); flex-shrink: 0; }
+    .result-value { font-weight: 700; text-align: right; }
+    #error-msg { display: none; background: #fff1f0; border: 1px solid #fca5a5; border-radius: 10px; padding: 12px 14px; font-size: 0.83rem; color: #b91c1c; margin-bottom: 14px; }
+    .divider { border: none; border-top: 1px solid var(--gray-100); margin: 4px 0 18px; }
+
+    @media (max-width: 480px) {
+      body { padding: 0 0 60px; }
+      .admin-header { margin: 0 0 20px; border-radius: 0; }
+      .wrap { padding: 0 16px; }
+      .card { border-radius: 14px; padding: 20px 16px; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      #lock-screen { margin: 24px 16px 0; padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="lock-screen">
+  <h2>Admin login</h2>
+  <p>Enter your admin password to access this page.</p>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" id="lock-input" placeholder="Admin password" autofocus>
+  </div>
+  <div id="lock-error" style="display:none; color:#b91c1c; font-size:0.82rem; margin-bottom:12px;">Wrong password.</div>
+  <button class="btn btn-teal btn-block" onclick="unlock()">Enter</button>
+</div>
+
+<div id="admin-panel" style="display:none;">
+  <div class="admin-header">
+    <a href="index.html" class="logo">
+      <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+      <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+    </a>
+    <span class="admin-badge">ADMIN</span>
+  </div>
+  <div class="wrap">
+
+    <div id="result">
+      <h3>✅ Match created!</h3>
+      <div class="result-row"><span class="result-label">Member</span><span class="result-value" id="r-member"></span></div>
+      <div class="result-row"><span class="result-label">Matched with</span><span class="result-value" id="r-friend"></span></div>
+      <div class="result-row"><span class="result-label">Next step</span><span class="result-value">Member books their own call time ✓</span></div>
+    </div>
+
+    <div class="card">
+      <h2>➕ Add a DigiFriend</h2>
+      <p class="subtitle">Create a profile for someone you want to hire — whether they applied or you know them personally.</p>
+      <hr class="divider">
+
+      <div id="df-error-msg" style="display:none; background:#fff1f0; border:1px solid #fca5a5; border-radius:10px; padding:12px 16px; font-size:0.85rem; color:#b91c1c; margin-bottom:16px;"></div>
+      <div id="df-result" style="display:none; background:var(--teal-light); border:1.5px solid var(--teal); border-radius:12px; padding:16px; margin-bottom:16px; font-size:0.88rem; color:var(--teal-dark);">
+        <div style="font-weight:700; margin-bottom:8px;">✅ DigiFriend profile saved!</div>
+        <div id="df-result-detail" style="font-size:0.82rem; line-height:1.6; color:var(--text-mid);"></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full name</label>
+          <input type="text" id="df-name" placeholder="e.g. Maria Santos">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="df-email" placeholder="maria@email.com">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Age</label>
+          <input type="number" id="df-age" placeholder="28" min="18" max="99">
+        </div>
+        <div class="form-group">
+          <label>Country</label>
+          <select id="df-country" onchange="autoFlag()">
+            <option value="">Select country</option>
+            <option value="Afghanistan">🇦🇫 Afghanistan</option>
+            <option value="Albania">🇦🇱 Albania</option>
+            <option value="Algeria">🇩🇿 Algeria</option>
+            <option value="Angola">🇦🇴 Angola</option>
+            <option value="Argentina">🇦🇷 Argentina</option>
+            <option value="Armenia">🇦🇲 Armenia</option>
+            <option value="Australia">🇦🇺 Australia</option>
+            <option value="Austria">🇦🇹 Austria</option>
+            <option value="Azerbaijan">🇦🇿 Azerbaijan</option>
+            <option value="Bahrain">🇧🇭 Bahrain</option>
+            <option value="Bangladesh">🇧🇩 Bangladesh</option>
+            <option value="Belarus">🇧🇾 Belarus</option>
+            <option value="Belgium">🇧🇪 Belgium</option>
+            <option value="Bolivia">🇧🇴 Bolivia</option>
+            <option value="Bosnia and Herzegovina">🇧🇦 Bosnia and Herzegovina</option>
+            <option value="Brazil">🇧🇷 Brazil</option>
+            <option value="Bulgaria">🇧🇬 Bulgaria</option>
+            <option value="Cambodia">🇰🇭 Cambodia</option>
+            <option value="Cameroon">🇨🇲 Cameroon</option>
+            <option value="Canada">🇨🇦 Canada</option>
+            <option value="Chile">🇨🇱 Chile</option>
+            <option value="China">🇨🇳 China</option>
+            <option value="Colombia">🇨🇴 Colombia</option>
+            <option value="Costa Rica">🇨🇷 Costa Rica</option>
+            <option value="Croatia">🇭🇷 Croatia</option>
+            <option value="Cuba">🇨🇺 Cuba</option>
+            <option value="Czech Republic">🇨🇿 Czech Republic</option>
+            <option value="Denmark">🇩🇰 Denmark</option>
+            <option value="Dominican Republic">🇩🇴 Dominican Republic</option>
+            <option value="Ecuador">🇪🇨 Ecuador</option>
+            <option value="Egypt">🇪🇬 Egypt</option>
+            <option value="El Salvador">🇸🇻 El Salvador</option>
+            <option value="Estonia">🇪🇪 Estonia</option>
+            <option value="Ethiopia">🇪🇹 Ethiopia</option>
+            <option value="Finland">🇫🇮 Finland</option>
+            <option value="France">🇫🇷 France</option>
+            <option value="Georgia">🇬🇪 Georgia</option>
+            <option value="Germany">🇩🇪 Germany</option>
+            <option value="Ghana">🇬🇭 Ghana</option>
+            <option value="Greece">🇬🇷 Greece</option>
+            <option value="Guatemala">🇬🇹 Guatemala</option>
+            <option value="Honduras">🇭🇳 Honduras</option>
+            <option value="Hungary">🇭🇺 Hungary</option>
+            <option value="India">🇮🇳 India</option>
+            <option value="Indonesia">🇮🇩 Indonesia</option>
+            <option value="Iran">🇮🇷 Iran</option>
+            <option value="Iraq">🇮🇶 Iraq</option>
+            <option value="Ireland">🇮🇪 Ireland</option>
+            <option value="Israel">🇮🇱 Israel</option>
+            <option value="Italy">🇮🇹 Italy</option>
+            <option value="Ivory Coast">🇨🇮 Ivory Coast</option>
+            <option value="Jamaica">🇯🇲 Jamaica</option>
+            <option value="Japan">🇯🇵 Japan</option>
+            <option value="Jordan">🇯🇴 Jordan</option>
+            <option value="Kazakhstan">🇰🇿 Kazakhstan</option>
+            <option value="Kenya">🇰🇪 Kenya</option>
+            <option value="Kosovo">🇽🇰 Kosovo</option>
+            <option value="Kuwait">🇰🇼 Kuwait</option>
+            <option value="Kyrgyzstan">🇰🇬 Kyrgyzstan</option>
+            <option value="Laos">🇱🇦 Laos</option>
+            <option value="Latvia">🇱🇻 Latvia</option>
+            <option value="Lebanon">🇱🇧 Lebanon</option>
+            <option value="Libya">🇱🇾 Libya</option>
+            <option value="Lithuania">🇱🇹 Lithuania</option>
+            <option value="Luxembourg">🇱🇺 Luxembourg</option>
+            <option value="Malaysia">🇲🇾 Malaysia</option>
+            <option value="Mexico">🇲🇽 Mexico</option>
+            <option value="Moldova">🇲🇩 Moldova</option>
+            <option value="Mongolia">🇲🇳 Mongolia</option>
+            <option value="Morocco">🇲🇦 Morocco</option>
+            <option value="Mozambique">🇲🇿 Mozambique</option>
+            <option value="Myanmar">🇲🇲 Myanmar</option>
+            <option value="Nepal">🇳🇵 Nepal</option>
+            <option value="Netherlands">🇳🇱 Netherlands</option>
+            <option value="New Zealand">🇳🇿 New Zealand</option>
+            <option value="Nicaragua">🇳🇮 Nicaragua</option>
+            <option value="Nigeria">🇳🇬 Nigeria</option>
+            <option value="North Macedonia">🇲🇰 North Macedonia</option>
+            <option value="Norway">🇳🇴 Norway</option>
+            <option value="Oman">🇴🇲 Oman</option>
+            <option value="Pakistan">🇵🇰 Pakistan</option>
+            <option value="Palestine">🇵🇸 Palestine</option>
+            <option value="Panama">🇵🇦 Panama</option>
+            <option value="Paraguay">🇵🇾 Paraguay</option>
+            <option value="Peru">🇵🇪 Peru</option>
+            <option value="Philippines">🇵🇭 Philippines</option>
+            <option value="Poland">🇵🇱 Poland</option>
+            <option value="Portugal">🇵🇹 Portugal</option>
+            <option value="Qatar">🇶🇦 Qatar</option>
+            <option value="Romania">🇷🇴 Romania</option>
+            <option value="Russia">🇷🇺 Russia</option>
+            <option value="Rwanda">🇷🇼 Rwanda</option>
+            <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
+            <option value="Senegal">🇸🇳 Senegal</option>
+            <option value="Serbia">🇷🇸 Serbia</option>
+            <option value="Sierra Leone">🇸🇱 Sierra Leone</option>
+            <option value="Singapore">🇸🇬 Singapore</option>
+            <option value="Slovakia">🇸🇰 Slovakia</option>
+            <option value="Slovenia">🇸🇮 Slovenia</option>
+            <option value="Somalia">🇸🇴 Somalia</option>
+            <option value="South Africa">🇿🇦 South Africa</option>
+            <option value="South Korea">🇰🇷 South Korea</option>
+            <option value="Spain">🇪🇸 Spain</option>
+            <option value="Sri Lanka">🇱🇰 Sri Lanka</option>
+            <option value="Sudan">🇸🇩 Sudan</option>
+            <option value="Sweden">🇸🇪 Sweden</option>
+            <option value="Switzerland">🇨🇭 Switzerland</option>
+            <option value="Syria">🇸🇾 Syria</option>
+            <option value="Taiwan">🇹🇼 Taiwan</option>
+            <option value="Tajikistan">🇹🇯 Tajikistan</option>
+            <option value="Tanzania">🇹🇿 Tanzania</option>
+            <option value="Thailand">🇹🇭 Thailand</option>
+            <option value="Tunisia">🇹🇳 Tunisia</option>
+            <option value="Turkey">🇹🇷 Turkey</option>
+            <option value="Turkmenistan">🇹🇲 Turkmenistan</option>
+            <option value="Uganda">🇺🇬 Uganda</option>
+            <option value="Ukraine">🇺🇦 Ukraine</option>
+            <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
+            <option value="United Kingdom">🇬🇧 United Kingdom</option>
+            <option value="United States">🇺🇸 United States</option>
+            <option value="Uruguay">🇺🇾 Uruguay</option>
+            <option value="Uzbekistan">🇺🇿 Uzbekistan</option>
+            <option value="Venezuela">🇻🇪 Venezuela</option>
+            <option value="Vietnam">🇻🇳 Vietnam</option>
+            <option value="Yemen">🇾🇪 Yemen</option>
+            <option value="Zambia">🇿🇲 Zambia</option>
+            <option value="Zimbabwe">🇿🇼 Zimbabwe</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" id="df-city" placeholder="e.g. Manila">
+        </div>
+        <div class="form-group">
+          <label>Flag <span style="font-weight:400;text-transform:none;font-size:0.75rem;">(auto-filled)</span></label>
+          <input type="text" id="df-flag" placeholder="🇵🇭" readonly style="background:var(--gray-100);cursor:default;">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Profile photo</label>
+        <input type="file" id="df-photo-file" accept="image/*" style="display:block;width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:12px;font-family:inherit;font-size:0.88rem;cursor:pointer;">
+        <div id="df-photo-preview" style="display:none;margin-top:10px;"><img id="df-photo-img" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--teal);"></div>
+        <input type="hidden" id="df-photo">
+      </div>
+      <div class="form-group">
+        <label>Languages <span style="font-weight:400; text-transform:none; font-size:0.75rem;">(e.g. English (Native), Tagalog (Fluent))</span></label>
+        <input type="text" id="df-languages" placeholder="English (Native), Tagalog (Fluent)">
+      </div>
+      <div class="form-group">
+        <label>Interests <span style="font-weight:400; text-transform:none; font-size:0.75rem;">(kommasepareret)</span></label>
+        <input type="text" id="df-interests" placeholder="Books, Music, Travel, Cooking">
+      </div>
+      <div class="form-group">
+        <label>Conversation style</label>
+        <select id="df-style">
+          <option value="">Select style</option>
+          <option>Calm & thoughtful</option>
+          <option>Fun & light-hearted</option>
+          <option>Deep & philosophical</option>
+          <option>Warm & empathetic</option>
+          <option>Energetic & talkative</option>
+          <option>Witty & deep</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Short headline <span style="font-weight:400; text-transform:none; font-size:0.75rem;">(vises på kortet)</span></label>
+        <input type="text" id="df-headline" placeholder="e.g. Curious storyteller from Manila who loves books and deep talks">
+      </div>
+      <div class="form-group">
+        <label>Bio <span style="font-weight:400; text-transform:none; font-size:0.75rem;">(vises på profil-siden)</span></label>
+        <textarea id="df-bio" rows="3" style="width:100%; padding:12px 14px; border:1.5px solid var(--gray-200); border-radius:12px; font-family:inherit; font-size:0.9rem; resize:vertical; outline:none;" placeholder="Write a short introduction about who they are..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Available days</label>
+        <input type="text" id="df-days" placeholder="Monday, Wednesday, Friday, Saturday">
+      </div>
+
+      <button class="btn btn-teal btn-block" id="df-btn" onclick="saveDigiFriend()">Save DigiFriend profile</button>
+    </div>
+
+    <div class="card">
+      <h2>🤝 Match a member</h2>
+      <p class="subtitle">Pick a member email and choose their DigiFriend. The member will then log in, choose their own call time, and everything happens automatically.</p>
+      <hr class="divider">
+
+      <div id="error-msg"></div>
+
+      <div class="form-group">
+        <label>Member email</label>
+        <input type="email" id="f-email" placeholder="kunde@email.com">
+      </div>
+
+      <div class="form-group">
+        <label>DigiFriend</label>
+        <select id="f-df-select">
+          <option value="">Loading DigiFriends…</option>
+        </select>
+      </div>
+
+      <button class="btn btn-teal btn-block" id="match-btn" onclick="createMatch()">Match them →</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const FUNCTION_URL  = 'https://ciomvjbqilosttyotmcg.supabase.co/functions/v1'
+  const SUPABASE_URL  = 'https://ciomvjbqilosttyotmcg.supabase.co'
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpb212amJxaWxvc3R0eW90bWNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzM1ODAsImV4cCI6MjA5NzU0OTU4MH0.qoksq8dDRKqGgEZiPHbeM-S-cynlOoo1gnq7B6i1bfI'
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON)
+  let ADMIN_SECRET = ''
+
+  const FLAG_MAP = {
+    'Afghanistan':'🇦🇫','Albania':'🇦🇱','Algeria':'🇩🇿','Angola':'🇦🇴','Argentina':'🇦🇷',
+    'Armenia':'🇦🇲','Australia':'🇦🇺','Austria':'🇦🇹','Azerbaijan':'🇦🇿','Bahrain':'🇧🇭',
+    'Bangladesh':'🇧🇩','Belarus':'🇧🇾','Belgium':'🇧🇪','Bolivia':'🇧🇴','Bosnia and Herzegovina':'🇧🇦',
+    'Brazil':'🇧🇷','Bulgaria':'🇧🇬','Cambodia':'🇰🇭','Cameroon':'🇨🇲','Canada':'🇨🇦',
+    'Chile':'🇨🇱','China':'🇨🇳','Colombia':'🇨🇴','Costa Rica':'🇨🇷','Croatia':'🇭🇷',
+    'Cuba':'🇨🇺','Czech Republic':'🇨🇿','Denmark':'🇩🇰','Dominican Republic':'🇩🇴','Ecuador':'🇪🇨',
+    'Egypt':'🇪🇬','El Salvador':'🇸🇻','Estonia':'🇪🇪','Ethiopia':'🇪🇹','Finland':'🇫🇮',
+    'France':'🇫🇷','Georgia':'🇬🇪','Germany':'🇩🇪','Ghana':'🇬🇭','Greece':'🇬🇷',
+    'Guatemala':'🇬🇹','Honduras':'🇭🇳','Hungary':'🇭🇺','India':'🇮🇳','Indonesia':'🇮🇩',
+    'Iran':'🇮🇷','Iraq':'🇮🇶','Ireland':'🇮🇪','Israel':'🇮🇱','Italy':'🇮🇹',
+    'Ivory Coast':'🇨🇮','Jamaica':'🇯🇲','Japan':'🇯🇵','Jordan':'🇯🇴','Kazakhstan':'🇰🇿',
+    'Kenya':'🇰🇪','Kosovo':'🇽🇰','Kuwait':'🇰🇼','Kyrgyzstan':'🇰🇬','Laos':'🇱🇦',
+    'Latvia':'🇱🇻','Lebanon':'🇱🇧','Libya':'🇱🇾','Lithuania':'🇱🇹','Luxembourg':'🇱🇺',
+    'Malaysia':'🇲🇾','Mexico':'🇲🇽','Moldova':'🇲🇩','Mongolia':'🇲🇳','Morocco':'🇲🇦',
+    'Mozambique':'🇲🇿','Myanmar':'🇲🇲','Nepal':'🇳🇵','Netherlands':'🇳🇱','New Zealand':'🇳🇿',
+    'Nicaragua':'🇳🇮','Nigeria':'🇳🇬','North Macedonia':'🇲🇰','Norway':'🇳🇴','Oman':'🇴🇲',
+    'Pakistan':'🇵🇰','Palestine':'🇵🇸','Panama':'🇵🇦','Paraguay':'🇵🇾','Peru':'🇵🇪',
+    'Philippines':'🇵🇭','Poland':'🇵🇱','Portugal':'🇵🇹','Qatar':'🇶🇦','Romania':'🇷🇴',
+    'Russia':'🇷🇺','Rwanda':'🇷🇼','Saudi Arabia':'🇸🇦','Senegal':'🇸🇳','Serbia':'🇷🇸',
+    'Sierra Leone':'🇸🇱','Singapore':'🇸🇬','Slovakia':'🇸🇰','Slovenia':'🇸🇮','Somalia':'🇸🇴',
+    'South Africa':'🇿🇦','South Korea':'🇰🇷','Spain':'🇪🇸','Sri Lanka':'🇱🇰','Sudan':'🇸🇩',
+    'Sweden':'🇸🇪','Switzerland':'🇨🇭','Syria':'🇸🇾','Taiwan':'🇹🇼','Tajikistan':'🇹🇯',
+    'Tanzania':'🇹🇿','Thailand':'🇹🇭','Tunisia':'🇹🇳','Turkey':'🇹🇷','Turkmenistan':'🇹🇲',
+    'Uganda':'🇺🇬','Ukraine':'🇺🇦','United Arab Emirates':'🇦🇪','United Kingdom':'🇬🇧',
+    'United States':'🇺🇸','Uruguay':'🇺🇾','Uzbekistan':'🇺🇿','Venezuela':'🇻🇪',
+    'Vietnam':'🇻🇳','Yemen':'🇾🇪','Zambia':'🇿🇲','Zimbabwe':'🇿🇼'
+  }
+
+  function autoFlag() {
+    const country = document.getElementById('df-country').value
+    document.getElementById('df-flag').value = FLAG_MAP[country] || '🌍'
+  }
+
+  document.getElementById('df-photo-file').addEventListener('change', function() {
+    const file = this.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = e => {
+      document.getElementById('df-photo-img').src = e.target.result
+      document.getElementById('df-photo-preview').style.display = 'block'
+    }
+    reader.readAsDataURL(file)
+  })
+
+  async function uploadPhoto(file) {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('upload_preset', 'digifriend_apps')
+    const res = await fetch('https://api.cloudinary.com/v1_1/y596lkub/image/upload', {
+      method: 'POST',
+      body: formData
+    })
+    const data = await res.json()
+    if (!data.secure_url) throw new Error(data.error?.message || 'Upload failed')
+    return data.secure_url
+  }
+
+  document.getElementById('lock-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') unlock()
+  })
+
+  function unlock() {
+    const pw = document.getElementById('lock-input').value.trim()
+    if (!pw) return
+    ADMIN_SECRET = pw
+    document.getElementById('lock-screen').style.display = 'none'
+    document.getElementById('admin-panel').style.display = 'block'
+    loadDigiFriendsDropdown()
+  }
+
+  async function loadDigiFriendsDropdown() {
+    const sel = document.getElementById('f-df-select')
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/digifriends?select=id,name,flag,email&status=eq.active&order=name.asc`, {
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
+    })
+    const rows = res.ok ? await res.json() : []
+    if (!rows.length) {
+      sel.innerHTML = '<option value="">No DigiFriends found — add one first</option>'
+      return
+    }
+    sel.innerHTML = '<option value="">Choose a DigiFriend…</option>' +
+      rows.map(df => `<option value="${df.id}" data-flag="${df.flag||'🌍'}" data-name="${df.name}">${df.flag||'🌍'} ${df.name}</option>`).join('')
+  }
+
+  async function saveDigiFriend() {
+    const name     = document.getElementById('df-name').value.trim()
+    const email    = document.getElementById('df-email').value.trim()
+    const errEl    = document.getElementById('df-error-msg')
+    const btn      = document.getElementById('df-btn')
+
+    errEl.style.display = 'none'
+    document.getElementById('df-result').style.display = 'none'
+
+    if (!name || !email) {
+      errEl.textContent = 'Name and email are required.'
+      errEl.style.display = 'block'
+      return
+    }
+
+    btn.textContent = 'Saving…'
+    btn.disabled = true
+
+    let photo_url = null
+    const photoFile = document.getElementById('df-photo-file').files[0]
+    if (photoFile) {
+      try { photo_url = await uploadPhoto(photoFile) }
+      catch (e) {
+        errEl.textContent = '⚠️ Photo upload failed — profile saved without photo. You can add a photo URL manually later.'
+        errEl.style.display = 'block'
+      }
+    }
+
+    const payload = {
+      name,
+      email,
+      age:           parseInt(document.getElementById('df-age').value) || null,
+      country:       document.getElementById('df-country').value,
+      city:          document.getElementById('df-city').value.trim(),
+      flag:          document.getElementById('df-flag').value || '🌍',
+      photo_url,
+      languages:     document.getElementById('df-languages').value.trim(),
+      interests:     document.getElementById('df-interests').value.trim(),
+      style:         document.getElementById('df-style').value,
+      headline:      document.getElementById('df-headline').value.trim(),
+      bio:           document.getElementById('df-bio').value.trim(),
+      available_days: document.getElementById('df-days').value.trim(),
+      status:        'active',
+    }
+
+    // If photo upload failed, don't overwrite an existing photo with null
+    if (!photo_url) delete payload.photo_url
+
+    const dbHeaders = {
+      'apikey': SUPABASE_ANON,
+      'Authorization': `Bearer ${SUPABASE_ANON}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    }
+
+    // Upsert by email: update existing profile, otherwise create new
+    const existRes = await fetch(`${SUPABASE_URL}/rest/v1/digifriends?email=eq.${encodeURIComponent(email)}&select=id`, { headers: dbHeaders })
+    const existing = existRes.ok ? await existRes.json() : []
+
+    let res
+    if (existing.length > 0) {
+      res = await fetch(`${SUPABASE_URL}/rest/v1/digifriends?id=eq.${existing[0].id}`, {
+        method: 'PATCH', headers: dbHeaders, body: JSON.stringify(payload)
+      })
+    } else {
+      res = await fetch(`${SUPABASE_URL}/rest/v1/digifriends`, {
+        method: 'POST', headers: dbHeaders, body: JSON.stringify(payload)
+      })
+    }
+
+    btn.textContent = 'Save DigiFriend profile'
+    btn.disabled = false
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      errEl.textContent = data.message || data.error || 'Something went wrong.'
+      errEl.style.display = 'block'
+      return
+    }
+
+    // Refresh the match dropdown so the new DigiFriend appears
+    loadDigiFriendsDropdown()
+
+    // Send invitation email so they can set a password and land in their portal
+    const firstName = name.split(' ')[0]
+    const detail = document.getElementById('df-result-detail')
+    detail.textContent = 'Sending invitation email…'
+    document.getElementById('df-result').style.display = 'block'
+
+    try {
+      const invRes = await fetch(`${FUNCTION_URL}/invite-digifriend`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` },
+        body: JSON.stringify({ email })
+      })
+      const invData = await invRes.json().catch(() => ({}))
+      if (invRes.ok) {
+        detail.innerHTML = `📧 An invitation was sent to <strong>${email}</strong>. ${firstName} clicks the link, chooses a password, and lands directly in their DigiFriend portal.`
+      } else if (invData.already_registered) {
+        detail.innerHTML = `${firstName} already has an account — they can simply <strong>log in</strong> with <strong>${email}</strong> and will land in their portal automatically.`
+      } else {
+        detail.innerHTML = `⚠️ The invitation email could not be sent (${invData.error || 'unknown error'}). Fallback: tell ${firstName} to sign up at <strong>signup.html</strong> with the email <strong>${email}</strong> — they'll land in their portal automatically.`
+      }
+    } catch {
+      detail.innerHTML = `⚠️ The invitation email could not be sent. Fallback: tell ${firstName} to sign up at <strong>signup.html</strong> with the email <strong>${email}</strong> — they'll land in their portal automatically.`
+    }
+    // Clear form
+    ;['df-name','df-email','df-age','df-city','df-flag','df-languages','df-interests','df-headline','df-bio','df-days'].forEach(id => {
+      document.getElementById(id).value = ''
+    })
+    document.getElementById('df-country').selectedIndex = 0
+    document.getElementById('df-style').selectedIndex = 0
+    document.getElementById('df-photo-file').value = ''
+    document.getElementById('df-photo-preview').style.display = 'none'
+  }
+
+  async function createMatch() {
+    const email  = document.getElementById('f-email').value.trim()
+    const sel    = document.getElementById('f-df-select')
+    const dfId   = sel.value
+    const dfName = sel.options[sel.selectedIndex]?.dataset.name || ''
+    const dfFlag = sel.options[sel.selectedIndex]?.dataset.flag || '🌍'
+    const errEl  = document.getElementById('error-msg')
+    const btn    = document.getElementById('match-btn')
+
+    errEl.style.display = 'none'
+    if (!email || !dfId) {
+      errEl.textContent = 'Please fill in a member email and choose a DigiFriend.'
+      errEl.style.display = 'block'
+      return
+    }
+
+    btn.textContent = 'Matching…'
+    btn.disabled = true
+
+    // Upsert so re-matching a member just updates their DigiFriend
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/matches`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON,
+        'Authorization': `Bearer ${SUPABASE_ANON}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates,return=representation'
+      },
+      body: JSON.stringify({ member_email: email, digifriend_id: dfId })
+    })
+
+    btn.textContent = 'Match them →'
+    btn.disabled = false
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      errEl.textContent = data.message || data.error || 'Something went wrong.'
+      errEl.style.display = 'block'
+      return
+    }
+
+    document.getElementById('r-member').textContent = email
+    document.getElementById('r-friend').textContent = `${dfFlag} ${dfName}`
+    document.getElementById('result').style.display = 'block'
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' })
+    document.getElementById('f-email').value = ''
+    sel.selectedIndex = 0
+  }
+
+
+</script>
+</body>
+</html>

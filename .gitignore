@@ -1,0 +1,10 @@
+# Leftover logo design references — not used by any page
+_wordmark_temp.png
+ikon-1.png.png
+logo.png.png
+logo_icon.png.png
+logo-icon.png
+
+# Local tooling config
+.claude/
+supabase/.temp/

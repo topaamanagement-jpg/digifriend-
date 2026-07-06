@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Guidelines — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .doc-hero {
+      background: var(--navy);
+      padding: 120px 48px 72px;
+      text-align: center;
+    }
+    .doc-hero-inner { max-width: 640px; margin: 0 auto; }
+    .hero-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--teal); margin-bottom: 20px; display: block;
+    }
+    .doc-hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 800; letter-spacing: -0.04em; color: var(--white); margin-bottom: 16px;
+    }
+    .doc-hero p { font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.75; }
+
+    .doc-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 72px 48px 96px;
+    }
+
+    .doc-section { margin-bottom: 48px; }
+
+    .doc-section h2 {
+      font-size: 1.3rem; font-weight: 800; color: var(--text);
+      letter-spacing: -0.02em; margin-bottom: 16px;
+      padding-bottom: 12px; border-bottom: 2px solid var(--teal-light);
+    }
+
+    .doc-section p {
+      font-size: 0.95rem; color: var(--text-mid); line-height: 1.85; margin-bottom: 14px;
+    }
+
+    .doc-section ul {
+      list-style: none; padding: 0; margin: 0 0 14px;
+    }
+
+    .doc-section ul li {
+      font-size: 0.95rem; color: var(--text-mid); line-height: 1.75;
+      padding: 8px 0 8px 28px; position: relative;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .doc-section ul li:last-child { border-bottom: none; }
+    .doc-section ul li::before {
+      content: '✓';
+      position: absolute; left: 0;
+      color: var(--teal); font-weight: 700;
+    }
+
+    .doc-section ul.no-list li::before { content: '✕'; color: #e05252; }
+
+    .highlight-box {
+      background: var(--teal-light);
+      border: 1.5px solid var(--teal);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .highlight-box p { margin: 0; color: var(--teal-dark); font-weight: 600; }
+
+    .doc-updated {
+      font-size: 0.8rem; color: var(--text-light); margin-bottom: 48px;
+    }
+
+    @media (max-width: 600px) {
+      .doc-hero { padding: 100px 24px 56px; }
+      .doc-body { padding: 48px 24px 72px; }
+    }
+  </style>
+</head>
+<body class="page-body">
+
+  <nav>
+    <a href="index.html" class="logo-mark">
+      <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+      <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+    </a>
+        <ul class="nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="index.html#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log in</a>
+      <a href="signup.html" class="btn btn-teal" style="padding:10px 20px; font-size:0.85rem;">Get started free</a>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav" style="display:none;">
+        <ul class="mobile-nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="index.html#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <a href="login.html" class="btn btn-outline-white btn-block">Log in</a>
+      <a href="signup.html" class="btn btn-teal btn-block">Get started free</a>
+    </div>
+  </div>
+  <script src="nav.js"></script>
+
+  <div class="doc-hero">
+    <div class="doc-hero-inner">
+      <span class="hero-label">Community</span>
+      <h1>Community Guidelines</h1>
+      <p>DigiFriend is built on genuine human connection. These guidelines exist to keep every conversation safe, respectful, and meaningful.</p>
+    </div>
+  </div>
+
+  <div class="doc-body">
+    <p class="doc-updated">Last updated: June 2026</p>
+
+    <div class="highlight-box">
+      <p>DigiFriend is a companionship and cultural exchange platform — not a dating app, therapy service, or marketplace. Every person here deserves to feel safe and respected.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2>1. Who we are</h2>
+      <p>DigiFriend connects paying members with verified international conversation partners (DigiFriends) for weekly video calls. Our mission is to reduce loneliness and broaden perspectives through real, recurring human connection across borders.</p>
+      <p>Everyone on the platform — both members and DigiFriends — is expected to uphold these guidelines at all times.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2>2. What DigiFriend is for</h2>
+      <ul>
+        <li>Friendly, genuine conversation</li>
+        <li>Cultural exchange and learning about life in other countries</li>
+        <li>Practicing a language together</li>
+        <li>Regular weekly calls that create a sense of routine and connection</li>
+        <li>Being a reliable, warm presence in someone's week</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>3. What DigiFriend is not for</h2>
+      <ul class="no-list">
+        <li>Dating, romance, or any form of intimate relationship</li>
+        <li>Soliciting money, gifts, loans, or financial favours</li>
+        <li>Selling products, services, or business opportunities</li>
+        <li>Mental health counselling or crisis support</li>
+        <li>Sharing personal contact information (phone number, social media, email) before both parties consent</li>
+        <li>Recording calls without explicit consent from all participants</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>4. Respect and dignity</h2>
+      <p>Every person on DigiFriend deserves to be treated with respect, regardless of nationality, religion, age, gender, or background.</p>
+      <ul>
+        <li>Speak kindly and listen actively</li>
+        <li>Respect different cultural perspectives, even when they differ from your own</li>
+        <li>Never use language that demeans, stereotypes, or discriminates</li>
+        <li>If a topic makes the other person uncomfortable, drop it gracefully</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>5. Reliability</h2>
+      <p>Showing up matters. Missing calls without notice affects real people who have set aside time for you.</p>
+      <ul>
+        <li>If you need to cancel, do so as early as possible</li>
+        <li>Repeated no-shows without notice may result in suspension</li>
+        <li>DigiFriends with a pattern of cancellations will be removed from the platform</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <h2>6. Safety</h2>
+      <p>Your safety is our priority. If anything ever feels wrong, trust your instincts.</p>
+      <ul>
+        <li>You are never obligated to continue a call that makes you uncomfortable</li>
+        <li>Report any behaviour that violates these guidelines immediately</li>
+        <li>DigiFriend staff will never ask for your password or payment details via chat</li>
+      </ul>
+      <p>To report a concern, email us at <strong>hello@digifriend.com</strong>.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2>7. Consequences</h2>
+      <p>Violations of these guidelines may result in a warning, temporary suspension, or permanent removal from the platform, depending on severity. We reserve the right to remove any user without notice if their behaviour poses a risk to others.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2>8. Questions</h2>
+      <p>If you have questions about these guidelines or want to report an issue, reach out at <strong>hello@digifriend.com</strong>. We read every message.</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+            <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+          </div>
+          <p class="footer-tagline">Real friendship, across borders.</p>
+        </div>
+        <div class="footer-col"><h5>Platform</h5><ul><li><a href="index.html">Home</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+        <div class="footer-col"><h5>Join</h5><ul><li><a href="become.html">Become a DigiFriend</a></li><li><a href="signup.html">Sign up as a member</a></li></ul></div>
+        <div class="footer-col"><h5>Legal</h5><ul><li><a href="community-guidelines.html">Community Guidelines</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">DigiFriend is a conversation and cultural exchange platform for adults 18+. Not a therapy service, dating app, or emergency support line.</p>
+        <p class="footer-copy">© 2026 DigiFriend. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

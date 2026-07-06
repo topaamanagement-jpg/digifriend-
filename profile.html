@@ -1,0 +1,548 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>James — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .profile-hero {
+      background: var(--navy);
+      padding: 96px 48px 0;
+    }
+
+    .profile-hero-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 64px;
+      align-items: flex-end;
+    }
+
+    .profile-photo-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 32px;
+    }
+
+    .profile-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #1a2744 0%, #2e6b5a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,0.1);
+    }
+
+    .profile-info { padding-bottom: 32px; }
+
+    .profile-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,201,167,0.15);
+      border: 1px solid rgba(0,201,167,0.3);
+      border-radius: 50px;
+      padding: 4px 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .profile-name {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .profile-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .profile-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .profile-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .stars { color: #f5a623; letter-spacing: 1px; }
+
+    .profile-style-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .style-tag {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Sticky sidebar CTA */
+    .profile-cta-card {
+      background: var(--white);
+      border-radius: 24px 24px 0 0;
+      padding: 32px;
+      position: relative;
+      bottom: 0;
+    }
+
+    .cta-available {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--teal-dark);
+      margin-bottom: 20px;
+    }
+
+    .avail-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .cta-price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .cta-price span { font-size: 1rem; color: var(--text-light); font-weight: 400; }
+
+    .cta-includes {
+      list-style: none;
+      margin: 16px 0 24px;
+    }
+
+    .cta-includes li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      margin-bottom: 10px;
+    }
+
+    .cta-check {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--teal-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+      color: var(--teal-dark);
+      flex-shrink: 0;
+    }
+
+    .cta-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-top: 12px;
+    }
+
+    /* Profile body */
+    .profile-body {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 64px;
+    }
+
+    .profile-main {}
+
+    .profile-section {
+      margin-bottom: 48px;
+    }
+
+    .profile-section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .profile-bio {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+    }
+
+    .interest-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .interest-chip {
+      background: var(--off-white);
+      border: 1px solid var(--gray-200);
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    /* Availability */
+    .avail-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .avail-day {
+      text-align: center;
+    }
+
+    .avail-day-name {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+
+    .avail-slot {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 600;
+      margin: 0 auto 4px;
+    }
+
+    .slot-open {
+      background: var(--teal-light);
+      color: var(--teal-dark);
+    }
+
+    .slot-closed {
+      background: var(--gray-100);
+      color: var(--text-light);
+    }
+
+    /* Reviews */
+    .review-card {
+      background: var(--off-white);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .reviewer-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .review-stars { color: #f5a623; font-size: 0.85rem; }
+
+    .review-text {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      line-height: 1.65;
+    }
+
+    .review-date {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-top: 8px;
+    }
+
+    /* Sidebar sticky */
+    .profile-sidebar {
+      position: relative;
+    }
+
+    .sidebar-sticky {
+      position: sticky;
+      top: 88px;
+    }
+
+    .sidebar-cta-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 24px;
+      padding: 28px;
+      margin-bottom: 16px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--white); }
+
+    @media (max-width: 960px) {
+      .profile-hero-inner { grid-template-columns: 1fr; }
+      .profile-cta-card { border-radius: 24px; margin-top: 24px; }
+      .profile-body { grid-template-columns: 1fr; padding: 32px 24px; }
+      .profile-hero { padding: 88px 24px 0; }
+      .avail-grid { grid-template-columns: repeat(4, 1fr); }
+      .profile-sidebar { order: -1; }
+      .sidebar-sticky { position: static; }
+    }
+  </style>
+</head>
+<body class="page-body">
+
+  <nav>
+    <a href="index.html" class="logo-mark">
+      <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+      <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log in</a>
+      <a href="signup.html" class="btn btn-teal">Sign up</a>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav" style="display:none;">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <a href="login.html" class="btn btn-outline-white btn-block">Log in</a>
+      <a href="signup.html" class="btn btn-teal btn-block">Sign up</a>
+    </div>
+  </div>
+  <script src="nav.js"></script>
+
+  <!-- HERO -->
+  <div class="profile-hero">
+    <div class="profile-hero-inner">
+      <div>
+        <a href="browse.html" class="back-link">← Back to browse</a>
+        <div class="profile-photo-wrap">
+          <div class="profile-photo" id="p-photo">🙂</div>
+          <div class="profile-info">
+            <div class="profile-verified">✓ Verified DigiFriend</div>
+            <h1 class="profile-name" id="p-name">Loading…</h1>
+            <div class="profile-meta">
+              <div class="profile-meta-item" id="p-location"></div>
+              <div class="profile-meta-item" id="p-languages"></div>
+              <div class="profile-meta-item" id="p-age"></div>
+            </div>
+          </div>
+        </div>
+        <div class="profile-style-tags" style="margin: 20px 0 0;" id="p-tags"></div>
+      </div>
+
+      <div class="profile-cta-card">
+        <div class="cta-available">
+          <div class="avail-dot"></div>
+          Available for new matches
+        </div>
+        <ul class="cta-includes">
+          <li><div class="cta-check">✓</div> 60-min weekly video call</li>
+          <li><div class="cta-check">✓</div> Same time every week</li>
+          <li><div class="cta-check">✓</div> Reminder email 1 hour before</li>
+        </ul>
+        <a href="signup.html" class="btn btn-teal btn-block btn-lg" id="p-cta">Get started</a>
+        <p class="cta-note">A valid card is required to activate your free trial.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE BODY -->
+  <div style="background: var(--off-white); padding: 0 48px;">
+    <div class="profile-body" style="padding: 48px 0;">
+      <div class="profile-main">
+
+        <div class="profile-section">
+          <div class="profile-section-title" id="p-about-title">About</div>
+          <p class="profile-bio" id="p-bio"></p>
+        </div>
+
+        <div class="profile-section" id="p-interests-section">
+          <div class="profile-section-title">Interests & topics</div>
+          <div class="interest-grid" id="p-interests"></div>
+        </div>
+
+        <div class="profile-section" id="booking-section">
+          <div class="profile-section-title">Book a call</div>
+
+          <div id="booking-login-msg" style="display:none; background:#fff8e6; border:1.5px solid #f5c842; border-radius:12px; padding:14px 16px; font-size:0.88rem; color:#7a5c00;">
+            <a href="login.html" style="color:#7a5c00; font-weight:700;">Log in</a> or <a href="signup.html" style="color:#7a5c00; font-weight:700;">sign up</a> to book a call.
+          </div>
+          <div id="booking-not-matched-msg" style="display:none; background:#f0f2f7; border-radius:12px; padding:14px 16px; font-size:0.88rem; color:var(--text-mid);">
+            You need to be matched with this DigiFriend before you can book a call. <a href="signup.html" style="color:var(--teal); font-weight:700;">Get started →</a>
+          </div>
+          <div id="booking-matched" style="display:none;">
+            <p style="font-size:0.88rem; color:var(--text-mid); margin-bottom:16px; line-height:1.6;">You're matched! Pick a time from <span id="booking-df-name">their</span> available slots — they'll confirm your request.</p>
+            <a href="booking.html" class="btn btn-teal">Book a call →</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="profile-sidebar">
+        <div class="sidebar-sticky">
+          <div class="sidebar-cta-card">
+            <div class="cta-available"><div class="avail-dot"></div>Available for new matches</div>
+            <ul class="cta-includes">
+              <li><div class="cta-check">✓</div> 60-min weekly video call</li>
+              <li><div class="cta-check">✓</div> Same time every week</li>
+              <li><div class="cta-check">✓</div> Reminder email 1 hour before</li>
+            </ul>
+            <a href="signup.html" class="btn btn-teal btn-block btn-lg" id="p-cta-sidebar">Get started</a>
+            <p class="cta-note">A valid card is required to activate your free trial.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+  <script>
+    // SUPABASE_URL + SUPABASE_ANON come from auth.js
+
+    // Load DigiFriend from URL param ?id=
+    ;(async () => {
+      const id = new URLSearchParams(location.search).get('id')
+      if (!id) return
+
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/digifriends?id=eq.${id}&status=eq.active`, {
+        headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
+      })
+      const data = await res.json()
+      const f = data[0]
+      if (!f) return
+
+      // Populate page
+      document.title = `${f.name} — DigiFriend`
+      document.getElementById('p-name').textContent = f.name
+      document.getElementById('p-about-title').textContent = `About ${f.name}`
+      document.getElementById('p-bio').textContent = f.bio || f.headline || ''
+      document.getElementById('p-location').textContent = f.city ? `📍 ${f.city}, ${f.country}` : `📍 ${f.country}`
+      if (f.languages) document.getElementById('p-languages').textContent = `🌐 ${f.languages}`
+      if (f.age) document.getElementById('p-age').textContent = `${f.age} years old`
+
+      // Photo
+      if (f.photo_url) {
+        document.getElementById('p-photo').innerHTML = `<img src="${f.photo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+      }
+
+      // Tags
+      const tags = (f.interests || '').split(',').map(t => `<span class="style-tag">${t.trim()}</span>`).join('')
+      document.getElementById('p-tags').innerHTML = tags
+
+      // Interests
+      const chips = (f.interests || '').split(',').map(t => `<span class="interest-chip">${t.trim()}</span>`).join('')
+      document.getElementById('p-interests').innerHTML = chips
+
+      // CTA buttons
+      const ctaText = `Get matched with ${f.name}`
+      document.getElementById('p-cta').textContent = ctaText
+      document.getElementById('p-cta-sidebar').textContent = ctaText
+
+      // Check auth + match state for booking
+      if (typeof sb !== 'undefined') {
+        const { data: { user } } = await sb.auth.getUser()
+        if (!user) {
+          document.getElementById('booking-login-msg').style.display = 'block'
+        } else {
+          const mRes = await fetch(`${SUPABASE_URL}/rest/v1/matches?member_email=eq.${encodeURIComponent(user.email)}&digifriend_id=eq.${f.id}&limit=1`, {
+            headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
+          })
+          const mRows = mRes.ok ? await mRes.json() : []
+          if (mRows.length > 0) {
+            document.getElementById('booking-df-name').textContent = `${f.name}'s`
+            document.getElementById('booking-matched').style.display = 'block'
+          } else {
+            document.getElementById('booking-not-matched-msg').style.display = 'block'
+          }
+        }
+      }
+    })()
+
+  </script>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand-name"><img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;"></div>
+          <p class="footer-tagline-text">Weekly human connection from another part of the world.</p>
+        </div>
+        <div class="footer-col"><h5>Platform</h5><ul><li><a href="index.html">Home</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+        <div class="footer-col"><h5>DigiFriends</h5><ul><li><a href="become.html">Apply now</a></li><li><a href="community-guidelines.html">Guidelines</a></li></ul></div>
+        <div class="footer-col"><h5>Company</h5><ul><li><a href="about.html">About</a></li><li><a href="safety.html">Safety</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="support.html">Support</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">DigiFriend is a conversation and cultural exchange platform for adults 18+. Not a therapy service, dating app, or emergency support line.</p>
+        <div class="footer-copy">© 2026 DigiFriend</div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

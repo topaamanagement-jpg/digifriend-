@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .doc-hero { background: var(--navy); padding: 120px 48px 72px; text-align: center; }
+    .doc-hero-inner { max-width: 640px; margin: 0 auto; }
+    .hero-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; display: block; }
+    .doc-hero h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 800; letter-spacing: -0.04em; color: var(--white); margin-bottom: 16px; }
+    .doc-hero p { font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.75; }
+    .doc-body { max-width: 760px; margin: 0 auto; padding: 72px 48px 96px; }
+    .doc-section { margin-bottom: 48px; }
+    .doc-section h2 { font-size: 1.3rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--teal-light); }
+    .doc-section p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.85; margin-bottom: 14px; }
+    .contact-card { background: var(--teal-light); border: 1.5px solid var(--teal); border-radius: 20px; padding: 32px; text-align: center; margin-bottom: 48px; }
+    .contact-card h3 { font-size: 1.2rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+    .contact-card p { color: var(--text-mid); margin-bottom: 20px; }
+    .contact-card a { display: inline-block; background: var(--teal); color: var(--navy); font-weight: 700; padding: 12px 28px; border-radius: 50px; font-size: 0.9rem; }
+    .faq-item { border-bottom: 1px solid var(--gray-200); padding: 20px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .faq-a { font-size: 0.9rem; color: var(--text-mid); line-height: 1.75; }
+    @media (max-width: 600px) { .doc-hero { padding: 100px 24px 56px; } .doc-body { padding: 48px 24px 72px; } }
+  </style>
+</head>
+<body class="page-body">
+  <nav>
+    <a href="index.html" class="logo-mark">
+      <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+      <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="index.html#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log in</a>
+      <a href="signup.html" class="btn btn-teal" style="padding:10px 20px; font-size:0.85rem;">Get started</a>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav" style="display:none;">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="index.html#seniors">For seniors</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <a href="login.html" class="btn btn-outline-white btn-block">Log in</a>
+      <a href="signup.html" class="btn btn-teal btn-block">Get started</a>
+    </div>
+  </div>
+  <script src="nav.js"></script>
+
+  <div class="doc-hero">
+    <div class="doc-hero-inner">
+      <span class="hero-label">Support</span>
+      <h1>How can we help?</h1>
+      <p>We're a small team and we read every message. Most questions are answered within one business day.</p>
+    </div>
+  </div>
+
+  <div class="doc-body">
+
+    <div class="contact-card">
+      <h3>Contact us by email</h3>
+      <p>For any question, issue, or feedback — this is the fastest way to reach us.</p>
+      <a href="mailto:hello@digifriend.com">hello@digifriend.com</a>
+    </div>
+
+    <div class="doc-section">
+      <h2>Common questions</h2>
+
+      <div class="faq-item">
+        <div class="faq-q">How do I cancel my subscription?</div>
+        <div class="faq-a">Email us at hello@digifriend.com and we'll cancel it immediately. We don't make it complicated.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">What if my DigiFriend doesn't show up?</div>
+        <div class="faq-a">Let us know and we'll either reschedule or issue a credit. DigiFriends who repeatedly miss calls are removed from the platform.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Can I change my DigiFriend?</div>
+        <div class="faq-a">Yes. If the match isn't a good fit, email us and we'll find you someone new.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">My call link isn't working. What do I do?</div>
+        <div class="faq-a">Try opening it in a different browser, or go directly to meet.jit.si and enter your room name. If the problem persists, email us and we'll help.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">How do I report inappropriate behaviour?</div>
+        <div class="faq-a">Email hello@digifriend.com with a brief description of what happened. We take all reports seriously and respond within 24 hours.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Can I get a refund?</div>
+        <div class="faq-a">We handle refund requests on a case-by-case basis. Email us and explain the situation — we'll do our best to make it right.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">How do I delete my account?</div>
+        <div class="faq-a">Email hello@digifriend.com and we'll delete your account and all associated data within 30 days.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo"><img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;"><img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;"></div>
+          <p class="footer-tagline">Real friendship, across borders.</p>
+        </div>
+        <div class="footer-col"><h5>Platform</h5><ul><li><a href="index.html">Home</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+        <div class="footer-col"><h5>Join</h5><ul><li><a href="become.html">Become a DigiFriend</a></li><li><a href="signup.html">Sign up as a member</a></li></ul></div>
+        <div class="footer-col"><h5>Legal</h5><ul><li><a href="community-guidelines.html">Community Guidelines</a></li><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy policy</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">DigiFriend is a conversation and cultural exchange platform for adults 18+. Not a therapy service, dating app, or emergency support line.</p>
+        <p class="footer-copy">© 2026 DigiFriend. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

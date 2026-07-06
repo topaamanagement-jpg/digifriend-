@@ -1,0 +1,474 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse DigiFriends — DigiFriend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .page-header {
+      background: var(--navy);
+      padding: 96px 48px 56px;
+      text-align: center;
+    }
+
+    .page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .page-header p {
+      color: rgba(255,255,255,0.55);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    /* ─── FILTERS ─── */
+    .filters-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 20px 48px;
+      position: sticky;
+      top: 68px;
+      z-index: 50;
+    }
+
+    .filters-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-right: 4px;
+      white-space: nowrap;
+    }
+
+    .filter-pill {
+      padding: 8px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      background: var(--white);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .filter-pill:hover { border-color: var(--navy); color: var(--navy); }
+
+    .filter-pill.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--white);
+    }
+
+    .filter-select {
+      padding: 8px 36px 8px 14px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      background: var(--white);
+      cursor: pointer;
+      outline: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238a98b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      -webkit-appearance: none;
+      transition: border-color 0.15s;
+    }
+
+    .filter-select:focus { border-color: var(--teal); }
+
+    .filters-count {
+      margin-left: auto;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+
+    /* ─── GRID ─── */
+    .browse-section {
+      background: var(--off-white);
+      padding: 48px;
+      min-height: 60vh;
+    }
+
+    .browse-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .friends-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .friend-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+    }
+
+    .friend-card:hover {
+      box-shadow: 0 16px 48px rgba(26,39,68,0.09);
+      transform: translateY(-3px);
+    }
+
+    /* ── Locked card overlay ── */
+    .friend-card.locked {
+      cursor: default;
+    }
+
+    .friend-card.locked:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .lock-overlay {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      background: rgba(255,255,255,0.55);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      z-index: 10;
+      border-radius: 24px;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .lock-icon {
+      width: 44px; height: 44px;
+      background: var(--navy);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .lock-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .lock-sub {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      margin-bottom: 4px;
+    }
+
+    .friend-photo {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      position: relative;
+    }
+
+    .bg-1 { background: linear-gradient(135deg, #1a3a5c 0%, #00a88c 100%); }
+    .bg-2 { background: linear-gradient(135deg, #1a2744 0%, #2e6b5a 100%); }
+    .bg-3 { background: linear-gradient(135deg, #2e1a44 0%, #5a3a7c 100%); }
+    .bg-4 { background: linear-gradient(135deg, #1a3020 0%, #3a7c4a 100%); }
+    .bg-5 { background: linear-gradient(135deg, #3a1a1a 0%, #8c4a2e 100%); }
+    .bg-6 { background: linear-gradient(135deg, #1a2a3a 0%, #2e5a8c 100%); }
+    .bg-7 { background: linear-gradient(135deg, #2a1a3a 0%, #7c2e8c 100%); }
+    .bg-8 { background: linear-gradient(135deg, #1a3a2a 0%, #4a8c6a 100%); }
+    .bg-9 { background: linear-gradient(135deg, #3a2a1a 0%, #8c6a2e 100%); }
+
+    .country-badge {
+      position: absolute;
+      bottom: 12px; right: 12px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 50px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .verified-badge {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: var(--teal);
+      border-radius: 50px;
+      padding: 3px 10px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .friend-body { padding: 22px 24px; }
+
+    .friend-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .friend-name {
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .friend-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+
+    .star { color: #f5a623; }
+
+    .friend-lang {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+
+    .friend-bio {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .friend-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .friend-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .style-pill {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .btn-sm {
+      padding: 9px 18px;
+      font-size: 0.82rem;
+      border-radius: 50px;
+    }
+
+    /* Load more */
+    .load-more {
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    @media (max-width: 960px) {
+      .friends-grid { grid-template-columns: 1fr 1fr; }
+      .browse-section { padding: 32px 24px; }
+      .filters-bar { padding: 16px 24px; }
+      .page-header { padding: 88px 24px 48px; }
+    }
+
+    @media (max-width: 600px) {
+      .friends-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="page-body">
+
+  <nav>
+    <a href="index.html" class="logo-mark">
+      <img src="logo-icon-white.png" alt="DigiFriend" style="height:32px;width:auto;display:block;">
+      <img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="browse.html" class="active">Browse</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="nav-login">Log in</a>
+      <a href="signup.html" class="btn btn-teal">Sign up</a>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav" style="display:none;">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html#how-it-works">How it works</a></li>
+      <li><a href="browse.html" class="active">Browse</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="become.html">Become a DigiFriend</a></li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <a href="login.html" class="btn btn-outline-white btn-block">Log in</a>
+      <a href="signup.html" class="btn btn-teal btn-block">Get started free</a>
+    </div>
+  </div>
+  <script src="nav.js"></script>
+
+  <div class="page-header">
+    <h1>Find your DigiFriend</h1>
+    <p>Every DigiFriend is verified and approved by our team before appearing here.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="auth.js"></script>
+
+  <!-- GRID -->
+  <div class="browse-section">
+    <div class="browse-inner">
+      <div id="friends-grid" class="friends-grid">
+        <div style="grid-column:1/-1; text-align:center; padding:60px 0; color:var(--text-light); font-size:0.9rem;">Loading DigiFriends…</div>
+      </div>
+
+
+      </div>
+
+      <div id="browse-cta" style="display:none; text-align:center; padding: 32px 0 8px;">
+        <a href="signup.html" class="btn btn-teal btn-lg">Get started free</a>
+        <p style="font-size:0.75rem; color:var(--text-light); margin-top:12px;">Cancel anytime</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (async () => {
+      const SUPABASE_URL  = 'https://ciomvjbqilosttyotmcg.supabase.co'
+      const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpb212amJxaWxvc3R0eW90bWNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzM1ODAsImV4cCI6MjA5NzU0OTU4MH0.qoksq8dDRKqGgEZiPHbeM-S-cynlOoo1gnq7B6i1bfI'
+      const grid = document.getElementById('friends-grid')
+
+      const res  = await fetch(`${SUPABASE_URL}/rest/v1/digifriends?status=eq.active&order=created_at.asc`, {
+        headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
+      })
+      const friends = await res.json()
+
+      if (!friends || friends.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:60px 0; color:var(--text-light);">No DigiFriends available yet — check back soon.</div>'
+        return
+      }
+
+      grid.innerHTML = friends.map(f => {
+        const tags = (f.interests || '').split(',').slice(0, 3).map(t =>
+          `<span class="tag">${t.trim()}</span>`).join('')
+        const photo = f.photo_url
+          ? `<img src="${f.photo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+          : '🙂'
+        return `
+          <div class="friend-card" onclick="location.href='profile.html?id=${f.id}'" style="cursor:pointer;">
+            <div class="friend-photo" style="background:var(--teal-light);">
+              ${photo}
+              <div class="verified-badge">Verified</div>
+              <div class="country-badge">${f.flag || '🌍'} ${f.country}</div>
+            </div>
+            <div class="friend-body">
+              <div class="friend-header">
+                <div class="friend-name">${f.name}${f.age ? ', ' + f.age : ''}</div>
+              </div>
+              ${f.languages ? `<div class="friend-lang">🌐 ${f.languages}</div>` : ''}
+              <p class="friend-bio">${f.headline || f.bio || ''}</p>
+              <div class="friend-tags">${tags}</div>
+              <div class="friend-footer">
+                <span class="style-pill">${f.style || ''}</span>
+                <a href="profile.html?id=${f.id}" class="btn btn-navy btn-sm">View profile</a>
+              </div>
+            </div>
+          </div>`
+      }).join('')
+
+      document.getElementById('browse-cta').style.display = 'block'
+    })()
+  </script>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand-name"><img src="wordmark-white.png" alt="DigiFriend" style="height:26px;width:auto;display:block;"></div>
+          <p class="footer-tagline-text">Weekly human connection from another part of the world.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="browse.html">Browse DigiFriends</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="signup.html">Sign up</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>DigiFriends</h5>
+          <ul>
+            <li><a href="become.html">Apply now</a></li>
+            <li><a href="community-guidelines.html">Guidelines</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="safety.html">Safety</a></li>
+            <li><a href="privacy.html">Privacy policy</a></li>
+            <li><a href="terms.html">Terms of service</a></li>
+            <li><a href="support.html">Support</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-legal">DigiFriend is a conversation and cultural exchange platform for adults 18+. Not a therapy service, dating app, or emergency support line.</p>
+        <div class="footer-copy">© 2026 DigiFriend</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+</body>
+</html>
