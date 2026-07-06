@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Log in — DigiFriend</title>
+  <title>Log in - DigiFriend</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -206,7 +206,7 @@
         <p class="testimonial-text">"Tuesday afternoons are my favourite part of the week now. I've been talking to James for three months and it genuinely changed how I feel about remote work."</p>
         <div class="testimonial-author">
           <div class="testimonial-avatar">😊</div>
-          <div class="testimonial-name">Sarah M. — London, UK</div>
+          <div class="testimonial-name">Sarah M. - London, UK</div>
         </div>
       </div>
     </div>
@@ -241,7 +241,7 @@
         Don't have an account? <a href="signup.html">Sign up</a>
       </div>
       <div style="text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid var(--gray-100);">
-        <span style="font-size:0.8rem; color:var(--text-light);">Are you a DigiFriend? Just log in above — you'll be taken straight to your portal.</span>
+        <span style="font-size:0.8rem; color:var(--text-light);">Are you a DigiFriend? Just log in above - you'll be taken straight to your portal.</span>
       </div>
     </div>
   </div>
@@ -270,7 +270,7 @@
       btn.textContent = 'Log in'
       btn.disabled = false
     } else {
-      // Check if this user is a DigiFriend — if so, send to portal
+      // Check if this user is a DigiFriend - if so, send to portal
       try {
         const res = await fetch(
           `https://ciomvjbqilosttyotmcg.supabase.co/rest/v1/digifriends?email=eq.${encodeURIComponent(email)}&limit=1`,

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign up — DigiFriend</title>
+  <title>Sign up - DigiFriend</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -250,7 +250,7 @@
       <ul class="signup-perks">
         <li>
           <div class="perk-icon">🌍</div>
-          One fixed DigiFriend — same person every week
+          One fixed DigiFriend - same person every week
         </li>
         <li>
           <div class="perk-icon">📅</div>
@@ -266,7 +266,7 @@
         </li>
         <li>
           <div class="perk-icon">✕</div>
-          Cancel anytime — no contracts
+          Cancel anytime - no contracts
         </li>
       </ul>
     </div>
@@ -361,7 +361,7 @@
           <div class="form-group">
             <label>Your timezone <span id="tz-auto-badge" style="font-size:0.72rem; color:var(--teal-dark); font-weight:400; display:none;">· Auto-detected ✓</span></label>
             <input type="text" id="su-timezone" placeholder="Detecting…" readonly style="background:var(--gray-100); cursor:default; color:var(--text-mid);">
-            <p class="form-hint">Detected from your browser — edit if needed.</p>
+            <p class="form-hint">Detected from your browser - edit if needed.</p>
           </div>
         </div>
 
@@ -466,7 +466,7 @@
 
         <div style="background:var(--teal-light); border:1px solid var(--teal-mid); border-radius:14px; padding:18px 20px; margin-top: 8px;">
           <p style="font-size:0.82rem; color:var(--teal-dark); line-height:1.6;">
-            <strong>What happens next:</strong> After signing up you get 100 free credits for 14 days. A valid payment method is required — you won't be charged during the trial period.
+            <strong>What happens next:</strong> After signing up you get 100 free credits for 14 days. A valid payment method is required - you won't be charged during the trial period.
           </p>
         </div>
 
@@ -506,7 +506,7 @@
       } catch(e) {}
     })()
 
-    // ── Auto-detect country via IP (ipapi.co — free, no key needed)
+    // ── Auto-detect country via IP (ipapi.co - free, no key needed)
     ;(function detectCountry() {
       fetch('https://ipapi.co/json/')
         .then(r => r.json())
@@ -619,7 +619,7 @@
             window.location.href = 'dashboard.html'
           }
         } else {
-          // Email confirmation required — show "check inbox" panel
+          // Email confirmation required - show "check inbox" panel
           document.getElementById('progress-bar').style.display = 'none'
           for (let i = 1; i <= 4; i++) {
             const s = document.getElementById('step-' + i)

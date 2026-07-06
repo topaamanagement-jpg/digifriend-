@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard — DigiFriend</title>
+  <title>Dashboard - DigiFriend</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -619,7 +619,7 @@
                   <div style="height:100%; width:100%; background:var(--teal); border-radius:50px;"></div>
                 </div>
               </div>
-              <p style="font-size:0.8rem; color:var(--text-light); line-height:1.6;">A standard 60-min call costs 20 credits. Your 100 trial credits cover up to 5 calls — enough to know if DigiFriend is right for you.</p>
+              <p style="font-size:0.8rem; color:var(--text-light); line-height:1.6;">A standard 60-min call costs 20 credits. Your 100 trial credits cover up to 5 calls - enough to know if DigiFriend is right for you.</p>
             </div>
 
           </div>
@@ -630,7 +630,7 @@
                 <span class="sub-badge">Active</span>
               </div>
               <div class="sub-row"><span>Credits</span><strong>100 free</strong></div>
-              <div class="sub-row"><span>Expires</span><strong id="trial-expires">—</strong></div>
+              <div class="sub-row"><span>Expires</span><strong id="trial-expires">-</strong></div>
               <div class="sub-divider"></div>
               <a href="pricing.html" class="btn btn-teal btn-block" style="font-size:0.82rem; padding:10px;">View plans</a>
             </div>
@@ -653,7 +653,7 @@
             <div class="next-call-title">James from Nairobi 🇰🇪</div>
             <div class="next-call-meta">
               <div class="next-call-meta-item">📅 Tuesday, 24 June</div>
-              <div class="next-call-meta-item">🕔 4:00 PM — 5:00 PM (your time)</div>
+              <div class="next-call-meta-item">🕔 4:00 PM - 5:00 PM (your time)</div>
               <div class="next-call-meta-item">⏱ 60 minutes</div>
             </div>
           </div>
@@ -700,17 +700,17 @@
               <div class="call-list">
                 <div class="call-item">
                   <div class="call-date-box"><div class="call-date-day">24</div><div class="call-date-month">Jun</div></div>
-                  <div class="call-info"><div class="call-name">Weekly call · James</div><div class="call-time">4:00 PM — 5:00 PM · your time</div></div>
+                  <div class="call-info"><div class="call-name">Weekly call · James</div><div class="call-time">4:00 PM - 5:00 PM · your time</div></div>
                   <span class="call-status status-upcoming">Upcoming</span>
                 </div>
                 <div class="call-item">
                   <div class="call-date-box"><div class="call-date-day">01</div><div class="call-date-month">Jul</div></div>
-                  <div class="call-info"><div class="call-name">Weekly call · James</div><div class="call-time">4:00 PM — 5:00 PM · your time</div></div>
+                  <div class="call-info"><div class="call-name">Weekly call · James</div><div class="call-time">4:00 PM - 5:00 PM · your time</div></div>
                   <span class="call-status status-upcoming">Upcoming</span>
                 </div>
                 <div class="call-item">
                   <div class="call-date-box"><div class="call-date-day">17</div><div class="call-date-month">Jun</div></div>
-                  <div class="call-info"><div class="call-name">Weekly call · James</div><div class="call-time">4:00 PM — 5:00 PM · your time</div></div>
+                  <div class="call-info"><div class="call-name">Weekly call · James</div><div class="call-time">4:00 PM - 5:00 PM · your time</div></div>
                   <span class="call-status status-done">Completed</span>
                 </div>
               </div>
@@ -748,7 +748,7 @@
             </div>
             <div class="sub-card">
               <div class="sub-card-header"><div class="sub-card-title">Subscription</div><span class="sub-badge">Active</span></div>
-              <div class="sub-row"><span>Plan</span><strong>Plus — 220 credits/mo</strong></div>
+              <div class="sub-row"><span>Plan</span><strong>Plus - 220 credits/mo</strong></div>
               <div class="sub-row"><span>Amount</span><strong>$200 / month</strong></div>
               <div class="sub-row"><span>Credits left</span><strong>148 of 220</strong></div>
               <div class="sub-row"><span>Next billing</span><strong>1 July 2026</strong></div>
@@ -801,7 +801,7 @@
       document.getElementById('state-matched').style.display = 'block'
       loadCalls(user)
     } else {
-      // New member — compute trial expiry (14 days from account creation)
+      // New member - compute trial expiry (14 days from account creation)
       document.getElementById('greeting-sub').textContent = "You're all set! Browse DigiFriends to get started."
       document.getElementById('state-new').style.display = 'block'
 
@@ -852,7 +852,7 @@
           <div class="next-call-title">${next.friend_name} ${next.friend_flag || '🌍'}</div>
           <div class="next-call-meta">
             <div class="next-call-meta-item">📅 ${fmtDay}</div>
-            <div class="next-call-meta-item">🕔 ${fmtTime(d)} — ${fmtTime(end)} (your time)</div>
+            <div class="next-call-meta-item">🕔 ${fmtTime(d)} - ${fmtTime(end)} (your time)</div>
             <div class="next-call-meta-item">⏱ ${next.duration_minutes || 60} minutes</div>
           </div>
         </div>
@@ -866,7 +866,7 @@
       document.getElementById('greeting-sub').textContent = `Your next call with ${next.friend_name.split(' ')[0]} is ${daysAway === 0 ? 'today' : daysAway === 1 ? 'tomorrow' : 'in ' + daysAway + ' days'}.`
     } else {
       banner.style.display = 'none'
-      document.getElementById('greeting-sub').textContent = 'No upcoming calls — check your messages to schedule one.'
+      document.getElementById('greeting-sub').textContent = 'No upcoming calls - check your messages to schedule one.'
     }
 
     // ── Call list ──

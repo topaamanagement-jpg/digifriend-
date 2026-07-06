@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — DigiFriend</title>
+  <title>Admin - DigiFriend</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Poppins:wght@700&display=swap" rel="stylesheet">
   <style>
@@ -105,7 +105,7 @@
 
     <div class="card">
       <h2>➕ Add a DigiFriend</h2>
-      <p class="subtitle">Create a profile for someone you want to hire — whether they applied or you know them personally.</p>
+      <p class="subtitle">Create a profile for someone you want to hire - whether they applied or you know them personally.</p>
       <hr class="divider">
 
       <div id="df-error-msg" style="display:none; background:#fff1f0; border:1px solid #fca5a5; border-radius:10px; padding:12px 16px; font-size:0.85rem; color:#b91c1c; margin-bottom:16px;"></div>
@@ -425,7 +425,7 @@
     })
     const rows = res.ok ? await res.json() : []
     if (!rows.length) {
-      sel.innerHTML = '<option value="">No DigiFriends found — add one first</option>'
+      sel.innerHTML = '<option value="">No DigiFriends found - add one first</option>'
       return
     }
     sel.innerHTML = '<option value="">Choose a DigiFriend…</option>' +
@@ -455,7 +455,7 @@
     if (photoFile) {
       try { photo_url = await uploadPhoto(photoFile) }
       catch (e) {
-        errEl.textContent = '⚠️ Photo upload failed — profile saved without photo. You can add a photo URL manually later.'
+        errEl.textContent = '⚠️ Photo upload failed - profile saved without photo. You can add a photo URL manually later.'
         errEl.style.display = 'block'
       }
     }
@@ -531,12 +531,12 @@
       if (invRes.ok) {
         detail.innerHTML = `📧 An invitation was sent to <strong>${email}</strong>. ${firstName} clicks the link, chooses a password, and lands directly in their DigiFriend portal.`
       } else if (invData.already_registered) {
-        detail.innerHTML = `${firstName} already has an account — they can simply <strong>log in</strong> with <strong>${email}</strong> and will land in their portal automatically.`
+        detail.innerHTML = `${firstName} already has an account - they can simply <strong>log in</strong> with <strong>${email}</strong> and will land in their portal automatically.`
       } else {
-        detail.innerHTML = `⚠️ The invitation email could not be sent (${invData.error || 'unknown error'}). Fallback: tell ${firstName} to sign up at <strong>signup.html</strong> with the email <strong>${email}</strong> — they'll land in their portal automatically.`
+        detail.innerHTML = `⚠️ The invitation email could not be sent (${invData.error || 'unknown error'}). Fallback: tell ${firstName} to sign up at <strong>signup.html</strong> with the email <strong>${email}</strong> - they'll land in their portal automatically.`
       }
     } catch {
-      detail.innerHTML = `⚠️ The invitation email could not be sent. Fallback: tell ${firstName} to sign up at <strong>signup.html</strong> with the email <strong>${email}</strong> — they'll land in their portal automatically.`
+      detail.innerHTML = `⚠️ The invitation email could not be sent. Fallback: tell ${firstName} to sign up at <strong>signup.html</strong> with the email <strong>${email}</strong> - they'll land in their portal automatically.`
     }
     // Clear form
     ;['df-name','df-email','df-age','df-city','df-flag','df-languages','df-interests','df-headline','df-bio','df-days'].forEach(id => {

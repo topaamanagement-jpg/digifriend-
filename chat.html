@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Messages — DigiFriend</title>
+  <title>Messages - DigiFriend</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -231,7 +231,7 @@
         <div class="conv-avatar">${avatarHtml}</div>
         <div class="conv-info">
           <div class="conv-name">${df.first_name || df.name}${df.country ? ', ' + df.country : ''} ${df.flag || ''}</div>
-          <div class="conv-preview" id="conv-preview">—</div>
+          <div class="conv-preview" id="conv-preview">-</div>
         </div>
         <div class="conv-meta">
           <div class="conv-time" id="conv-time"></div>
@@ -268,7 +268,7 @@
       <div class="next-call-banner" id="next-call-banner" style="display:none;">
         <div class="next-call-info">
           <div class="next-call-label">Next call</div>
-          <div class="next-call-detail" id="next-call-detail">—</div>
+          <div class="next-call-detail" id="next-call-detail">-</div>
         </div>
         <a href="booking.html" class="next-call-btn">View →</a>
       </div>
@@ -294,7 +294,7 @@
     const wrap = document.getElementById('messages-wrap')
     if (!wrap) return
     if (msgs.length === 0) {
-      wrap.innerHTML = `<div class="chat-empty"><div class="chat-empty-icon">👋</div><div class="chat-empty-text">No messages yet — say hello!</div></div>`
+      wrap.innerHTML = `<div class="chat-empty"><div class="chat-empty-icon">👋</div><div class="chat-empty-text">No messages yet - say hello!</div></div>`
       return
     }
 

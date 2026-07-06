@@ -638,7 +638,7 @@
       const memberTime = memberTZ ? d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone: memberTZ }) : ''
 
       const recurringNote = c.is_recurring
-        ? `<div class="request-detail">🔁 Weekly recurring — every ${d.toLocaleDateString('en-GB', {weekday:'long'})} at ${dfTime}</div>`
+        ? `<div class="request-detail">🔁 Weekly recurring - every ${d.toLocaleDateString('en-GB', {weekday:'long'})} at ${dfTime}</div>`
         : `<div class="request-detail">📅 One-time call</div>`
 
       return `
@@ -678,7 +678,7 @@
     if (res.ok) {
       // Send email to member
       if (call?.member_id) {
-        // Look up member email via auth — we store it as member_name, so use Supabase
+        // Look up member email via auth - we store it as member_name, so use Supabase
         // We'll look up the member's email from the calls row if available, otherwise skip
         const memberEmail = call.member_email || null
         if (memberEmail) {
@@ -758,7 +758,7 @@
   }
 
   // ── MESSAGES ─────────────────────────────────────────────────────────
-  // No "read" flag on the messages table — unread state is tracked per
+  // No "read" flag on the messages table - unread state is tracked per
   // member_id in localStorage (last-viewed timestamp), which is fine for a
   // single DigiFriend logging in from their own device.
   let conversations = []       // [{ member_id, member_name, last_body, last_at, unread }]

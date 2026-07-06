@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Calls — DigiFriend</title>
+  <title>My Calls - DigiFriend</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -266,7 +266,7 @@
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal">
       <h3 id="modal-title">Confirm booking request</h3>
-      <div class="modal-detail" id="modal-body">—</div>
+      <div class="modal-detail" id="modal-body">-</div>
       <div class="modal-actions">
         <button class="btn btn-teal" id="modal-confirm-btn" onclick="submitRequest()">Send request</button>
         <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
@@ -278,7 +278,7 @@
   <div class="modal-overlay" id="cancel-modal-overlay">
     <div class="modal">
       <h3>Cancel this call?</h3>
-      <div class="modal-detail" id="cancel-modal-body">—</div>
+      <div class="modal-detail" id="cancel-modal-body">-</div>
       <div class="modal-actions">
         <button class="btn" style="background:#dc2626;color:#fff;border-radius:50px;padding:12px 24px;" id="cancel-confirm-btn" onclick="confirmCancel()">Yes, cancel</button>
         <button class="btn btn-outline" onclick="closeCancelModal()">Keep it</button>
@@ -339,7 +339,7 @@
     const [y, m, d] = fmt.format(candidate).split('-')
     // Build a date string at the required hour in dfTZ
     const isoStr = `${y}-${m}-${d}T${String(dfHour).padStart(2,'0')}:00:00`
-    // Parse it as local, then adjust — we need to treat isoStr as dfTZ time
+    // Parse it as local, then adjust - we need to treat isoStr as dfTZ time
     // Use a trick: format a known UTC time and find offset
     const tempDate = new Date(`${isoStr}Z`)  // treat as UTC first
     const dfOffset = getTimezoneOffset(dfTZ, tempDate)
@@ -512,7 +512,7 @@
 
     const recTxt = selectedType === 'recurring'
       ? `<br><br>🔁 <strong>This will recur every ${dayName}</strong> at the same time until either of you cancels.`
-      : `<br><br>📅 <strong>One-time call</strong> — no automatic repeat.`
+      : `<br><br>📅 <strong>One-time call</strong> - no automatic repeat.`
 
     document.getElementById('modal-body').innerHTML = `
       You're requesting a call with <strong>${dfName}</strong>.<br><br>
@@ -696,7 +696,7 @@
     btn.textContent = 'Cancelling…'
     btn.disabled = true
 
-    // stopAll: is_recurring=false stops the weekly series — no future calls are auto-created
+    // stopAll: is_recurring=false stops the weekly series - no future calls are auto-created
     const patch = { status: 'cancelled', cancelled_at: new Date().toISOString(), cancelled_by: 'member' }
     if (stopAll) patch.is_recurring = false
 
