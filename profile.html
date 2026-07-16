@@ -433,7 +433,7 @@
             <a href="login.html" style="color:#7a5c00; font-weight:700;">Log in</a> or <a href="signup.html" style="color:#7a5c00; font-weight:700;">sign up</a> to book a call.
           </div>
           <div id="booking-not-matched-msg" style="display:none; background:#f0f2f7; border-radius:12px; padding:14px 16px; font-size:0.88rem; color:var(--text-mid);">
-            You need to be matched with this DigiFriend before you can book a call. <a href="signup.html" style="color:var(--teal); font-weight:700;">Get started →</a>
+            You're not matched with this DigiFriend. Our team personally matches every new member after signing up. <a href="signup.html" style="color:var(--teal); font-weight:700;">Get started →</a>
           </div>
           <div id="booking-matched" style="display:none;">
             <p style="font-size:0.88rem; color:var(--text-mid); margin-bottom:16px; line-height:1.6;">You're matched! Pick a time from <span id="booking-df-name">their</span> available slots - they'll confirm your request.</p>
@@ -500,8 +500,9 @@
       const chips = (f.interests || '').split(',').map(t => `<span class="interest-chip">${t.trim()}</span>`).join('')
       document.getElementById('p-interests').innerHTML = chips
 
-      // CTA buttons
-      const ctaText = `Get matched with ${f.name}`
+      // CTA buttons - members don't pick who they're matched with, so the CTA
+      // never names this specific DigiFriend
+      const ctaText = 'Get started - we\'ll match you personally'
       document.getElementById('p-cta').textContent = ctaText
       document.getElementById('p-cta-sidebar').textContent = ctaText
 

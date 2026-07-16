@@ -311,6 +311,10 @@
         <label>Available days</label>
         <input type="text" id="df-days" placeholder="Monday, Wednesday, Friday, Saturday">
       </div>
+      <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+        <input type="checkbox" id="df-community" style="width:auto; margin:0;">
+        <label style="margin:0; text-transform:none; font-weight:600; font-size:0.85rem;">Available for community group calls (nursing homes, senior living)</label>
+      </div>
 
       <button class="btn btn-teal btn-block" id="df-btn" onclick="saveDigiFriend()">Save DigiFriend profile</button>
     </div>
@@ -335,6 +339,55 @@
       </div>
 
       <button class="btn btn-teal btn-block" id="match-btn" onclick="createMatch()">Match them →</button>
+    </div>
+
+    <div class="card">
+      <h2>🏘️ Community leads</h2>
+      <p class="subtitle">Organizations that submitted the "For Communities" contact form.</p>
+      <hr class="divider">
+      <div id="leads-list"><p style="font-size:0.85rem; color:var(--text-mid);">Loading…</p></div>
+    </div>
+
+    <div class="card">
+      <h2>📋 Log a community call</h2>
+      <p class="subtitle">After a group call with an organization, log it here for invoicing (billed per resident who joined).</p>
+      <hr class="divider">
+
+      <div id="cc-error-msg" style="display:none; background:#fff1f0; border:1px solid #fca5a5; border-radius:10px; padding:12px 16px; font-size:0.85rem; color:#b91c1c; margin-bottom:16px;"></div>
+      <div id="cc-result" style="display:none; background:var(--teal-light); border:1.5px solid var(--teal); border-radius:12px; padding:16px; margin-bottom:16px; font-size:0.88rem; font-weight:700; color:var(--teal-dark);">✅ Community call logged!</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Organization name</label>
+          <input type="text" id="cc-org" placeholder="e.g. Willow Creek Senior Living">
+        </div>
+        <div class="form-group">
+          <label>Contact email</label>
+          <input type="email" id="cc-email" placeholder="contact@organization.com">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>DigiFriend who hosted</label>
+          <select id="cc-df-select">
+            <option value="">Loading…</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date &amp; time</label>
+          <input type="datetime-local" id="cc-datetime">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Number of residents who joined</label>
+        <input type="number" id="cc-residents" min="1" placeholder="e.g. 24">
+      </div>
+      <div class="form-group">
+        <label>Notes <span style="font-weight:400; text-transform:none; font-size:0.75rem;">(optional)</span></label>
+        <input type="text" id="cc-notes" placeholder="Topic, feedback, anything worth remembering">
+      </div>
+
+      <button class="btn btn-teal btn-block" id="cc-btn" onclick="logCommunityCall()">Log call →</button>
     </div>
   </div>
 </div>
@@ -416,6 +469,8 @@
     document.getElementById('lock-screen').style.display = 'none'
     document.getElementById('admin-panel').style.display = 'block'
     loadDigiFriendsDropdown()
+    loadCommunityDfDropdown()
+    loadLeads()
   }
 
   async function loadDigiFriendsDropdown() {
@@ -430,6 +485,91 @@
     }
     sel.innerHTML = '<option value="">Choose a DigiFriend…</option>' +
       rows.map(df => `<option value="${df.id}" data-flag="${df.flag||'🌍'}" data-name="${df.name}">${df.flag||'🌍'} ${df.name}</option>`).join('')
+  }
+
+  async function loadCommunityDfDropdown() {
+    const sel = document.getElementById('cc-df-select')
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/digifriends?select=id,name,flag&status=eq.active&community_available=eq.true&order=name.asc`, {
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
+    })
+    const rows = res.ok ? await res.json() : []
+    if (!rows.length) {
+      sel.innerHTML = '<option value="">No DigiFriends marked for community calls yet</option>'
+      return
+    }
+    sel.innerHTML = '<option value="">Choose a DigiFriend…</option>' +
+      rows.map(df => `<option value="${df.id}">${df.flag||'🌍'} ${df.name}</option>`).join('')
+  }
+
+  async function loadLeads() {
+    const el = document.getElementById('leads-list')
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/community_leads?select=*&order=created_at.desc`, {
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
+    })
+    const rows = res.ok ? await res.json() : []
+    if (!rows.length) {
+      el.innerHTML = '<p style="font-size:0.85rem; color:var(--text-mid);">No community leads yet.</p>'
+      return
+    }
+    el.innerHTML = rows.map(l => `
+      <div style="border:1.5px solid var(--gray-200); border-radius:14px; padding:16px 18px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+          <div style="font-weight:700; font-size:0.92rem;">${l.org_name}</div>
+          <span style="font-size:0.68rem; font-weight:700; padding:3px 10px; border-radius:50px; background:${l.status === 'new' ? '#fff3cd' : 'var(--teal-light)'}; color:${l.status === 'new' ? '#856404' : 'var(--teal-dark)'};">${l.status}</span>
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-mid); line-height:1.6;">
+          ${l.contact_name} · <a href="mailto:${l.email}" style="color:var(--teal-dark);">${l.email}</a>${l.phone ? ' · ' + l.phone : ''}<br>
+          ${[l.country, l.resident_count ? l.resident_count + ' residents' : null].filter(Boolean).join(' · ')}
+          ${l.message ? `<br><em>"${l.message}"</em>` : ''}
+        </div>
+      </div>`).join('')
+  }
+
+  async function logCommunityCall() {
+    const errEl = document.getElementById('cc-error-msg')
+    const btn   = document.getElementById('cc-btn')
+    errEl.style.display = 'none'
+    document.getElementById('cc-result').style.display = 'none'
+
+    const org      = document.getElementById('cc-org').value.trim()
+    const dfId     = document.getElementById('cc-df-select').value
+    const datetime = document.getElementById('cc-datetime').value
+    const residents = parseInt(document.getElementById('cc-residents').value)
+
+    if (!org || !dfId || !datetime || !residents) {
+      errEl.textContent = 'Organization, DigiFriend, date/time, and resident count are required.'
+      errEl.style.display = 'block'
+      return
+    }
+
+    btn.textContent = 'Saving…'
+    btn.disabled = true
+
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/community_calls`, {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        org_name: org,
+        contact_email: document.getElementById('cc-email').value.trim() || null,
+        digifriend_id: dfId,
+        scheduled_at: new Date(datetime).toISOString(),
+        resident_count: residents,
+        notes: document.getElementById('cc-notes').value.trim() || null,
+      })
+    })
+
+    btn.textContent = 'Log call →'
+    btn.disabled = false
+
+    if (!res.ok) {
+      errEl.textContent = 'Something went wrong. Please try again.'
+      errEl.style.display = 'block'
+      return
+    }
+
+    document.getElementById('cc-result').style.display = 'block'
+    ;['cc-org','cc-email','cc-datetime','cc-residents','cc-notes'].forEach(id => { document.getElementById(id).value = '' })
+    document.getElementById('cc-df-select').selectedIndex = 0
   }
 
   async function saveDigiFriend() {
@@ -474,6 +614,7 @@
       headline:      document.getElementById('df-headline').value.trim(),
       bio:           document.getElementById('df-bio').value.trim(),
       available_days: document.getElementById('df-days').value.trim(),
+      community_available: document.getElementById('df-community').checked,
       status:        'active',
     }
 
@@ -588,6 +729,13 @@
       errEl.style.display = 'block'
       return
     }
+
+    // Notify the member by email that they've been matched
+    fetch(`${FUNCTION_URL}/send-email`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON}` },
+      body: JSON.stringify({ to: email, type: 'member_matched', data: { df_name: dfName } })
+    }).catch(() => {})
 
     document.getElementById('r-member').textContent = email
     document.getElementById('r-friend').textContent = `${dfFlag} ${dfName}`

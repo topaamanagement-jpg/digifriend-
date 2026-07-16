@@ -27,7 +27,7 @@ const emailHtml = (name: string, timeStr: string, otherName: string, jitsiUrl: s
   </div>
   <div style="padding:36px;">
     <h2 style="font-size:1.4rem;font-weight:800;margin:0 0 12px;">Your call starts in 1 hour 🎥</h2>
-    <p style="color:#4a5a7a;line-height:1.7;margin:0 0 20px;">Hi ${name} — your call with <strong>${otherName}</strong> starts at <strong>${timeStr}</strong> (your time).</p>
+    <p style="color:#4a5a7a;line-height:1.7;margin:0 0 20px;">Hi ${name} - your call with <strong>${otherName}</strong> starts at <strong>${timeStr}</strong> (your time).</p>
     <a href="${jitsiUrl}" style="display:inline-block;background:#00c9a7;color:#1a2744;font-weight:700;font-size:0.9rem;padding:13px 28px;border-radius:50px;text-decoration:none;">Join the call →</a>
   </div>
 </div>

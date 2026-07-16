@@ -47,7 +47,8 @@ const subjects: Record<string, (d: any) => string> = {
   booking_requested: d => `${d.member_name} wants to book a call with you`,
   booking_confirmed: d => `✅ Your call with ${d.df_name} is confirmed`,
   booking_declined:  d => `Call request with ${d.df_name} was declined`,
-  booking_cancelled: d => `Call cancelled — ${d.date_str}`,
+  booking_cancelled: d => `Call cancelled - ${d.date_str}`,
+  member_matched:    d => `You've been matched with ${d.df_name}! 🎉`,
 }
 
 // ── Email bodies ──────────────────────────────────────────────────────
@@ -88,7 +89,7 @@ const bodies: Record<string, (d: any) => string> = {
     <div style="background:#e6faf7;border:1.5px solid #00c9a7;border-radius:14px;padding:18px 20px;">
       <div style="margin-bottom:8px;">📅 <strong>${d.date_str}</strong></div>
       <div style="margin-bottom:8px;">🕐 <strong>${d.time_str}</strong> (your time)</div>
-      ${d.is_recurring ? '<div>🔁 <strong>Repeats weekly</strong> — same time every week</div>' : '<div>📌 One-time call</div>'}
+      ${d.is_recurring ? '<div>🔁 <strong>Repeats weekly</strong> - same time every week</div>' : '<div>📌 One-time call</div>'}
       ${d.join_url ? `<div style="margin-top:8px;">🎥 Video link: <a href="${d.join_url}" style="color:#00a88c;font-weight:700;">${d.join_url}</a></div>` : ''}
     </div>
     ${d.join_url ? btn(d.join_url, 'Join video call 🎥') : ''}
@@ -97,12 +98,18 @@ const bodies: Record<string, (d: any) => string> = {
   booking_declined: d => wrap(`
     <h2 style="font-size:1.4rem;font-weight:800;margin:0 0 12px;letter-spacing:-0.02em;">Booking request declined</h2>
     <p style="color:#4a5a7a;line-height:1.7;margin:0 0 20px;">Unfortunately, <strong>${d.df_name}</strong> is not available for the time you requested.</p>
-    <p style="color:#4a5a7a;font-size:0.88rem;">No worries — you can pick a different time from their available slots.</p>
+    <p style="color:#4a5a7a;font-size:0.88rem;">No worries - you can pick a different time from their available slots.</p>
     ${btn(`${SITE_URL}/booking.html`, 'Choose another time →')}
   `),
   booking_cancelled: d => wrap(`
     <h2 style="font-size:1.4rem;font-weight:800;margin:0 0 12px;letter-spacing:-0.02em;">Call cancelled</h2>
     <p style="color:#4a5a7a;line-height:1.7;margin:0 0 20px;">The call on <strong>${d.date_str}</strong> at <strong>${d.time_str}</strong> has been cancelled by ${d.cancelled_by === 'member' ? 'the member' : 'your DigiFriend'}.</p>
     ${btn(`${SITE_URL}/booking.html`, 'View my calls →')}
+  `),
+  member_matched: d => wrap(`
+    <h2 style="font-size:1.4rem;font-weight:800;margin:0 0 12px;letter-spacing:-0.02em;">You've been matched! 🎉</h2>
+    <p style="color:#4a5a7a;line-height:1.7;margin:0 0 20px;">Hi ${d.member_name || 'there'}, we've matched you with <strong>${d.df_name}</strong>, your DigiFriend for weekly conversations.</p>
+    <p style="color:#4a5a7a;font-size:0.88rem;margin-bottom:16px;">Log in to see their profile, pick a time that works for you, and book your first call.</p>
+    ${btn(`${SITE_URL}/booking.html`, 'Book your first call →')}
   `),
 }
