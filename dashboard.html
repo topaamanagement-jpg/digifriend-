@@ -597,39 +597,19 @@
                   <div style="width:36px; height:36px; background:var(--gray-200); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--text-mid); flex-shrink:0;">3</div>
                   <div>
                     <div style="font-weight:700; font-size:0.9rem; margin-bottom:3px; color:var(--text-mid);">Book your first call</div>
-                    <div style="font-size:0.82rem; color:var(--text-light);">Pick a weekly time that works for both of you. Your first call uses your free trial credits.</div>
+                    <div style="font-size:0.82rem; color:var(--text-light);">Pick a weekly time that works for both of you.</div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- TRIAL CREDITS -->
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title">Your trial credits</div>
-                <span class="tag" style="background:var(--teal-light); color:var(--teal-dark);">14 days free</span>
-              </div>
-              <div style="margin-bottom:12px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                  <span style="font-size:0.82rem; color:var(--text-mid);">Credits remaining</span>
-                  <span style="font-size:0.82rem; font-weight:700; color:var(--text);">100 / 100</span>
-                </div>
-                <div style="height:8px; background:var(--gray-100); border-radius:50px; overflow:hidden;">
-                  <div style="height:100%; width:100%; background:var(--teal); border-radius:50px;"></div>
-                </div>
-              </div>
-              <p style="font-size:0.8rem; color:var(--text-light); line-height:1.6;">A standard 60-min call costs 20 credits. Your 100 trial credits cover up to 5 calls - enough to know if DigiFriend is right for you.</p>
             </div>
 
           </div>
           <div class="dash-side">
             <div class="sub-card">
               <div class="sub-card-header">
-                <div class="sub-card-title">Trial</div>
+                <div class="sub-card-title">Membership</div>
                 <span class="sub-badge">Active</span>
               </div>
-              <div class="sub-row"><span>Credits</span><strong>100 free</strong></div>
-              <div class="sub-row"><span>Expires</span><strong id="trial-expires">-</strong></div>
               <div class="sub-divider"></div>
               <a href="pricing.html" class="btn btn-teal btn-block" style="font-size:0.82rem; padding:10px;">View plans</a>
             </div>
@@ -800,17 +780,8 @@
       document.getElementById('state-matched').style.display = 'block'
       loadCalls(user)
     } else {
-      // New member - compute trial expiry (14 days from account creation)
       document.getElementById('greeting-sub').textContent = "You're all set! Our team is matching you with a DigiFriend - we'll email you as soon as it's ready."
       document.getElementById('state-new').style.display = 'block'
-
-      // Show trial expiry date
-      const created = user.created_at ? new Date(user.created_at) : new Date()
-      const expires = new Date(created)
-      expires.setDate(expires.getDate() + 14)
-      const fmt = expires.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-      const el = document.getElementById('trial-expires')
-      if (el) el.textContent = fmt
     }
   })
 
