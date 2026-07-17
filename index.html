@@ -427,7 +427,14 @@
     }
     .seg:hover { border-color: rgba(0,201,167,0.2); background: rgba(0,201,167,0.04); }
 
-    .seg-icon { font-size: 1.4rem; margin-bottom: 14px; display: block; line-height: 1; }
+    .seg-icon {
+      width: 44px; height: 44px; margin-bottom: 16px;
+      background: rgba(0,201,167,0.12);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--teal-dark);
+    }
+    .seg-icon svg { width: 22px; height: 22px; }
     .seg h3 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 8px; letter-spacing: -0.01em; }
     .seg p { font-size: 0.78rem; color: rgba(255,255,255,0.38); line-height: 1.65; }
 
@@ -805,9 +812,9 @@
 <section class="hero">
   <div class="hero-grid">
     <div>
-      <div class="hero-label">Human connection - delivered weekly</div>
+      <div class="hero-label">Weekly video calls with a friend abroad</div>
       <h1 class="hero-h1">One real conversation.<br>Every single week.</h1>
-      <p class="hero-p">We match you with a verified person from another part of the world for a private 60-minute video call - same friend, every week. Not therapy. Not dating. Just genuine human connection.</p>
+      <p class="hero-p">We match you with a verified person from another country for a private 60-minute video call - the same friend, at the same time, every week. Not therapy. Not dating. Just someone who shows up.</p>
       <div class="hero-btns">
         <a href="signup.html" class="btn-primary">Find my DigiFriend</a>
         <a href="login.html" class="btn-ghost">Log in</a>
@@ -889,8 +896,8 @@
       <div class="step">
         <div class="step-n">02</div>
         <div>
-          <h3>Browse or be matched</h3>
-          <p>We suggest someone right for you, or you pick one yourself from our verified list. Every person is manually approved before they appear.</p>
+          <h3>We match you personally</h3>
+          <p>Our team hand-picks a DigiFriend for you based on your interests and timezone. Every person is verified and manually approved before they join.</p>
         </div>
       </div>
       <div class="step">
@@ -922,7 +929,7 @@
 <section class="seniors-section" id="seniors">
   <div class="seniors-inner">
     <div>
-      <div class="label-tag">⭐ Where we start</div>
+      <div class="label-tag">Where we start</div>
       <h2 class="seniors-h2">For anyone who misses having someone to talk to.</h2>
       <p class="seniors-p">Loneliness isn't a minor inconvenience. For older adults living alone, it can feel like a permanent condition - one that a phone call from a busy child doesn't fix.</p>
       <p class="seniors-p">DigiFriend gives you a warm, verified person who shows up every week at the same time. Who asks how you're doing and actually listens. Who remembers your stories. A real weekly conversation with someone who's genuinely glad to hear from you.</p>
@@ -952,7 +959,7 @@
         </div>
       </div>
       <div class="retirement-box">
-        <div class="retirement-box-icon">🏠</div>
+        <div class="retirement-box-icon" style="color:var(--teal);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <div>
           <h4>Partnering with retirement communities</h4>
           <p>We offer group sessions for senior living facilities - interactive calls with international guests, billed per resident. <a href="communities.html" style="color:var(--teal-dark); font-weight:600;">See our communities page</a> to arrange one for your residents.</p>
@@ -974,32 +981,32 @@
     </div>
     <div class="segments-grid">
       <div class="seg">
-        <span class="seg-icon">🧓</span>
+        <span class="seg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
         <h3>Companionship for seniors</h3>
         <p>A reliable, warm presence every week. Someone who remembers your stories and looks forward to talking with you.</p>
       </div>
       <div class="seg">
-        <span class="seg-icon">🌍</span>
+        <span class="seg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
         <h3>Culture & travel</h3>
         <p>Talk to a local before you visit. Or just because you're curious. Real insight that no travel blog can give you.</p>
       </div>
       <div class="seg">
-        <span class="seg-icon">🗣️</span>
+        <span class="seg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
         <h3>Language practice</h3>
         <p>Practice English, Spanish, French or Arabic in a relaxed, natural setting with a native speaker.</p>
       </div>
       <div class="seg">
-        <span class="seg-icon">💼</span>
+        <span class="seg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
         <h3>Mentorship & careers</h3>
         <p>Access experienced professionals you'd never normally get a meeting with. Ask the questions that matter.</p>
       </div>
       <div class="seg">
-        <span class="seg-icon">🎮</span>
+        <span class="seg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
         <h3>Shared interests</h3>
-        <p>Connect with someone who loves what you love - Pokémon, football, film, fitness. Shared interest makes conversation easy.</p>
+        <p>Connect with someone who loves what you love - football, film, music, fitness. Shared interest makes conversation easy.</p>
       </div>
       <div class="seg">
-        <span class="seg-icon">✈️</span>
+        <span class="seg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
         <h3>Expats & remote workers</h3>
         <p>Living abroad or working from home can be isolating. A weekly call with someone genuinely interested in your world changes that.</p>
       </div>

@@ -21,7 +21,13 @@
 
     .value-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 8px; }
     .value-card { background: var(--off-white); border-radius: 16px; padding: 24px; }
-    .value-card .icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
+    .value-card .icon {
+      width: 42px; height: 42px; margin-bottom: 14px;
+      background: rgba(0,201,167,0.12); border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--teal-dark);
+    }
+    .value-card .icon svg { width: 21px; height: 21px; }
     .value-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
     .value-card p { font-size: 0.875rem; color: var(--text-mid); line-height: 1.7; margin: 0; }
 
@@ -106,22 +112,22 @@
       <p>Every session is led by a DigiFriend and shaped around your residents - here are a few ways communities typically start.</p>
       <div class="value-grid">
         <div class="value-card">
-          <span class="icon">🌍</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
           <h3>A Day in My Life</h3>
           <p>A DigiFriend walks residents through an ordinary day where they live - food, family, work, weather - and takes questions as they come up.</p>
         </div>
         <div class="value-card">
-          <span class="icon">💬</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
           <h3>Open Q&A</h3>
           <p>An informal, free-flowing conversation where residents ask whatever they're curious about - customs, history, current events, daily life.</p>
         </div>
         <div class="value-card">
-          <span class="icon">🎉</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21l2.3-7.3-6-4.3h7.6z"/></svg></span>
           <h3>Celebrations & Traditions</h3>
           <p>A look at a local holiday, dish, or custom - a nice fit for a themed activity day on the community calendar.</p>
         </div>
         <div class="value-card">
-          <span class="icon">🔁</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>
           <h3>Recurring series</h3>
           <p>Some communities prefer a standing weekly or monthly session with the same DigiFriend, so residents build a relationship over time.</p>
         </div>
@@ -143,7 +149,7 @@
 
         <div id="lead-error"></div>
         <div id="lead-success">
-          <h3>Thank you! 🎉</h3>
+          <h3>Thank you</h3>
           <p style="color:var(--text-mid); font-size:0.9rem;">We've received your details and will be in touch shortly.</p>
         </div>
 
